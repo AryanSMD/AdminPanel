@@ -1,0 +1,1576 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* -------------- Root -------------- */
+:root {
+    --background: #F2F8FE;
+    --primary: #0079C1;
+    --secondary: #2057A1;
+    --paleGrey: #e2e8f0;
+    --grey: #94a3b8;
+    --text: #3a4045;
+    --darkBackground: #161D31;
+    --darkPrimary: #292F45;
+}
+
+* {
+    @apply
+    m-0 p-0 box-border select-none
+}
+
+body {
+    @apply
+    font-sans text-[1rem] min-[1700px]:text-[1.125rem]
+}
+
+::-webkit-scrollbar {
+    @apply
+    w-[5px]
+}
+::-webkit-scrollbar-track {
+    @apply
+    bg-white dark:bg-darkPrimary rounded-r-md overflow-hidden
+}
+::-webkit-scrollbar-thumb {
+    @apply
+    bg-grey rounded-md
+}
+.mini-scroll::-webkit-scrollbar {
+    @apply
+    !h-[5px]
+}
+
+label {
+    @apply
+    w-full h-12 text-[.875rem] md:text-[1rem] min-[1700px]:text-[1.125rem] font-medium text-text dark:text-white
+}
+
+.label-err {
+    @apply 
+    text-red-400 text-[.75rem] md:text-[1rem] animate-err
+}
+
+input {
+    @apply 
+    w-full h-10 md:h-12 p-2 border-[1px] border-paleGrey rounded-md cursor-pointer outline-none
+    focus:border-primary transition-colors duration-300 bg-transparent dark:border-text
+    dark:focus:border-primary bg-white dark:bg-darkPrimary placeholder:text-grey 
+    dark:placeholder:text-slate-400 text-text dark:text-white
+}
+input {
+    &.input-err {
+        @apply
+        border-red-400 mb-[-3px]
+    }
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+textarea:-webkit-autofill:active,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus,
+select:-webkit-autofill:active {
+    transition: background-color 5000s;
+    -webkit-text-fill-color: var(--grey) !important;
+}
+
+input[type=checkbox] {
+    @apply
+    hidden
+}
+input[type=checkbox]+label {
+    background: url('../svg/square.svg') 0 50% no-repeat;
+    @apply
+    flex items-center h-[30px] aspect-square cursor-pointer pl-[35px] transition-all duration-300 w-auto
+}
+input[type=checkbox]:checked+label {
+    background: url('../svg/checked.svg') 0 50% no-repeat;
+}
+
+input[type=radio] {
+    @apply
+    hidden
+}
+input[type=radio]+label {
+    background: url('../svg/circle.svg') 0 50% no-repeat;
+    @apply
+    flex items-center h-[30px] aspect-square cursor-pointer pl-[35px] transition-all duration-300 w-auto
+}
+input[type=radio]:checked+label {
+    background: url('../svg/circleDot.svg') 0 50% no-repeat;
+}
+
+input[type=file] {
+    @apply
+    hidden
+}
+
+input:disabled {
+    @apply
+    text-grey
+}
+
+::-webkit-calendar-picker-indicator {
+    background: url('../svg/calendar.svg');
+}
+
+select {
+    -webkit-appearance: none;
+    appearance: none;
+    background: url('../svg/arrowDown.svg') 99.2% no-repeat;
+
+    @apply
+    w-full h-10 md:h-12 border-[1px] border-paleGrey rounded-[5px] p-2 cursor-pointer outline-none
+    focus:border-primary dark:border-text dark:focus:border-primary dark:focus:text-grey
+    bg-white dark:bg-darkPrimary transition-colors duration-300 text-text dark:text-white
+}
+select {
+    &.input-err {
+        @apply
+        border-red-400 mb-[-3px]
+    }
+}
+
+select:disabled {
+    @apply
+    text-grey
+}
+
+fieldset {
+    @apply
+    border-[1px] border-grey border-dashed rounded-md w-full h-auto
+}
+
+fieldset legend {
+    @apply
+    font-medium bg-transparent cursor-default
+}
+
+.modal-enter-active,
+.modal-leave-active {
+  transition: opacity 0.3s ease;
+}
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+}
+
+
+
+/* ---------------------------- Buttons ---------------------------- */
+
+.btn-save {
+    @apply
+    w-[150px] h-[50px] bg-primary hover:bg-secondary transition-all duration-300 text-white p-2
+    rounded-md min-[1700px]:text-[1.25rem] flex justify-center items-center gap-1
+}
+
+.btn-save .svg {
+    @apply
+    h-full w-auto
+}
+
+.btn-cancel {
+    @apply
+    w-[150px] h-[50px] bg-grey hover:bg-text transition-all duration-300 text-white p-2
+    rounded-md min-[1700px]:text-[1.25rem] flex justify-center items-center gap-1
+}
+
+.btn-cancel .svg {
+    @apply
+    h-full w-auto
+}
+
+.btn-search {
+    background: url('../svg/search.svg') 50% no-repeat;
+    background-size: 70%;
+    @apply
+    h-[36px] md:h-[44px] w-[36px] md:w-[44px] bg-primary hover:bg-secondary transition-all duration-300
+    text-white p-2 rounded-md text-[1.25rem] flex justify-center items-center
+}
+
+.btn-reset {
+    background: url('../svg/clearFilter.svg') 50% no-repeat;
+    background-size: 70%;
+    @apply
+    h-[36px] md:h-[44px] w-[36px] md:w-[44px] bg-primary hover:bg-secondary transition-all duration-300
+    text-white p-2 rounded-md text-[1.25rem] flex justify-center items-center
+}
+
+.btn-add,
+.btn-user,
+.btn-img,
+.btn-addImg,
+.btn-del,
+.btn-edit,
+.btn-arrow,
+.btn-file,
+.btn-eye,
+.btn-voice {
+    @apply
+    w-auto text-primary flex items-center pl-6 relative
+}
+
+.btn-add::before,
+.btn-user::before,
+.btn-img::before,
+.btn-addImg::before,
+.btn-file::before,
+.btn-edit::before,
+.btn-arrow::before,
+.btn-voice::before,
+.btn-eye::before,
+.btn-del::before {
+    content: '';
+    @apply
+    absolute left-0 w-[20px] h-[20px]
+}
+.btn-add::before {
+    background: url('../svg/add.svg') no-repeat;
+}
+.btn-user::before {
+    background: url('../svg/userAdd.svg') no-repeat;
+}
+.btn-addImg::before {
+    background: url('../svg/imageAdd.svg') no-repeat;
+}
+.btn-img::before {
+    background: url('../svg/image.svg') no-repeat;
+}
+.btn-del::before {
+    background: url('../svg/trash.svg') no-repeat;
+}
+.btn-file::before {
+    background: url('../svg/fileAdd.svg') no-repeat;
+}
+.btn-eye::before {
+    background: url('../svg/eye.svg') no-repeat;
+}
+.btn-voice::before {
+    background: url('../svg/megaphone.svg') no-repeat;
+}
+.btn-edit::before {
+    background: url('../svg/note.svg') no-repeat;
+}
+.btn-arrow::before {
+    background: url('../svg/arrowDown.svg')0 50% no-repeat;
+    background-size: 18px;
+}
+
+.reset-password {
+    background: url('../svg/reset.svg') 5px no-repeat;
+    background-size: 25px;
+    @apply
+    w-auto h-8 pl-[34px] bg-primary hover:bg-secondary mt-2 mb-4 md:mb-0
+    transition-colors duration-300
+}
+.reset-password:disabled {
+    @apply
+    bg-grey opacity-40
+}
+
+.switch-btn {
+    @apply
+    w-auto h-10 rounded-full overflow-hidden flex items-center justify-start gap-2
+}
+
+.switch-btn .btn {
+    @apply
+    w-[50px] h-[18px] bg-grey rounded-full overflow-visible flex items-center justify-center cursor-pointer
+}
+.switch-btn .btn {
+    &.on {
+        @apply
+        bg-grey dark:bg-grey
+    }
+    &.off {
+        @apply
+        bg-blue-300
+    }
+}
+
+.switch-btn .btn .circle {
+    @apply
+    h-[30px] aspect-square rounded-full transition-all duration-300 shadow-sm shadow-text dark:shadow-darkBackground
+}
+.switch-btn .circle {
+    &.on {
+        @apply
+        translate-x-[-10px] bg-paleGrey dark:bg-text
+    }
+    &.off {
+        @apply
+        translate-x-[10px] bg-primary
+    }
+}
+
+.switch-btn .text {
+    @apply
+    text-text dark:text-white font-medium cursor-default
+}
+.switch-btn .text {
+    &.off {
+        @apply
+        hidden
+    }
+}
+
+.remove-all {
+    @apply
+    font-normal text-[1.125rem] text-primary
+}
+
+
+/* ---------------------------- Cards ---------------------------- */
+
+.card {
+    @apply
+    w-full h-full bg-white rounded-md shadow-md p-2 dark:bg-darkPrimary transition-colors duration-300
+    overflow-hidden
+}
+
+.card .header {
+    @apply
+    md:text-[1.2rem] min-[1700px]:text-[1.375rem] font-medium flex items-center gap-2 mb-2 cursor-default text-text 
+    dark:text-white
+}
+.card .header {
+    &.form {
+        @apply
+        text-primary mb-5
+    }
+}
+
+.card .header .svg{
+    @apply
+    w-[22px] h-auto
+}
+
+.card .import-file {
+    @apply
+    w-full flex justify-end items-center
+}
+
+.card .import-file button {
+    @apply
+    md:w-auto flex items-center justify-center transition-colors duration-300 text-grey 
+    hover:text-white mr-2 shadow-md dark:shadow-darkBackground p-2 rounded-full
+    hover:bg-secondary
+}
+
+.card .import-file button .svg {
+    @apply
+    h-[35px] aspect-square
+}
+
+
+
+/* ---------------------------- Wrapper ---------------------------- */
+
+.wrapper {
+    @apply
+    w-screen h-screen flex bg-background dark:bg-darkBackground transition-colors duration-300 text-text
+    dark:text-white overflow-hidden relative
+}
+
+.wrapper .loading-screen {
+    z-index: 1000;
+    background-color: rgb(0, 0, 0, .7);
+    @apply
+    fixed w-full h-[60px] flex justify-center items-center top-0 left-0
+}
+
+
+
+/* ---------------------------- SweetAlert2 ---------------------------- */
+
+.swal2-popup .swal2-title,
+.swal2-popup.swal2-toast .swal2-title,
+.swal2-popup .swal2-html-container {
+    @apply
+    !cursor-default
+}
+.swal2-popup .swal2-styled:focus {
+    box-shadow: none !important;
+}
+.swal2-popup.swal2-toast {
+    @apply
+    !right-2
+}
+.swal2-popup.swal2-toast .swal2-close {
+    @apply
+    !text-white
+}
+
+
+
+/* ---------------------------- Login Page ---------------------------- */
+
+.wrapper .login-container {
+    @apply
+    w-full h-full flex justify-center items-center
+}
+
+.wrapper .login-container .login-card {
+    @apply
+    w-[90%] md:w-[60%] lg:w-[600px] min-[1700px]:w-[650px] h-auto bg-white rounded-[5px]
+    shadow-lg dark:bg-darkPrimary
+}
+
+.wrapper .login-container .login-card .header {
+    @apply
+    w-full p-2 text-center text-[1.3rem] md:text-[1.7rem] min-[1700px]:text-[1.875rem] text-primary font-medium 
+    border-b-[1px] border-paleGrey dark:border-text cursor-default
+}
+
+.wrapper .login-container .login-card .header .text {
+    @apply
+    block text-grey text-[1rem] min-[1700px]:text-[1.125rem] font-light
+}
+
+.wrapper .login-container .login-card .content {
+    @apply
+    w-full p-4 mt-[20px] lg:mt-[40px]
+}
+
+.wrapper .login-container .login-card .content input {
+    @apply
+    border-none md:text-[1.15rem] min-[1700px]:text-[1.25rem] rounded-sm
+}
+.wrapper .login-container .login-card .content input:-webkit-autofill {
+    transition: background-color 1000000s;
+    -webkit-text-fill-color: var(--grey) !important;
+}
+
+.wrapper .login-container .login-card .content .username,
+.wrapper .login-container .login-card .content .password {
+    @apply
+    flex gap-2 items-center mb-1 border-b-[1px] dark:border-grey transition-colors duration-300 relative
+}
+.wrapper .login-container .login-card .content .username,
+.wrapper .login-container .login-card .content .password {
+    &.input-err {
+        @apply
+        border-red-400
+    }
+}
+
+.wrapper .login-container .login-card .content .username label,
+.wrapper .login-container .login-card .content .password label {
+    @apply
+    absolute top-[50%] translate-y-[-50%] left-[5px] z-[1] pointer-events-none text-grey font-normal px-2
+    transition-all duration-300 md:text-[1.15rem] min-[1700px]:text-[1.25rem] h-min
+}
+.wrapper .login-container .login-card .content .username input:focus~label,
+.wrapper .login-container .login-card .content .username input:valid~label,
+.wrapper .login-container .login-card .content .username input:autofill~label,
+.wrapper .login-container .login-card .content .password input:focus~label,
+.wrapper .login-container .login-card .content .password input:autofill~label,
+.wrapper .login-container .login-card .content .password input:valid~label {
+    @apply
+    !top-[-2px] left-0 text-[.6rem] md:text-[1rem] min-[1700px]:text-[1rem]
+}
+
+.wrapper .login-container .login-card .content .username .svg,
+.wrapper .login-container .login-card .content .password .svg {
+    @apply
+    w-[35px] h-[35px] text-grey z-[2]
+}
+
+.wrapper .login-container .login-card .content .footer {
+    @apply
+    flex justify-center items-center mt-[40px] md:mt-[60px] mb-[10px]
+}
+
+.wrapper .login-container .login-card .content .footer .btn {
+    @apply
+    bg-primary w-full h-[40px] text-white p-2 rounded-md hover:bg-secondary transition-all duration-300
+    lg:h-[46px] lg:text-[1.25rem] min-[1700px]:text-[1.375rem]
+}
+
+
+
+/* ---------------------------- Modals ---------------------------- */
+
+.wrapper .modal {
+    z-index: 500;
+    background-color: rgb(0, 0, 0, .5);
+    @apply
+    fixed w-full h-full flex justify-center items-center left-0 top-0
+}
+
+.wrapper .modal .card {
+    @apply
+    w-[90%] md:w-[80%] lg:w-[50%] h-auto max-h-[70%] bg-white px-4 md:px-6 rounded-md mt-[50px] relative
+    overflow-auto dark:bg-darkPrimary
+}
+
+.wrapper .modal .card .header {
+    @apply
+    text-[1.5rem] md:text-[1.6rem] min-[1700px]:text-[2rem] font-medium mb-2
+}
+
+.wrapper .modal .card .close {
+    @apply
+    absolute w-[24px] md:w-[30px] right-[10px] top-[10px] cursor-pointer
+}
+
+.wrapper .modal .card .profile {
+    @apply
+    w-full grid grid-cols-1 gap-2 md:mb-3 justify-center items-center
+}
+
+.wrapper .modal .card .profile .top {
+    @apply
+    w-full flex justify-center items-center md:mb-2
+}
+
+.wrapper .modal .card .profile .top .img {
+    @apply
+    h-[150px] md:h-[200px] min-[1700px]:h-[250px] aspect-square rounded-full
+    flex justify-center items-center relative
+}
+
+.wrapper .modal .card .profile .top .btn {
+    @apply
+    absolute right-0 bottom-0 hover:text-primary transition-all duration-300
+}
+
+.wrapper .modal .card .profile .top .btn .svg {
+    @apply
+    w-[25px] md:w-[30px] h-auto
+}
+
+.wrapper .modal .card .profile .bot {
+    @apply
+    grid grid-cols-1 sm:grid-cols-2 gap-3 h-full
+}
+
+.wrapper .modal .card .profile .bot .footer {
+    @apply
+    flex justify-end items-end sm:col-span-2 self-end !m-0
+}
+
+.wrapper .modal .card .profile .bot .footer .btn-save {
+    @apply
+    w-[70px] md:w-[100px] h-10
+}
+
+.wrapper .modal .card .footer .btn-save,
+.wrapper .modal .card .footer .btn-cancel {
+    @apply
+    w-[25%] md:w-[15%] h-auto
+}
+
+
+
+/* ---------------------------- Form ---------------------------- */
+
+.form {
+    @apply
+    w-full h-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 md:gap-x-4
+}
+
+.form .inputs {
+    @apply
+    w-full h-auto order-1 xl:order-none
+}
+
+.form .inputs input,
+.form .inputs .dropdown,
+.form .inputs select {
+    @apply
+    mb-[22px]
+}
+
+.form .inputs .input-err {
+    @apply
+    mb-[-2px]
+}
+
+.form .image-container {
+    @apply
+    w-full md:mt-[-100px] xl:mt-5 order-2 xl:order-none
+}
+
+.form .image-container .image {
+    @apply
+    w-full h-[200px] bg-background flex justify-center items-center overflow-hidden rounded-[3px]
+    mb-4 dark:bg-darkBackground shadow-md dark:shadow-[#111]
+}
+
+.form .image-container .image .img {
+    @apply
+    h-full w-auto
+}
+
+.upload-file {
+    background: url('../svg/upload.svg') 20px no-repeat;
+    background-size: 40px;
+    @apply
+    w-full min-[473px]:w-[450px] border-[2px] border-primary border-dashed rounded-md p-5 bg-background md:font-medium
+    dark:bg-darkBackground text-text dark:text-white flex items-center pl-[80px] cursor-default
+    gap-2 shadow-md dark:shadow-[#111] leading-[20px]
+}
+
+.upload-file .btn {
+    @apply
+    btn-save !bg-grey dark:!bg-text dark:hover:!bg-primary hover:!bg-primary
+}
+
+.files-uploaded {
+    @apply
+    w-full min-[473px]:w-[450px]
+}
+
+.files-uploaded .file {
+    @apply
+    w-full bg-background dark:bg-darkBackground flex items-center gap-4 p-2 mb-4 rounded-md relative
+    cursor-default text-text dark:text-white shadow-md dark:shadow-[#111]
+}
+
+.files-uploaded .file .del {
+    @apply
+    absolute right-1 w-5 aspect-square text-text dark:text-white cursor-pointer
+}
+
+.files-uploaded .file .svg {
+    @apply
+    w-8 aspect-square text-primary cursor-pointer
+}
+
+.answers {
+    @apply
+    w-full grid grid-cols-1 md:grid-cols-2 gap-4
+}
+.answers {
+    &.sentence {
+        @apply
+        grid-cols-2 md:grid-cols-3 lg:grid-cols-4
+    }
+}
+
+.answers .input {
+    @apply
+    w-full flex items-start
+}
+
+.answers .answer {
+    @apply
+    w-full h-auto flex items-center gap-[5px]
+}
+
+.answers .answer input[type=checkbox]+label {
+    @apply
+    pl-[30px]
+}
+
+.answers .answer .combo-box {
+    @apply
+    w-full flex flex-col gap-2
+}
+
+.answers .answer .combo-box .case {
+    @apply
+    w-full flex gap-2
+}
+
+.footer {
+    @apply
+    w-full h-auto flex justify-center md:justify-end items-center mt-10 mb-2 lg:mb-5 gap-2
+}
+
+
+
+/* ---------------------------- Sidebar ---------------------------- */
+
+.wrapper .sidebar {
+    @apply
+    absolute top-[60px] lg:top-0 w-[250px] lg:relative min-[1700px]:w-[350px] h-full bg-secondary transition-all
+    duration-700 overflow-auto z-[100]
+}
+.wrapper .sidebar {
+    &.close {
+        @apply
+        w-[0] lg:w-[65px] lg:overflow-visible
+    }
+}
+
+.wrapper .sidebar::-webkit-scrollbar {
+    @apply
+    hidden
+}
+
+.wrapper .sidebar .header {
+    @apply
+    w-full h-[60px] border-b-[1px] border-white flex items-center overflow-hidden px-2
+}
+
+.wrapper .sidebar .header .logo {
+    @apply
+    w-[150px] h-full
+}
+
+.wrapper .sidebar .menu {
+    @apply
+    w-full h-auto flex flex-col gap-2 px-2 py-6 text-white relative mb-10 lg:mb-0
+}
+
+.wrapper .sidebar .menu .link {
+    @apply
+    flex items-center gap-2 py-1 px-2 rounded-[5px] transition-all duration-300 hover:bg-background
+    hover:text-text cursor-pointer
+}
+.wrapper .sidebar .menu .link {
+    &.close {
+        @apply
+        justify-center
+    }
+}
+
+.link-active {
+    @apply
+    bg-background text-text
+}
+.link-exact-active {
+    @apply
+    bg-background text-text
+}
+
+.wrapper .sidebar .menu .link .svg,
+.wrapper .sidebar .menu .group-link .title .svg {
+    @apply
+    w-[25px] h-[25px]
+}
+
+.wrapper .sidebar .menu .group-link .title .text .svg {
+    @apply
+    w-[18px] h-[18px]
+}
+
+.wrapper .sidebar .menu .link .text,
+.wrapper .sidebar .menu .group-link .title .text {
+    @apply
+    w-full text-[1rem] min-[1700px]:text-[1.25rem] flex items-center justify-between
+}
+
+.wrapper .sidebar .menu .group-link {
+    @apply
+    flex flex-col items-center justify-between rounded-[5px] cursor-pointer relative z-[0]
+}
+
+.wrapper .sidebar .menu .group-link .title {
+    @apply
+    w-full h-auto flex gap-2 px-2 py-1 transition-all duration-300 hover:bg-background hover:text-text
+    rounded-md items-center justify-center
+}
+
+.wrapper .sidebar .menu .group-link .title {
+    &.active{
+        @apply
+        bg-background text-text
+    }
+}
+
+.wrapper .sidebar .menu .group-link .group {
+    @apply
+    w-full px-6 transition-all duration-500 overflow-hidden py-2
+}
+.wrapper .sidebar .menu .group-link .group {
+    &.slide {
+        @apply
+        absolute !w-[250px] !h-auto top-0 right-[-250px] overflow-hidden p-4 rounded-r-md
+        bg-secondary
+    } 
+}
+
+.wrapper .sidebar .menu .group-link .group .link {
+    @apply
+    mb-2
+}
+.wrapper .sidebar .menu .group-link .group .link:last-child {
+    @apply
+    mb-0
+}
+
+.wrapper .sidebar .menu .group-link .group .link .text {
+    @apply
+    justify-start gap-2 text-[.9rem] min-[1700px]:text-[1.1875rem]
+}
+
+.wrapper .sidebar .menu .group-link .group .link .text .svg {
+    @apply
+    w-[20px] h-[20px]
+}
+
+.wrapper .sidebar .menu .group-link .title .text .svg {
+    @apply
+    transition-transform duration-500 
+}
+
+
+
+/* ---------------------------- Main ---------------------------- */
+
+.wrapper .main {
+    @apply
+    w-full h-full overflow-auto
+}
+
+.wrapper .main .main-header {
+    z-index: 100;
+    @apply
+    w-full h-[60px] bg-white border-b-[1px] border-grey dark:bg-darkPrimary transition-colors
+    duration-300 flex items-center justify-between px-2 sticky top-0
+}
+
+.wrapper .main .main-header .left-side {
+    @apply
+    flex w-[80px] sm:w-[100px] h-full items-center justify-between
+}
+
+.wrapper .main .main-header .left-side .menu-btn {
+    @apply
+    w-8 h-8 cursor-pointer text-text dark:text-white
+}
+
+.wrapper .main .main-header .left-side .dark-theme {
+    @apply
+    w-[45px] h-6 rounded-full border-[1px] border-text cursor-pointer text-text dark:text-white
+    overflow-hidden flex items-center justify-between relative p-[2px] bg-transparent dark:border-white
+}
+
+.wrapper .main .main-header .left-side .dark-theme .btn {
+    @apply
+    w-5 h-5 absolute bg-text rounded-full transition-all duration-300
+}
+
+.wrapper .main .main-header .left-side .dark-theme .btn {
+    &.on {
+        @apply
+        translate-x-[20px] bg-white
+    }
+    &.off {
+        @apply
+        left-[1px]
+    }
+}
+
+.wrapper .main .main-header .left-side .dark-theme .svg {
+    @apply
+    w-[18px] h-auto hover:text-text hover:bg-transparent
+}
+
+.wrapper .main .main-header .left-side .dark-theme .moon{
+    @apply
+    hover:text-white
+}
+
+.wrapper .main .main-header .right-side {
+    @apply
+    w-auto h-full gap-[2px] sm:gap-2 flex items-center justify-around text-text dark:text-white
+}
+
+.wrapper .main .main-header .right-side .profile {
+    @apply
+    flex gap-1 items-center cursor-default
+}
+
+.wrapper .main .main-header .right-side .profile .username {
+    @apply
+    max-w-[70px] sm:max-w-[100px] overflow-hidden truncate md:text-[1.25rem]
+}
+
+.wrapper .main .main-header .right-side .profile .img {
+    @apply
+    w-8 h-8 rounded-full
+}
+
+.wrapper .main .main-header .right-side .svg {
+    @apply
+    w-[24px] sm:w-[28px] h-auto aspect-square p-[2px] rounded-md cursor-pointer hover:text-primary transition-colors
+    duration-300
+}
+
+.wrapper .main .container .btn-add,
+.wrapper .main .container .btn-user {
+    &.head {
+        @apply
+        m-5 ml-0
+    }
+}
+
+
+
+/* ---------------------------- Responsive ---------------------------- */
+@media only screen and (max-width: 768px) {
+    .btn-edit::before,
+    .btn-del::before {
+        content: '';
+        @apply
+        w-[15px] aspect-square
+    }
+}
+
+
+
+/* ---------------------------- Pages ---------------------------- */
+
+.height-auto {
+    width: 100%;
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: all .7s;
+    &.show {
+        grid-template-rows: 1fr;
+    }
+}
+.height-auto > div {
+    overflow: hidden;
+}
+
+.wrapper .main .container {
+    @apply
+    px-2 2xl:px-5 min-[1700px]:px-2
+}
+
+.wrapper .main .container .reports-box {
+    @apply
+    w-full h-auto grid  grid-cols-1 md:grid-cols-2
+    lg:grid-cols-4 items-center gap-4 lg:gap-10 lg:mt-[35px] lg:mb-[30px]
+}
+
+.wrapper .main .container .reports-box .report-card {
+    @apply
+    w-full h-[100px] md:h-[125px] bg-white rounded-md shadow-md cursor-pointer hover:bg-secondary
+    hover:text-white transition-all duration-500 text-secondary dark:bg-darkPrimary dark:hover:bg-secondary
+    overflow-hidden dark:text-white
+}
+
+.wrapper .main .container .reports-box .report-card .key {
+    clip-path: polygon(0 0, 100% 0, 0 100%);
+    @apply
+    h-full text-start text-[1.875rem] min-[1700px]:text-[2.2rem] font-medium italic bg-secondary text-white px-4
+}
+
+.wrapper .main .container .reports-box .report-card .key .svg {
+    @apply
+    w-[30px] h-auto md:w-[40px]
+}
+
+.wrapper .main .container .reports-box .report-card .value {
+    @apply
+    text-end text-[1.875rem] md:text-[2.5rem] min-[1700px]:text-[2.8125rem] font-bold italic mt-[-50px] md:mt-[-70px] 
+    mr-[20px] px-2
+}
+
+.wrapper .main .container .box {
+    @apply
+    w-full h-auto py-2 lg:grid-cols-8 items-center lg:mb-4
+}
+.box {
+    &.dashboard-box {
+        @apply
+        grid grid-cols-1 gap-[15px] lg:gap-8
+    }
+}
+
+.wrapper .main .container .box .left-side {
+    @apply
+    w-full lg:col-span-5 h-[225px] md:h-[250px] lg:h-[330px]
+}
+
+.wrapper .main .container .box .right-side {
+    @apply
+    w-full lg:col-span-3 h-[225px] md:h-[250px] lg:h-[330px]
+}
+
+.wrapper .main .container .box .search-box {
+    @apply
+    flex flex-col mb-4 lg:mb-10
+}
+
+.wrapper .main .container .box .courses-box {
+    @apply
+    grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8 lg:mt-0
+}
+
+.wrapper .main .container .box .courses-box .card {
+    @apply
+    p-0 relative h-min
+}
+
+.wrapper .main .container .box .courses-box .card .img {
+    @apply
+    w-full h-[200px] lg:h-[250px] min-[1700px]:h-[300px] flex justify-center items-center overflow-hidden
+}
+
+.wrapper .main .container .box .courses-box .card .img img {
+    @apply
+    h-full w-full
+}
+
+.wrapper .main .container .box .courses-box .card .header {
+    @apply
+    p-2 justify-between mb-2
+}
+
+.wrapper .main .container .box .courses-box .card .header .status {
+    @apply
+    w-auto h-[28px] text-white p-3 rounded-[3px] flex justify-center items-center
+    text-[1rem] lg:text-[1.125rem] font-normal bg-primary
+}
+
+.wrapper .main .container .box .courses-box .card .free-flag {
+    clip-path: polygon(
+        0% 0%,
+        100% 0%,
+        80% 50%,
+        100% 100%,
+        0% 100%
+    );
+    @apply
+    absolute top-2 left-0 h-8 pl-3 pr-6 text-white italic font-medium text-center cursor-default
+    bg-green-600 invisible
+}
+
+.wrapper .main .container .box .courses-box .card .buttons {
+    @apply
+    absolute top-0 right-0 m-2 flex gap-2
+}
+
+.wrapper .main .container .box .courses-box .card .buttons .btn {
+    @apply
+    w-[32px] h-[32px] transition-colors bg-white dark:text-white duration-300 hover:bg-primary text-text
+    hover:text-white p-[5px] rounded-[3px] dark:hover:text-white dark:bg-darkPrimary dark:hover:bg-primary
+}
+
+.wrapper .main .container .box .courses-box .card .info {
+    @apply
+    px-2 w-full grid grid-cols-2 gap-4 mb-6 cursor-default
+}
+
+.wrapper .main .container .box .courses-box .card .info .case {
+    @apply
+    w-full grid grid-cols-2 items-center justify-center
+}
+
+.wrapper .main .container .box .courses-box .card .info .case .key {
+    @apply
+    font-medium text-text dark:text-white
+}
+
+.wrapper .main .container .box .courses-box .card .info .case .value {
+    @apply
+    font-medium italic flex items-center gap-2 !text-slate-500 dark:!text-slate-400 truncate
+}
+
+.wrapper .main .container .box .courses-box .card .footnote {
+    @apply
+    w-full h-0 overflow-hidden flex justify-around items-center px-2 italic cursor-default transition-all
+    duration-300 pt-3 pb-4
+}
+
+.wrapper .main .container .box .courses-box .card .footnote .case {
+    @apply
+    flex items-center justify-center gap-1 text-primary font-medium
+}
+
+.wrapper .main .container .box .courses-box .card .footnote .case .svg {
+    @apply
+    w-[18px] aspect-square
+}
+
+.course-program {
+    @apply
+    w-full bg-background dark:bg-darkBackground rounded-md p-4 grid grid-cols-1
+}
+
+.course-program .day {
+    @apply
+    w-full grid grid-cols-1
+}
+
+.course-program .day .header {
+    @apply
+    w-full justify-between mb-4 mt-4
+}
+.course-program .day:first-child .header {
+    @apply
+    mt-0
+}
+
+.course-program .day .header .title {
+    @apply
+    flex items-center gap-2 font-bold md:text-[1.4rem] min-[1700px]:text-[1.625rem] text-primary
+}
+
+.course-program .day .lessons {
+    @apply
+    w-full pl-5 font-medium rounded-sm py-2 transition-colors duration-300
+}
+
+.course-program .day .lessons:hover {
+    @apply
+    bg-white dark:bg-darkPrimary
+}
+
+.course-program .day .lessons .lesson {
+    @apply
+    w-full flex justify-between items-center text-text dark:text-white cursor-default
+}
+
+.course-program .day .lessons .lesson .btn-edit::before,
+.course-program .day .lessons .lesson .btn-del::before {
+    background-size: 15px;
+}
+
+table {
+    @apply
+    w-full h-auto table-fixed text-center text-text dark:text-white cursor-default
+    text-[.75rem] md:text-[.9375rem] lg:text-[1rem] min-[1700px]:text-[1.125rem]
+}
+
+thead, td, tr {
+    @apply
+    h-12 md:h-14 lg:h-16
+}
+
+tbody tr:nth-child(odd) {
+    @apply
+    bg-background dark:bg-darkBackground
+}
+
+table tr td {
+    @apply
+    w-full overflow-auto truncate
+}
+table tr td::-webkit-scrollbar {
+    @apply
+    h-0
+}
+
+table tr td .svg {
+    @apply
+    w-5 h-5 text-primary transition-transform duration-300
+}
+
+table .extra {
+    @apply
+    overflow-hidden border-b-2 border-t-2 border-primary border-dashed
+}
+
+table .extra .extra-rows {
+    @apply
+    w-full cursor-pointer bg-slate-200 dark:bg-text
+}
+
+table .extra .extra-rows:nth-child(even) {
+    @apply
+    bg-slate-100 dark:bg-slate-800
+}
+
+table .extra .extra-rows .btn-row {
+    @apply
+    w-full text-center overflow-hidden lg:px-[40px] 2xl:px-[60px]
+}
+
+table .extra .extra-rows .btn-add {
+    @apply
+    px-6
+}
+
+table thead .img {
+    @apply
+    w-[40px] md:w-[65px]
+}
+
+table tbody .img {
+    @apply
+    p-[7px]
+}
+
+table tbody .img img {
+    @apply
+    h-full aspect-square rounded-full
+}
+
+table tr .last {
+    @apply
+    w-6 md:w-8 lg:w-10
+}
+
+table tr td .description {
+    @apply
+    max-h-10 lg:max-h-[110px] truncate
+}
+
+table tr td .btn-add,
+table tr td .btn-del,
+table tr td .btn-eye,
+table tr td .btn-edit {
+    @apply
+    m-auto
+}
+
+.search-box .top {
+    @apply
+    grid md:grid-cols-2 lg:grid-cols-4 items-center gap-2
+    lg:gap-4
+}
+
+.search-box .bottom {
+    @apply
+    flex justify-between gap-2 items-center mt-2 lg:mt-4
+}
+
+.search-box .bottom .reset {
+    @apply
+    text-primary
+}
+
+.page-error {
+    @apply
+    w-full mt-[300px] flex justify-center items-center
+}
+
+.page-error .error {
+    @apply
+    text-center flex flex-col items-center cursor-default
+}
+
+.page-error .error .code {
+    @apply
+    text-[10rem] md:text-[12.5rem] font-bold h-[180px] bg-clip-text text-transparent flex 
+    justify-center items-center bg-gradient-to-r from-secondary to-primary
+}
+
+.page-error .error .msg {
+    @apply
+    text-[1.875rem] my-[10px] italic font-bold
+}
+
+.pagination {
+    @apply
+    w-full h-auto flex justify-center items-center mb-4 mt-8
+}
+
+.pagination .background {
+    @apply
+    flex justify-center items-center bg-background dark:bg-darkBackground p-1 rounded-full
+}
+
+.pagination .background .pages {
+    @apply
+    h-[32px] flex items-center gap-1
+}
+
+.pagination .background .pages .item {
+    @apply
+    w-8 h-8 rounded-full cursor-pointer flex justify-center items-center transition-colors duration-300
+    text-text dark:text-white hover:text-primary dark:hover:text-primary
+}
+.pagination .background .pages .item {
+    &.active {
+        @apply
+        !bg-primary !text-white
+    }
+}
+
+.pagination .background .pages .item .svg {
+    @apply
+    w-[15px] aspect-square
+}
+
+.manage-table {
+    @apply
+    w-full rounded-md border-[1px] border-paleGrey border-t-0 dark:border-text overflow-hidden
+}
+
+.manage-table .search-box {
+    @apply
+    !m-0
+}
+
+.manage-table .search-box .bottom {
+    @apply
+    !m-0
+}
+
+.manage-table .search-box .bottom input {
+    @apply
+    rounded-bl-none rounded-br-none
+}
+
+.manage-table .search-box .bottom .btn-search {
+    @apply
+    rounded-br-none
+}
+
+.manage-table .table {
+    @apply
+    w-full h-full inline-block rounded-md overflow-auto
+}
+
+.manage-table table tr {
+    @apply
+    hover:bg-paleGrey dark:hover:bg-text transition-colors duration-300
+}
+
+.manage-table table thead tr {
+    @apply
+    hover:bg-white dark:hover:dark:bg-darkPrimary
+}
+
+.manage-table .table table .load-more {
+    @apply
+    w-full
+}
+
+.manage-table table tr .last {
+    @apply
+    px-5
+}
+
+.manage-table table tr .last .arrow-animate {
+    animation: arrowAnimation 1s infinite;
+}
+
+@keyframes arrowAnimation {
+    100% {
+        transform: translateX(10px);
+    }
+}
+
+.added-items {
+    @apply
+    w-full h-auto bg-background dark:bg-darkBackground pb-2 rounded-md mt-10 overflow-auto
+    border-[1px] border-paleGrey dark:border-text
+}
+
+.added-items .header {
+    @apply
+    w-full border-b-[1px] p-2 border-paleGrey dark:border-text sticky top-0 bg-background
+    dark:bg-darkBackground z-[1] justify-between
+}
+
+.added-items .case {
+    @apply
+    w-full min-w-max flex justify-between font-medium text-text dark:text-white cursor-default items-center
+    py-4 px-2 text-[1rem] md:text-[1.125rem] hover:bg-paleGrey dark:hover:bg-text transition-colors duration-300
+}
+.added-items .case:nth-child(even) {
+    @apply
+    bg-white dark:bg-darkPrimary hover:bg-paleGrey dark:hover:bg-text
+}
+
+.added-items .case .btn-del {
+    @apply
+    px-2
+}
+
+.mobile {
+    @apply
+    w-[400px] h-[760px] border-[30px] border-b-[60px] border-text rounded-[25px] relative
+    bg-transparent
+}
+
+.mobile .circle {
+    @apply
+    absolute w-[50px] h-auto aspect-square rounded-full bg-white dark:bg-grey bottom-[-56px]
+    left-[50%] ml-[-25px]
+}
+
+.mobile .ellipse {
+    @apply
+    absolute w-[80px] h-[10px] rounded-full bg-white dark:bg-grey top-[-20px]
+    left-[50%] ml-[-40px]
+}
+
+.dropdown {
+    @apply
+    w-full relative
+}
+
+.dropdown .selected {
+    background: url('../svg/arrowDown.svg') 99.2% no-repeat;
+    @apply
+    w-full h-10 md:h-12 border-[1px] border-paleGrey rounded-[5px] cursor-pointer outline-none p-2
+    focus:border-primary dark:border-text dark:focus:border-primary dark:focus:text-grey flex items-center
+    bg-white dark:bg-darkPrimary transition-colors duration-300 text-text dark:text-white
+}
+.dropdown .selected.focus {
+    @apply
+    !border-primary
+}
+
+.dropdown.input-err .selected {
+    @apply
+    border-red-400
+}
+
+.dropdown .search-list {
+    border: 1px solid rgb(0, 0, 0, .6);
+    box-shadow: 1px 1px 10px rgb(0, 0, 0, .2),
+        -1px -1px 10px rgb(0, 0, 0, .2);
+    @apply
+    absolute w-full max-h-[300px] rounded-[4px] left-0 mt-[2px] 2xl:mt-1 z-[100] bg-white dark:bg-darkPrimary 
+    overflow-hidden dark:text-white dark:border-slate-500 hidden
+}
+
+.dropdown .selected.focus ~ .search-list {
+    @apply
+    block
+}
+
+.dropdown .search-list input {
+    @apply
+    w-full border-none rounded-none px-[10px] h-auto placeholder:text-text dark:placeholder:text-white
+    mb-0
+}
+
+.dropdown .search-list div {
+    @apply
+    py-[3px] px-[10px] cursor-pointer hover:bg-secondary hover:text-white
+}
+
+.draggable {
+    @apply
+    font-medium w-auto text-primary text-center flex items-center
+    p-[10px] px-[14px] cursor-pointer border-[1px] border-primary border-dotted rounded-md
+}
+
+.line-breaker {
+    @apply
+    border-b-[3px] border-paleGrey dark:border-text mt-5 mb-10
+}
+
+.line-breaker .title {
+    @apply
+    w-max text-primary py-1 transition-colors duration-300 font-medium md:text-[1.2rem] min-[1700px]:text-[1.375rem] flex
+    items-center gap-2 bg-white dark:bg-darkPrimary relative overflow-visible cursor-default
+}
+
+.line-breaker .title .info {
+    @apply
+    w-[25px] h-[25px] bg-white dark:bg-darkPrimary p-[4px] mt-1 cursor-help
+    transition-colors duration-300 text-text dark:text-white
+}
+
+.line-breaker .title .info .svg {
+    @apply
+    w-full h-full
+}
+
+.line-breaker .title .tooltip {
+    @apply
+    absolute right-[-210px] top-[-30px] bg-background p-3 rounded-md w-[200px] dark:bg-darkBackground
+    overflow-y-auto text-text dark:text-white text-justify z-[10] font-normal text-[1.125rem]
+}
+
+.line-divider {
+    @apply
+    w-full h-[2px] bg-gradient-to-r from-transparent via-text dark:via-white to-transparent my-10
+}
+
+.lessons-btn {
+    @apply
+    w-[80px] aspect-square bg-background dark:bg-darkBackground text-text dark:text-white
+    transition-colors duration-300 rounded-[3px] flex justify-center items-center shadow-md
+    dark:shadow-[#111] hover:bg-slate-300 dark:hover:bg-slate-800 cursor-pointer
+}
+
+.lessons-btn:last-child {
+    background: url('../svg/add.svg') 50% no-repeat;
+    background-size: 45px;
+    @apply
+    !bg-transparent shadow-none
+}
+
+.lesson-options {
+    @apply
+    w-full grid grid-cols-1 lg:grid-cols-2 gap-x-5 gap-y-4 
+}
+.lesson-options:last-child {
+    @apply
+    mb-6
+}
+
+.lesson-options .item {
+    @apply
+    w-full h-[75px] flex items-center rounded-md cursor-pointer hover:bg-primary hover:text-white
+    dark:hover:bg-primary transition-colors duration-300 overflow-hidden xl:pr-1
+}
+.lesson-options .item {
+    &.block-item {
+        &.Description{
+            background: url('../svg/text.svg') 15px no-repeat;
+            background-size: 50px;
+        }
+        &.Question{
+            background: url('../svg/text.svg') 15px no-repeat;
+            background-size: 50px;
+        }
+        &.Audio{
+            background: url('../svg/fileAudio.svg') 15px no-repeat;
+            background-size: 50px;
+        }
+        &.Video{
+            background: url('../svg/fileVideo.svg') 15px no-repeat;
+            background-size: 50px;
+        }
+        &.Picture{
+            background: url('../svg/image.svg') 15px no-repeat;
+            background-size: 50px;
+        }
+        &.Multiple{
+            background: url('../svg/test.svg') 15px no-repeat;
+            background-size: 50px;
+        }
+        &.True{
+            background: url('../svg/trueOrFalse.svg') 15px no-repeat;
+            background-size: 60px;
+        }
+        &.Sentence{
+            background: url('../svg/sentence.svg') 15px no-repeat;
+            background-size: 50px;
+        }
+        &.Blank{
+            background: url('../svg/blank.svg') 15px no-repeat;
+            background-size: 50px;
+        }
+        &.Connect{
+            background: url('../svg/link.svg') 15px no-repeat;
+            background-size: 50px;
+        }
+        &.Conversation{
+            background: url('../svg/conversation.svg') 15px no-repeat;
+            background-size: 50px;
+        }
+    }
+}
+.lesson-options .item {
+    &.block-item {
+        @apply
+        border-[2px] border-dashed border-primary h-[85px] text-primary pl-[90px]
+        hover:!bg-background dark:hover:!bg-darkBackground flex flex-col items-start
+        justify-center shadow-md dark:shadow-darkBackground
+    }
+}
+
+.lesson-options .item .left {
+    @apply
+    h-full p-4 flex items-center
+}
+
+.lesson-options .item .right {
+    @apply
+    h-full flex items-center
+}
