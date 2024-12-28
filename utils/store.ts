@@ -1,9 +1,4 @@
+export const useApi = () => useNuxtApp().$useApi();
 export const alerts = () => useNuxtApp().$useAlert();
 export const defaults = () => useNuxtApp().$useDefaults();
 export const loadingScreen = () => useNuxtApp().$useLoadingScreen();
-export const audiencesApi = () => useNuxtApp().$useAudiencesApi();
-export const usersApi = () => useNuxtApp().$useUsersApi();
-export const coursesApi = () => useNuxtApp().$useCoursesApi();
-export const studentsApi = () => useNuxtApp().$useStudentsApi();
-export const languagesApi = () => useNuxtApp().$useLanguagesApi();
-export const categoriesApi = () => useNuxtApp().$useCategoriesApi();

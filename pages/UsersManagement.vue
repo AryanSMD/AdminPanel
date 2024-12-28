@@ -18,7 +18,7 @@
                     </select>
                 </div>
                 <div class="bottom">
-                    <input type="text" placeholder="Search by name ..." v-model="filter.keyword">
+                    <input type="text" placeholder="Search by name ..." v-model="filter.firstName">
                     <button class="btn-search" @click="search()"></button>
                     <button class="btn-reset" @click="clearFilters()"></button>
                 </div>
@@ -54,9 +54,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="user in usersApi().getUsers" :key="user.id">
+                        <tr v-for="user in useApi().getUsers" :key="user.id">
                             <td class="img">
-                                <img :src="setProfileImg(user)" ref="profImg">
+                                <img src="/person1.png" ref="profImg">
                             </td>
                             <td>
                                 {{ `${user.firstName} ${user.lastName}` }}
@@ -75,8 +75,8 @@
                     </tbody>
                 </table>
                 <Pagination 
-                    :numOfData="usersApi().getTotal" 
-                    :func="async () => await getUsers()"
+                    :numOfData="useApi().getTotal" 
+                    :func="async () => {}"
                 />
             </div>
         </div>
@@ -108,7 +108,6 @@
                             <div class="label-err" v-if="submitCount > 0">{{ errors.date }}</div>
                             <button class="btn-save reset-password" 
                                 v-if="editMode"
-                                @click="usersApi().resetPassword(newUser.id)"
                             >
                                 Reset Password
                             </button>
@@ -140,7 +139,7 @@
                         </div>
                         <div class="image-container">
                             <div class="image">
-                                <img :src="setProfileImg(newUser)" class="img" ref="previewImg">
+                                <img src="/person1.png" class="img" ref="previewImg">
                             </div>
                             <input type="file" style="display: none;" accept=".jpg, .jpeg"
                                 ref="chooseFile"
@@ -161,9 +160,6 @@
 
 
 <script setup lang="ts">
-import { ref, onBeforeMount, watch } from 'vue';
-
-
 const showModal = ref <boolean> (false);
 const editMode = ref <boolean> (false);
 const searchMode = ref <boolean> (false);
@@ -171,7 +167,7 @@ const emailExists = ref <boolean|null> (null);
 const chooseFile = ref ();
 const previewImg = ref ();
 const filter = ref({
-    keyword: null,
+    firstName: null,
     role: null,
     status: null,
 });
@@ -180,91 +176,27 @@ const newUser = ref <User> ({
     firstName: '',
     lastName: '',
     email: '',
-    profileImageId: '',
-    profileImageUrl: '',
+    password: '',
     birthDate: '',
     role: 0,
     status: 0,
 });
 
-
-function setProfileImg(user: User): string {
-    if (user.profileImageUrl) {
-        const url = useRuntimeConfig().public.StorageURL + user.profileImageUrl;
-        return url;
-    } else {
-        return defaults().deafultProfImg;
-    }
-}
-
 async function selectImg(): Promise<void> {
     const file = chooseFile.value.files[0]; 
-    // const response = await fileManagementApi().upload({
-    //     properties: {
-    //         fileName: file?.name,
-    //         fileType: 0
-    //     },
-    //     file
-    // })
-    // if (response.status === 200) {
-    //     newUser.value.profileImageId = response.data.id;
-    //     newUser.value.profileImageUrl = response.data.url;
-    //     if (editMode.value) {
-    //         newUser.value.birthDate = setTime(newUser.value.birthDate);
-    //         const updateRes = await usersApi().updateUser(newUser.value);
-    //         if (updateRes.status === 200) {
-    //             previewImg.value.src = setProfileImg(newUser.value);
-    //             newUser.value.birthDate = getTime(newUser.value.birthDate);
-    //             if (newUser.value.id === JSON.parse(localStorage.getItem('user')!).id) {
-    //                 localStorage.setItem('user', JSON.stringify(newUser.value));
-    //             }
-    //             await getUsers();
-    //         }
 
-    //     } else {
-    //         previewImg.value.src = setProfileImg(newUser.value);
-    //     }        
-    // }
-}
-
-async function getUsers(): Promise<void> {
-    if (!searchMode.value) {
-        await usersApi().searchUsers({
-            page: defaults().pagination.currentPage,
-            pageSize: defaults().pagination.dataPerPage 
-        });
-    }
 }
 
 async function search(): Promise<void> {
     searchMode.value = true;
     defaults().resetPagination();
-    await usersApi().searchUsers({
-        page: defaults().pagination.currentPage,
-        pageSize: defaults().pagination.dataPerPage,
-        ...filter.value,
-    });
+    useApi().getUsers.filter(e => e.firstName === filter.value.firstName)
     searchMode.value = false;
 }
 
 async function save(): Promise<void> {
-    if (emailExists.value === false) {
-        newUser.value.birthDate = setTime(newUser.value.birthDate);
-        if (editMode.value) {
-            const res = await usersApi().updateUser(newUser.value);
-            if (res.status === 200) {
-                await getUsers();
-                closeModal();
-            }
-
-        } else {
-            const res = await usersApi().createUser(newUser.value);
-            if (res.status === 200) {
-                await getUsers();
-                closeModal();
-            }
-        }
-    }
+    console.log('Saved');
+    closeModal();
 }
 
 function closeModal(): void {
@@ -273,8 +205,7 @@ function closeModal(): void {
         firstName: '',
         lastName: '',
         email: '',
-        profileImageId: '',
-        profileImageUrl: '',
+        password: '',
         birthDate: '',
         role: 0,
         status: 0,
@@ -285,7 +216,7 @@ function closeModal(): void {
 }
 
 function edit(id: string): void {
-    const selectedUser = usersApi().getUsers.filter(e => e.id === id)[0];
+    const selectedUser = useApi().getUsers.filter(e => e.id === id)[0];
     newUser.value = { ...selectedUser };
     newUser.value.birthDate = getTime(newUser.value.birthDate);
     showModal.value = true;
@@ -293,17 +224,16 @@ function edit(id: string): void {
 }
 
 async function removeUser(id: string): Promise<void> {
-    const selectedUser = usersApi().getUsers.filter(e => e.id === id)[0];
+    const selectedUser = useApi().getUsers.filter(e => e.id === id)[0];
     const msg = `"${selectedUser.firstName} ${selectedUser.lastName}"`;
     alerts().showAlert({type:'delete', msg, func: async ()=>{
-        await usersApi().removeUser(id);
-        await getUsers();
+        console.log('Removed');
     }})
 }
 
 function clearFilters(): void {
     filter.value = {
-        keyword: null,
+        firstName: null,
         role: null,
         status: null,
     };
@@ -317,8 +247,8 @@ const debounce = (() => {
             if (editMode.value) {
                 emailExists.value = false;
             } else {
-                const res = await usersApi().emailExists(newUser.value.email);
-                emailExists.value = res.data.exists;
+                const res = await useApi().emailExists(newUser.value.email);
+                emailExists.value = res.data;
             }
         }, 300);
     }
@@ -327,7 +257,6 @@ const debounce = (() => {
 
 onBeforeMount(async () => {
     defaults().resetPagination();
-    await getUsers();
 })
 
 

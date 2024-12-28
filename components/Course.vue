@@ -101,9 +101,6 @@
 
 
 <script setup lang="ts">
-import { computed } from 'vue';
-
-
 const props = defineProps({
     course: {
         type: Object,
@@ -126,15 +123,15 @@ const setImg = computed(() => {
 })
 
 const language = computed(() => {
-    return languagesApi().getLanguages.filter(e => e.id === props.course.languageLearningId)[0]?.name;
+    return defaults().getLanguages.filter(e => e.id === props.course.languageLearningId)[0]?.name;
 })
 
 const audience = computed(() => {
-    return audiencesApi().getAudiences.filter(e => e.id === props.course.audienceId)[0]?.name;
+    return defaults().getAudiences.filter(e => e.id === props.course.audienceId)[0]?.name;
 })
 
 const category = computed(() => {
-    return categoriesApi().getCategories.filter(e => e.id === props.course.categoryId)[0]?.name;
+    return defaults().getCategories.filter(e => e.id === props.course.categoryId)[0]?.name;
 })
 </script>
 

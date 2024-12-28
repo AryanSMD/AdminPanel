@@ -47,7 +47,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="audience in audiencesApi().getAudiences" :key="audience.id">
+                        <tr v-for="audience in defaults().getAudiences" :key="audience.id">
                             <td>
                                 {{ audience.name }}
                             </td>
@@ -67,8 +67,8 @@
                     </tbody>
                 </table>
                 <Pagination 
-                    :numOfData="audiencesApi().getTotal"
-                    :func="async () => await getAudiences()"
+                    :numOfData="defaults().totalAudiences"
+                    :func="async () => {}"
                 />
             </div>
         </div>
@@ -124,7 +124,6 @@
 
 
 <script setup lang="ts">
-import { ref, onBeforeMount } from 'vue';
 import Editor from '@tinymce/tinymce-vue'
 
 
@@ -142,46 +141,19 @@ const newAudience = ref <Audience> ({
     isDisabled: false,
 })
 
-
-async function getAudiences(): Promise<void> {
-    if (!searchMode.value) {
-        await audiencesApi().searchAudiences({
-            page: defaults().pagination.currentPage,
-            pageSize: defaults().pagination.dataPerPage 
-        });
-    }
-}
-
 async function search(): Promise<void> {
     searchMode.value = true;
     defaults().resetPagination();
-    await audiencesApi().searchAudiences({
-        page: defaults().pagination.currentPage,
-        pageSize: defaults().pagination.dataPerPage,
-        ...filter.value,
-    });
+
     searchMode.value = false;
 }
 
 async function save(): Promise<void> {
-    if (editMode.value) {
-        const res = await audiencesApi().updateAudience(newAudience.value);
-        if (res.status === 200) {
-            await getAudiences();
-            closeModal();
-        }
 
-    } else {
-        const res = await audiencesApi().createAudience(newAudience.value);
-        if (res.status === 200) {
-            await getAudiences();
-            closeModal();
-        }
-    }
 }
 
 function edit(id: string): void {
-    const selectedAudience = audiencesApi().getAudiences.filter(e => e.id === id)[0];
+    const selectedAudience = defaults().getAudiences.filter(e => e.id === id)[0];
     newAudience.value = { ...selectedAudience };
     showModal.value = true;
     editMode.value = true;
@@ -199,11 +171,10 @@ function closeModal(): void {
 }
 
 async function removeAudience(id: string): Promise<void> {
-    const selectedAudience = audiencesApi().getAudiences.filter(e => e.id === id)[0];
+    const selectedAudience = defaults().getAudiences.filter(e => e.id === id)[0];
     const msg = `"${selectedAudience.name}"`;
     alerts().showAlert({type:'delete', msg, func: async ()=>{
-        await audiencesApi().removeAudience(id);
-        await getAudiences();
+        console.log('Removed');
     }})
 }
 
@@ -217,7 +188,6 @@ function clearFilters(): void {
 
 onBeforeMount(async () => {
     defaults().resetPagination();
-    await getAudiences();
 })
 </script>
 

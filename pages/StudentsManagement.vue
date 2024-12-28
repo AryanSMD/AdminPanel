@@ -49,7 +49,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="student in studentsApi().getStudents" :key="student.id">
+                        <tr v-for="student in defaults().getStudents" :key="student.id">
                             <td class="img">
                                 <img :src="setProfileImg(student)" ref="profImg">
                             </td>
@@ -69,8 +69,8 @@
                     </tbody>
                 </table>
                 <Pagination 
-                    :numOfData="studentsApi().getTotal" 
-                    :func="async () => await getStudents()"
+                    :numOfData="defaults().totalStudents" 
+                    :func="async () => {}"
                 />
             </div>
         </div>
@@ -143,7 +143,7 @@
                             <VeeInput name="nativeLanguageId" class="hidden" v-model="newStudent.nativeLanguageId" />
                             <Dropdown
                                 :placeHolder="''"
-                                :list="languagesApi().getLanguages"
+                                :list="defaults().getLanguages"
                                 :listKey="'id'"
                                 :listValue="'name'"
                                 :valueProp="newStudent.nativeLanguageId"
@@ -186,9 +186,6 @@
 
 
 <script setup lang="ts">
-import { ref, onBeforeMount } from 'vue';
-
-
 const showModal = ref <boolean> (false);
 const editMode = ref <boolean> (false);
 const searchMode = ref <boolean> (false);
@@ -235,67 +232,19 @@ function setProfileImg(student: Student): string {
 
 async function selectImg(): Promise<void> {
     const file = chooseFile.value.files[0]; 
-    // const response = await fileManagementApi().upload({
-    //     properties: {
-    //         fileName: file?.name,
-    //         fileType: 0
-    //     },
-    //     file
-    // })
-    // if (response.status === 200) {
-    //     newStudent.value.profileImageId = response.data.id;
-    //     newStudent.value.profileImageUrl = response.data.url;
-    //     if (editMode.value) {
-    //         newStudent.value.dateOfBirth = setTime(newStudent.value.dateOfBirth);
-    //         const updateRes = await studentsApi().updateStudent(newStudent.value);
-    //         if (updateRes.status === 200) {
-    //             previewImg.value.src = setProfileImg(newStudent.value);
-    //             newStudent.value.dateOfBirth = getTime(newStudent.value.dateOfBirth);
-    //             await getStudents();
-    //         }
 
-    //     } else {
-    //         previewImg.value.src = setProfileImg(newStudent.value);
-    //     }        
-    // }
 }
 
-async function getStudents(): Promise<void> {
-    if (!searchMode.value) {
-        await studentsApi().searchStudents({
-            page: defaults().pagination.currentPage,
-            pageSize: defaults().pagination.dataPerPage 
-        });
-    }
-}
 
 async function search(): Promise<void> {
     searchMode.value = true;
     defaults().resetPagination();
-    await studentsApi().searchStudents({
-        page: defaults().pagination.currentPage,
-        pageSize: defaults().pagination.dataPerPage,
-        ...filter.value,
-    });
+
     searchMode.value = false;
 }
 
 async function save(): Promise<void> {
-    newStudent.value.dateOfBirth = setTime(newStudent.value.dateOfBirth);
-    if (editMode.value) {
-        const res = await studentsApi().updateStudent(newStudent.value);
-        if (res.status === 200) {
-            await getStudents();
-            closeModal();
-        }
 
-    } else {
-        const res = await studentsApi().createStudent(newStudent.value);
-        if (res.status === 200) {
-            await getStudents();
-            closeModal();
-        }
-    }
 }
 
 function closeModal(): void {
@@ -328,7 +277,7 @@ function closeModal(): void {
 }
 
 function edit(id: string): void {
-    const selectedStudent = studentsApi().getStudents.filter(e => e.id === id)[0];
+    const selectedStudent = defaults().getStudents.filter(e => e.id === id)[0];
     newStudent.value = { ...selectedStudent };
     newStudent.value.dateOfBirth = getTime(newStudent.value.dateOfBirth);
     showModal.value = true;
@@ -336,11 +285,10 @@ function edit(id: string): void {
 }
 
 async function removeStudent(id: string): Promise<void> {
-    const selectedStudent = studentsApi().getStudents.filter(e => e.id === id)[0];
+    const selectedStudent = defaults().getStudents.filter(e => e.id === id)[0];
     const msg = `"${selectedStudent.firstName} ${selectedStudent.lastName}"`;
     alerts().showAlert({type:'delete', msg, func: async ()=>{
-        await studentsApi().removeStudent(id);
-        await getStudents();
+        console.log('Removed');
     }})
 }
 
@@ -354,11 +302,6 @@ function clearFilters(): void {
 
 onBeforeMount(async () => {
     defaults().resetPagination();
-    await getStudents();
-    await languagesApi().searchLanguages({
-        page: 0,
-        pageSize: 0,
-    })
 })
 </script>
 

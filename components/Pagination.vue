@@ -38,9 +38,6 @@
 
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
-
-
 const props = defineProps({
     numOfData: {
         type: Number,
@@ -117,4 +114,36 @@ watch(
 </script>
 
 
-<style scoped></style>
+<style scoped>
+.pagination {
+    @apply
+    w-full h-auto flex justify-center items-center mb-4 mt-8
+}
+
+.pagination .background {
+    @apply
+    flex justify-center items-center bg-background dark:bg-darkBackground p-1 rounded-full
+}
+
+.pagination .background .pages {
+    @apply
+    h-[32px] flex items-center gap-1
+}
+
+.pagination .background .pages .item {
+    @apply
+    w-8 h-8 rounded-full cursor-pointer flex justify-center items-center transition-colors duration-300
+    text-text dark:text-white hover:text-primary dark:hover:text-primary
+}
+.pagination .background .pages .item {
+    &.active {
+        @apply
+        !bg-primary !text-white
+    }
+}
+
+.pagination .background .pages .item .svg {
+    @apply
+    w-[15px] aspect-square
+}
+</style>

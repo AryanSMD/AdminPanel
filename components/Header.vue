@@ -16,7 +16,7 @@
         </div>
         <div class="right-side">
             <div class="profile">
-                <img :src="setProfileImg" class="img" ref="profImg">
+                <img src="/person1.png" class="img" ref="profImg">
                 <div class="username">
                     {{ fullName }}
                 </div>
@@ -43,7 +43,7 @@
                     <div class="top">
                          <div class="img">
                             <div class="w-full h-full flex justify-center items-center rounded-full overflow-hidden">
-                                <img :src="setProfileImg" ref="previewImg">
+                                <img src="/person1.png" ref="previewImg">
                             </div>
                             <button class="btn" @click="$refs.chooseFile.click()">
                                 <svg class="svg" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
@@ -96,7 +96,6 @@
 
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
 import { useRouter } from 'vue-router';
 
 
@@ -111,8 +110,7 @@ const user = ref <User> ({
     firstName: '',
     lastName: '',
     email: '',
-    profileImageId: '',
-    profileImageUrl: '',
+    password: '',
     birthDate: '',
     role: 0,
     status: 0,
@@ -120,12 +118,13 @@ const user = ref <User> ({
 
 
 const setProfileImg = computed((): string => {
-    if (user.value.profileImageUrl) {
-        const url = useRuntimeConfig().public.StorageURL + user.value.profileImageUrl;
-        return url;
-    } else {
-        return defaults().deafultProfImg;
-    }
+    // if (user.value.profileImageUrl) {
+    //     const url = useRuntimeConfig().public.StorageURL + user.value.profileImageUrl;
+    //     return url;
+    // } else {
+    //     return defaults().deafultProfImg;
+    // }
+    return ''
 })
 
 
@@ -156,12 +155,7 @@ async function selectImg(): Promise<void> {
 
 async function save(): Promise<void> {
     user.value.birthDate = setTime(user.value.birthDate);
-    const res = await usersApi().updateUser(user.value);
-    if (res.status === 200) {
-        localStorage.setItem('user', JSON.stringify(res.data));
-        getUserLogged();
-        profileModal.value = false;
-    }
+
 }
 
 function showModal(): void {
@@ -171,14 +165,14 @@ function showModal(): void {
 }
 
 function getUserLogged(): void {
-    // const userLogged: User = JSON.parse(localStorage.getItem('user')!);
-    // if (userLogged) {
-    //     user.value = { ...userLogged };
-    //     fullName.value = userLogged.firstName + ' ' + userLogged.lastName;
+    const userLogged: User = JSON.parse(localStorage.getItem('user')!);
+    if (userLogged) {
+        user.value = { ...userLogged };
+        fullName.value = userLogged.firstName + ' ' + userLogged.lastName;
 
-    // } else {
-    //     router.push({ name: 'login' });
-    // }
+    } else {
+        router.push({ name: 'login' });
+    }
 }
 
 
@@ -187,4 +181,80 @@ onMounted(() => {
 })
 </script>
 
-<style scoped></style>
+
+<style scoped>
+.wrapper .main .main-header {
+    z-index: 100;
+    @apply
+    w-full h-[60px] bg-white border-b-[1px] border-grey dark:bg-darkPrimary transition-colors
+    duration-300 flex items-center justify-between px-2 sticky top-0
+}
+
+.wrapper .main .main-header .left-side {
+    @apply
+    flex w-[80px] sm:w-[100px] h-full items-center justify-between
+}
+
+.wrapper .main .main-header .left-side .menu-btn {
+    @apply
+    w-8 h-8 cursor-pointer text-text dark:text-white
+}
+
+.wrapper .main .main-header .left-side .dark-theme {
+    @apply
+    w-[45px] h-6 rounded-full border-[1px] border-text cursor-pointer text-text dark:text-white
+    overflow-hidden flex items-center justify-between relative p-[2px] bg-transparent dark:border-white
+}
+
+.wrapper .main .main-header .left-side .dark-theme .btn {
+    @apply
+    w-5 h-5 absolute bg-text rounded-full transition-all duration-300
+}
+
+.wrapper .main .main-header .left-side .dark-theme .btn {
+    &.on {
+        @apply
+        translate-x-[20px] bg-white
+    }
+    &.off {
+        @apply
+        left-[1px]
+    }
+}
+
+.wrapper .main .main-header .left-side .dark-theme .svg {
+    @apply
+    w-[18px] h-auto hover:text-text hover:bg-transparent
+}
+
+.wrapper .main .main-header .left-side .dark-theme .moon{
+    @apply
+    hover:text-white
+}
+
+.wrapper .main .main-header .right-side {
+    @apply
+    w-auto h-full gap-[2px] sm:gap-2 flex items-center justify-around text-text dark:text-white
+}
+
+.wrapper .main .main-header .right-side .profile {
+    @apply
+    flex gap-1 items-center cursor-default
+}
+
+.wrapper .main .main-header .right-side .profile .username {
+    @apply
+    max-w-[70px] sm:max-w-[100px] overflow-hidden truncate md:text-[1.25rem]
+}
+
+.wrapper .main .main-header .right-side .profile .img {
+    @apply
+    w-8 h-8 rounded-full
+}
+
+.wrapper .main .main-header .right-side .svg {
+    @apply
+    w-[24px] sm:w-[28px] h-auto aspect-square p-[2px] rounded-md cursor-pointer hover:text-primary transition-colors
+    duration-300
+}
+</style>

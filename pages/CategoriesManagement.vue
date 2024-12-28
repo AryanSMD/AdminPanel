@@ -46,7 +46,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="category in categoriesApi().getCategories" :key="category.id">
+                        <tr v-for="category in defaults().getCategories" :key="category.id">
                             <td>
                                 {{ category.name }}
                             </td>
@@ -66,8 +66,8 @@
                     </tbody>
                 </table>
                 <Pagination 
-                    :numOfData="categoriesApi().getTotal"
-                    :func="async () => await getCategories()"
+                    :numOfData="defaults().totalCategories"
+                    :func="async () => {}"
                 />
             </div>
         </div>
@@ -142,45 +142,19 @@ const newCategory = ref <Category> ({
 })
 
 
-async function getCategories(): Promise<void> {
-    if (!searchMode.value) {
-        await categoriesApi().searchCategories({
-            page: defaults().pagination.currentPage,
-            pageSize: defaults().pagination.dataPerPage 
-        });
-    }
-}
-
 async function search(): Promise<void> {
     searchMode.value = true;
     defaults().resetPagination();
-    await categoriesApi().searchCategories({
-        page: defaults().pagination.currentPage,
-        pageSize: defaults().pagination.dataPerPage,
-        ...filter.value,
-    });
+
     searchMode.value = false;
 }
 
 async function save(): Promise<void> {
-    if (editMode.value) {
-        const res = await categoriesApi().updateCategory(newCategory.value);
-        if (res.status === 200) {
-            await getCategories();
-            closeModal();
-        }
 
-    } else {
-        const res = await categoriesApi().createCategory(newCategory.value);
-        if (res.status === 200) {
-            await getCategories();
-            closeModal();
-        }
-    }
 }
 
 function edit(id: string): void {
-    const selectedCategory = categoriesApi().getCategories.filter(e => e.id === id)[0];
+    const selectedCategory = defaults().getCategories.filter(e => e.id === id)[0];
     newCategory.value = { ...selectedCategory };
     showModal.value = true;
     editMode.value = true;
@@ -198,11 +172,10 @@ function closeModal(): void {
 }
 
 async function removeCategory(id: string): Promise<void> {
-    const selectedCategory = categoriesApi().getCategories.filter(e => e.id === id)[0];
+    const selectedCategory = defaults().getCategories.filter(e => e.id === id)[0];
     const msg = `"${selectedCategory.name}"`;
     alerts().showAlert({type:'delete', msg, func: async ()=>{
-        await categoriesApi().removeCategory(id);
-        await getCategories();
+        console.log('Removed');
     }})
 }
 
@@ -216,7 +189,6 @@ function clearFilters(): void {
 
 onBeforeMount(async () => {
     defaults().resetPagination();
-    await getCategories();
 })
 </script>
 

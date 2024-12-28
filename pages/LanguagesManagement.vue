@@ -39,7 +39,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="language in languagesApi().getLanguages" :key="language.id">
+                        <tr v-for="language in defaults().getLanguages" :key="language.id">
                             <td class="img">
                                 <img :src="defaults().returnFlagImg(language.slug) ?? defaults().deafultImg" ref="profImg">
                             </td>
@@ -65,8 +65,8 @@
                     </tbody>
                 </table>
                 <Pagination 
-                    :numOfData="languagesApi().getTotal"
-                    :func="async () => await getLanguages()"
+                    :numOfData="defaults().totalLanguages"
+                    :func="async () => {}"
                 />
             </div>
         </div>
@@ -151,45 +151,19 @@ const newLanguage = ref <Language> ({
 })
 
 
-async function getLanguages(): Promise<void> {
-    if (!searchMode.value) {
-        await languagesApi().searchLanguages({
-            page: defaults().pagination.currentPage,
-            pageSize: defaults().pagination.dataPerPage 
-        });
-    }
-}
-
 async function search(): Promise<void> {
     searchMode.value = true;
     defaults().resetPagination();
-    await languagesApi().searchLanguages({
-        page: defaults().pagination.currentPage,
-        pageSize: defaults().pagination.dataPerPage,
-        ...filter.value,
-    });
+
     searchMode.value = false;
 }
 
 async function save(): Promise<void> {
-    if (editMode.value) {
-        const res = await languagesApi().updateLanguage(newLanguage.value);
-        if (res.status === 200) {
-            await getLanguages();
-            closeModal();
-        }
 
-    } else {
-        const res = await languagesApi().createLanguage(newLanguage.value);
-        if (res.status === 200) {
-            await getLanguages();
-            closeModal();
-        }
-    }
 }
 
 function edit(id: string): void {
-    const selectedLanguage = languagesApi().getLanguages.filter(e => e.id === id)[0];
+    const selectedLanguage = defaults().getLanguages.filter(e => e.id === id)[0];
     newLanguage.value = { ...selectedLanguage };
     showModal.value = true;
     editMode.value = true;
@@ -208,11 +182,10 @@ function closeModal(): void {
 }
 
 async function removeLanguage(id: string): Promise<void> {
-    const selectedLanguage = languagesApi().getLanguages.filter(e => e.id === id)[0];
+    const selectedLanguage = defaults().getLanguages.filter(e => e.id === id)[0];
     const msg = `"${selectedLanguage.name}"`;
     alerts().showAlert({type:'delete', msg, func: async ()=>{
-        await languagesApi().removeLanguage(id);
-        await getLanguages();
+        console.log('Removed');
     }})
 }
 
@@ -229,7 +202,6 @@ function clearFilters(): void {
 
 onBeforeMount(async () => {
     defaults().resetPagination();
-    await getLanguages();
 })
 </script>
 

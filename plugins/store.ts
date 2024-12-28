@@ -1,26 +1,16 @@
+import { useApi } from "~/store/api";
 import { useAlert } from "~/store/alert";
-import { useStudentsApi } from "~/store/apiStudents";
-import { useUsersApi } from "~/store/apiUsers";
-import { useLoadingScreen } from "~/store/loadingScreen";
 import { useDefaults } from '~/store/defaults';
-import { useCoursesApi } from '~/store/apiCourses';
-import { useLanguagesApi } from '~/store/apiLanguages';
-import { useAudiencesApi } from '~/store/apiAudiences';
-import { useCategoriesApi } from '~/store/apiCategories';
+import { useLoadingScreen } from "~/store/loadingScreen";
 
 
 export default defineNuxtPlugin(() => {
     return {
         provide: {
+            useApi,
+            useAlert,
             useDefaults,
             useLoadingScreen,
-            useAlert,
-            useStudentsApi,
-            useUsersApi,
-            useCoursesApi,
-            useAudiencesApi,
-            useLanguagesApi,
-            useCategoriesApi,
         },
     }
 })

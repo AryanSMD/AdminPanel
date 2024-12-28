@@ -9,7 +9,6 @@ import LanguagesManagement from '../pages/LanguagesManagement.vue'
 import CategoriesManagement from '../pages/CategoriesManagement.vue'
 import AudiencesManagement from '../pages/AudiencesManagement.vue'
 import AddCourse from '../pages/AddCourse.vue'
-import StudentsReport from '../pages/StudentsReport.vue'
 import Error from '../pages/Err404.vue'
 
 export default <RouterConfig> {
@@ -77,12 +76,6 @@ export default <RouterConfig> {
       name: 'languagesManagement',
       path: '/languagesManagement',
       component: LanguagesManagement,
-      meta: { header: true }
-    },
-    {
-      name: 'studentsReport',
-      path: '/studentsReport',
-      component: StudentsReport,
       meta: { header: true }
     },
     {

@@ -8,7 +8,7 @@
                 <div class="top">
                     <Dropdown
                         :placeHolder="'Select language...'"
-                        :list="languagesApi().getLanguages"
+                        :list="[{name: 'test', id: '1'},]"
                         :listKey="'id'"
                         :listValue="'name'"
                         :valueProp="filter.languageLearningId"
@@ -17,7 +17,7 @@
                     </Dropdown>
                     <Dropdown
                         :placeHolder="'Select category...'"
-                        :list="categoriesApi().getCategories"
+                        :list="defaults().getCategories"
                         :listKey="'id'"
                         :listValue="'name'"
                         :valueProp="filter.categoryId"
@@ -26,7 +26,7 @@
                     </Dropdown>
                     <Dropdown
                         :placeHolder="'Select audience...'"
-                        :list="audiencesApi().getAudiences"
+                        :list="defaults().getAudiences"
                         :listKey="'id'"
                         :listValue="'name'"
                         :valueProp="filter.audienceId"
@@ -47,14 +47,14 @@
             </div>
             <div class="courses-box">
                 <Course 
-                    v-for="item in coursesApi().getCourses" 
+                    v-for="item in defaults().getCourses" 
                     :course="item"
                     :removeCourse="removeCourse"
                 />
             </div>
             <Pagination 
-                :numOfData="coursesApi().getTotal" 
-                :func="async () => await getCourses()"
+                :numOfData="defaults().totalCourses" 
+                :func="async () => {}"
             />
         </div>
     </div>
@@ -62,9 +62,6 @@
 
 
 <script setup lang="ts">
-import { ref, onBeforeMount, computed } from 'vue';
-
-
 const searchMode = ref <boolean> (false);
 const filter = ref <any> ({
     name: null,
@@ -75,32 +72,18 @@ const filter = ref <any> ({
 })
 
 
-async function getCourses(): Promise<void> {
-    if (!searchMode.value) {
-        await coursesApi().searchCourses({
-            page: defaults().pagination.currentPage,
-            pageSize: defaults().pagination.dataPerPage 
-        });
-    }
-}
-
 async function search(): Promise<void> {
     searchMode.value = true;
     defaults().resetPagination();
-    await coursesApi().searchCourses({
-        page: defaults().pagination.currentPage,
-        pageSize: defaults().pagination.dataPerPage,
-        ...filter.value,
-    });
+
     searchMode.value = false;
 }
 
 async function removeCourse(id: string): Promise<void> {
-    const selectedCourse = coursesApi().getCourses.filter(e => e.id === id)[0];
+    const selectedCourse = defaults().getCourses.filter(e => e.id === id)[0];
     const msg = `"${selectedCourse.name}"`;
     alerts().showAlert({type:'delete', msg, func: async ()=>{
-        await coursesApi().removeCourse(id);
-        await getCourses();
+        console.log('Removed');
     }})
 }
 
@@ -117,10 +100,6 @@ function clearFilters(): void {
 
 onBeforeMount(async () => {
     defaults().resetPagination();
-    await getCourses();
-    await languagesApi().searchLanguages({ page: 0, pageSize: 0, });
-    await audiencesApi().searchAudiences({ page: 0, pageSize: 0, });
-    await categoriesApi().searchCategories({ page: 0, pageSize: 0, });
 })
 </script>
 
