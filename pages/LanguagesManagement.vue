@@ -133,7 +133,6 @@ import { ref, onBeforeMount } from 'vue';
 
 const showModal = ref <boolean> (false);
 const editMode = ref <boolean> (false);
-const searchMode = ref <boolean> (false);
 const previewImg = ref();
 const filter = ref({
     keyword: null,
@@ -152,10 +151,6 @@ const newLanguage = ref <Language> ({
 
 
 async function search(): Promise<void> {
-    searchMode.value = true;
-    defaults().resetPagination();
-
-    searchMode.value = false;
 }
 
 async function save(): Promise<void> {
@@ -185,7 +180,7 @@ async function removeLanguage(id: string): Promise<void> {
     const selectedLanguage = defaults().getLanguages.filter(e => e.id === id)[0];
     const msg = `"${selectedLanguage.name}"`;
     alerts().showAlert({type:'delete', msg, func: async ()=>{
-        console.log('Removed');
+        alerts().showAlert({ type:'success', msg: 'Removed', func:() => {} });
     }})
 }
 
@@ -198,11 +193,6 @@ function clearFilters(): void {
         isDisabled: null,
     };
 }
-
-
-onBeforeMount(async () => {
-    defaults().resetPagination();
-})
 </script>
 
 

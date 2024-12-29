@@ -103,7 +103,7 @@ interface Props {
         -1px -1px 10px rgb(0, 0, 0, .2);
     @apply
     absolute w-full max-h-[300px] rounded-[4px] left-0 mt-[2px] 2xl:mt-1 z-[100] bg-white dark:bg-darkPrimary 
-    overflow-hidden dark:text-white dark:border-slate-500 hidden
+    overflow-hidden dark:text-white dark:border-slate-500 hidden overflow-y-auto
 }
 
 .dropdown .selected.focus ~ .search-list {

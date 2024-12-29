@@ -15,8 +15,8 @@
                 <div class="item" v-if="showFirstPage">...</div>
                 <div 
                     class="item" v-for="page in showingPages"
-                    :class="defaults().pagination.currentPage === page && 'active'"
-                    @click="defaults().pagination.currentPage = page"
+                    :class="currentPage === page && 'active'"
+                    @click="currentPage = page"
                 >
                     {{ page }}
                 </div>
@@ -38,28 +38,19 @@
 
 
 <script setup lang="ts">
-const props = defineProps({
-    numOfData: {
-        type: Number,
-        required: true
-    },
-    func: {
-        type: Function,
-        required: true
-    },
-});
 const startPage = ref <number> (1);
+const currentPage = ref <number> (1);
 
 
 const halfOfVisibleBtns = computed((): number => {
-    return Math.floor(defaults().pagination.visibleButtons / 2);
+    return Math.floor(5 / 2);
 })
 
 const showingPages = computed((): number[] => {
     const range = [];
     for (
         let i = startPage.value;
-        i <= Math.min(startPage.value + defaults().pagination.visibleButtons - 1 , totalPages.value); 
+        i <= Math.min(startPage.value + 5 - 1 , totalPages.value); 
         i++
     ) {
         range.push(i);
@@ -68,47 +59,45 @@ const showingPages = computed((): number[] => {
 })
 
 const totalPages = computed((): number => {
-    return props.numOfData / defaults().pagination.dataPerPage;
+    return Math.floor(30 / 10);
 })
 
 const showFirstPage = computed((): boolean => {
-    return defaults().pagination.currentPage > (halfOfVisibleBtns.value + 1);
+    return currentPage.value > (halfOfVisibleBtns.value + 1);
 })
 
 const showLastPage = computed((): boolean => {
-    return defaults().pagination.currentPage < (totalPages.value - halfOfVisibleBtns.value);
+    return currentPage.value < (totalPages.value - halfOfVisibleBtns.value);
 })
 
 
 function nextPage(): void {
-    defaults().pagination.currentPage < totalPages.value && defaults().pagination.currentPage++;
+    currentPage.value < totalPages.value && currentPage.value++;
 }
 
 function previousPage(): void {
-    defaults().pagination.currentPage !== 1 && defaults().pagination.currentPage--;
+    currentPage.value !== 1 && currentPage.value--;
 }
 
 function goToFirstPage(): void {
-    defaults().pagination.currentPage = 1;
+    currentPage.value = 1;
     startPage.value = 1;
 }
 
 function goTolastPage(): void {
-    defaults().pagination.currentPage = totalPages.value;
-    const remainder = defaults().pagination.currentPage % defaults().pagination.visibleButtons;
+    currentPage.value = totalPages.value;
+    const remainder = currentPage.value % 5;
     startPage.value = remainder !== 0 ? 
         totalPages.value - (remainder - 1) : 
-        totalPages.value - ( defaults().pagination.visibleButtons - 1 );
+        totalPages.value - ( 5 - 1 );
 }
 
 
 watch(
-    () => defaults().pagination.currentPage, async (_) => {
-        if (defaults().pagination.currentPage > halfOfVisibleBtns.value) {
-            startPage.value = defaults().pagination.currentPage - halfOfVisibleBtns.value;
+    () => currentPage.value, async (_) => {
+        if (currentPage.value > halfOfVisibleBtns.value) {
+            startPage.value = currentPage.value - halfOfVisibleBtns.value;
         }
-
-        await props.func();
     }
 )
 </script>

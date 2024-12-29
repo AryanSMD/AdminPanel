@@ -18,34 +18,7 @@ interface Course {
     languageLearningId: string,
     categoryId: string,
     audienceId: string,
-    imageId: string|null,
     imageUrl: string,
-}
-
-
-interface Student {
-    id: string,
-    studentId: string,
-    email: string,
-    mobile: string,
-    firstName: string,
-    lastName: string,
-    nickName: string,
-    fatherName: string,
-    address: {
-      country: string,
-      city: string,
-      state: string,
-      postcode: string,
-      streetAddress: string,
-      latitude: number,
-      longitude: number
-    },
-    profileImageId: string|null,
-    profileImageUrl: string|null,
-    dateOfBirth: string|Date,
-    gender: number,
-    nativeLanguageId: string
 }
 
 interface Audience {

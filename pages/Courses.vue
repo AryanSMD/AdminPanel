@@ -8,7 +8,7 @@
                 <div class="top">
                     <Dropdown
                         :placeHolder="'Select language...'"
-                        :list="[{name: 'test', id: '1'},]"
+                        :list="defaults().getLanguages"
                         :listKey="'id'"
                         :listValue="'name'"
                         :valueProp="filter.languageLearningId"
@@ -33,10 +33,10 @@
                         @valueEmit="e => filter.audienceId = e"
                     >
                     </Dropdown>
-                    <select v-model="filter.status">
+                    <select v-model="filter.isDisabled">
                         <option :value="null" disabled selected>Select status...</option>
-                        <option :value="0">{{ getStatus(0) }}</option>
-                        <option :value="1">{{ getStatus(1) }}</option>
+                        <option :value="false">{{ getStatus(0) }}</option>
+                        <option :value="true">{{ getStatus(1) }}</option>
                     </select>
                 </div>
                 <div class="bottom">
@@ -47,43 +47,44 @@
             </div>
             <div class="courses-box">
                 <Course 
-                    v-for="item in defaults().getCourses" 
+                    v-for="item in courses" 
                     :course="item"
                     :removeCourse="removeCourse"
                 />
             </div>
-            <Pagination 
-                :numOfData="defaults().totalCourses" 
-                :func="async () => {}"
-            />
+            <Pagination />
         </div>
     </div>
 </template>
 
 
 <script setup lang="ts">
-const searchMode = ref <boolean> (false);
+const courses = ref <Course[]> ();
 const filter = ref <any> ({
     name: null,
     languageLearningId: null,
     categoryId: null,
     audienceId: null,
-    status: null,
+    isDisabled: null,
 })
 
 
 async function search(): Promise<void> {
-    searchMode.value = true;
-    defaults().resetPagination();
-
-    searchMode.value = false;
+    const { name, languageLearningId, categoryId, audienceId, isDisabled } = filter.value;
+    courses.value = defaults().getCourses.filter(e =>
+        name ? e.name.toUpperCase().includes(name.toUpperCase()) : e &&
+        audienceId ? e.audienceId === audienceId : e &&
+        categoryId ? e.categoryId === categoryId : e &&
+        languageLearningId ? e.languageLearningId === languageLearningId : e &&
+        isDisabled !== null ? e.isDisabled === isDisabled : e
+    )
 }
 
 async function removeCourse(id: string): Promise<void> {
     const selectedCourse = defaults().getCourses.filter(e => e.id === id)[0];
     const msg = `"${selectedCourse.name}"`;
     alerts().showAlert({type:'delete', msg, func: async ()=>{
-        console.log('Removed');
+        alerts().showAlert({ type:'success', msg: 'Removed', func:() => {} });
     }})
 }
 
@@ -93,14 +94,12 @@ function clearFilters(): void {
         languageLearningId: null,
         categoryId: null,
         audienceId: null,
-        status: null,
+        isDisabled: null,
     };
+    courses.value = defaults().getCourses;
 }
 
-
-onBeforeMount(async () => {
-    defaults().resetPagination();
-})
+courses.value = defaults().getCourses;
 </script>
 
 

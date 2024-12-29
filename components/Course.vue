@@ -1,7 +1,7 @@
 <template>
     <div class="card">
         <div class="img">
-            <img :src="setImg">
+            <img :src="props.course.imageUrl">
         </div>
         <div class="header">
             <div>
@@ -42,11 +42,6 @@
                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" class="svg">
                     <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                     <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
-                </svg>
-            </button>
-            <button class="btn" @click="">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="svg" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z"/>
                 </svg>
             </button>
             <button class="btn" @click="props.removeCourse(props.course.id)">
@@ -111,16 +106,6 @@ const props = defineProps({
         required: true,
     },
 });
-
-
-const setImg = computed(() => {
-    if (props.course.imageUrl) {
-        const url = useRuntimeConfig().public.StorageURL + props.course.imageUrl;
-        return url;
-    } else {
-        return defaults().deafultImg;
-    }
-})
 
 const language = computed(() => {
     return defaults().getLanguages.filter(e => e.id === props.course.languageLearningId)[0]?.name;

@@ -1,5 +1,9 @@
 import userDefaultImg from '../assets/svg/userProfile.svg'
 import defaultImg from '../assets/svg/defaultPic.svg'
+import { languages } from '~/constant/languages'
+import { courses } from '~/constant/courses'
+import { audiences } from '~/constant/audiences'
+import { categories } from '~/constant/categories'
 import { filename } from 'pathe/utils'
 
 
@@ -14,11 +18,6 @@ interface States {
     languages: Language[],
     categories: Category[],
     audiences: Audience[],
-    pagination: {
-        currentPage: number,
-        dataPerPage: number,
-        visibleButtons: number,
-    },
 }
 
 export const useDefaults = defineStore('useDefaults', {
@@ -28,16 +27,11 @@ export const useDefaults = defineStore('useDefaults', {
         openSidebar: false,
         editorSkin: null,
         editorCss: null,
-        courses: [],
+        courses: courses,
         students: [],
-        languages: [],
-        categories: [],
-        audiences: [],
-        pagination: {
-            currentPage: 1,
-            dataPerPage: 10,
-            visibleButtons: 5,
-        },
+        languages: languages,
+        categories: categories,
+        audiences: audiences,
     }),
     actions: {
         setDarkMode(): void {
@@ -69,16 +63,11 @@ export const useDefaults = defineStore('useDefaults', {
             )
             return images[`${val}`];
         },
-
-        resetPagination(): void {
-            this.pagination.currentPage = 1;
-        }
     },
     getters: {
         getPermission: state => state.permission,
         getDarkMode: state => state.darkMode,
         getOpenSidebar: state => state.openSidebar,
-        getPagination: state => state.pagination,
         getCourses: state => state.courses,
         totalCourses: state => state.courses.length,
         getStudents: state => state.students,

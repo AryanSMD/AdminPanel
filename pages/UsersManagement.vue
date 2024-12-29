@@ -162,7 +162,6 @@
 <script setup lang="ts">
 const showModal = ref <boolean> (false);
 const editMode = ref <boolean> (false);
-const searchMode = ref <boolean> (false);
 const emailExists = ref <boolean|null> (null);
 const chooseFile = ref ();
 const previewImg = ref ();
@@ -188,10 +187,7 @@ async function selectImg(): Promise<void> {
 }
 
 async function search(): Promise<void> {
-    searchMode.value = true;
-    defaults().resetPagination();
     useApi().getUsers.filter(e => e.firstName === filter.value.firstName)
-    searchMode.value = false;
 }
 
 async function save(): Promise<void> {
@@ -227,7 +223,7 @@ async function removeUser(id: string): Promise<void> {
     const selectedUser = useApi().getUsers.filter(e => e.id === id)[0];
     const msg = `"${selectedUser.firstName} ${selectedUser.lastName}"`;
     alerts().showAlert({type:'delete', msg, func: async ()=>{
-        console.log('Removed');
+        alerts().showAlert({ type:'success', msg: 'Removed', func:() => {} });
     }})
 }
 
@@ -253,11 +249,6 @@ const debounce = (() => {
         }, 300);
     }
 })();
-
-
-onBeforeMount(async () => {
-    defaults().resetPagination();
-})
 
 
 watch(

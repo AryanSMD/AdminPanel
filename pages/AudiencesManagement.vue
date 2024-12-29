@@ -66,10 +66,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <Pagination 
-                    :numOfData="defaults().totalAudiences"
-                    :func="async () => {}"
-                />
+                <Pagination />
             </div>
         </div>
     </div>
@@ -129,7 +126,6 @@ import Editor from '@tinymce/tinymce-vue'
 
 const showModal = ref <boolean> (false);
 const editMode = ref <boolean> (false);
-const searchMode = ref <boolean> (false);
 const filter = ref({
     name: null,
     isDisabled: null,
@@ -142,10 +138,7 @@ const newAudience = ref <Audience> ({
 })
 
 async function search(): Promise<void> {
-    searchMode.value = true;
-    defaults().resetPagination();
 
-    searchMode.value = false;
 }
 
 async function save(): Promise<void> {
@@ -174,7 +167,7 @@ async function removeAudience(id: string): Promise<void> {
     const selectedAudience = defaults().getAudiences.filter(e => e.id === id)[0];
     const msg = `"${selectedAudience.name}"`;
     alerts().showAlert({type:'delete', msg, func: async ()=>{
-        console.log('Removed');
+        alerts().showAlert({ type:'success', msg: 'Removed', func:() => {} });
     }})
 }
 
@@ -186,9 +179,6 @@ function clearFilters(): void {
 }
 
 
-onBeforeMount(async () => {
-    defaults().resetPagination();
-})
 </script>
 
 

@@ -129,7 +129,6 @@ import Editor from '@tinymce/tinymce-vue'
 
 const showModal = ref <boolean> (false);
 const editMode = ref <boolean> (false);
-const searchMode = ref <boolean> (false);
 const filter = ref({
     name: null,
     isDisabled: null,
@@ -143,10 +142,6 @@ const newCategory = ref <Category> ({
 
 
 async function search(): Promise<void> {
-    searchMode.value = true;
-    defaults().resetPagination();
-
-    searchMode.value = false;
 }
 
 async function save(): Promise<void> {
@@ -175,7 +170,7 @@ async function removeCategory(id: string): Promise<void> {
     const selectedCategory = defaults().getCategories.filter(e => e.id === id)[0];
     const msg = `"${selectedCategory.name}"`;
     alerts().showAlert({type:'delete', msg, func: async ()=>{
-        console.log('Removed');
+        alerts().showAlert({ type:'success', msg: 'Removed', func:() => {} });
     }})
 }
 
@@ -185,11 +180,6 @@ function clearFilters(): void {
         isDisabled: null,
     };
 }
-
-
-onBeforeMount(async () => {
-    defaults().resetPagination();
-})
 </script>
 
 

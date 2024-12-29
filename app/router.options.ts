@@ -4,7 +4,6 @@ import PageParent from '../pages/PageParent.vue'
 import Dashboard from '../pages/Dashboard.vue'
 import Courses from '../pages/Courses.vue'
 import UsersManagement from '../pages/UsersManagement.vue'
-import StudentsManagement from '../pages/StudentsManagement.vue'
 import LanguagesManagement from '../pages/LanguagesManagement.vue'
 import CategoriesManagement from '../pages/CategoriesManagement.vue'
 import AudiencesManagement from '../pages/AudiencesManagement.vue'
@@ -29,12 +28,6 @@ export default <RouterConfig> {
       name: 'usersManagement',
       path: '/usersManagement',
       component: UsersManagement,
-      meta: { header: true }
-    },
-    {
-      name: 'studentsManagement',
-      path: '/studentsManagement',
-      component: StudentsManagement,
       meta: { header: true }
     },
     {

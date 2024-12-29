@@ -69,12 +69,9 @@
                         </div>
                         <div class="image-container !mt-5 md:col-span-2 xl:!mt-0 xl:col-span-1">
                             <div class="image">
-                                <img :src="setImg(newCourse)" class="img" ref="previewImg">
+                                <img :src="newCourse.imageUrl" class="img" ref="previewImg">
                             </div>
-                            <input type="file" style="display: none;" accept=".jpg, .jpeg"
-                                ref="chooseFile"
-                                @change="selectImg()"
-                            >
+                            <input type="file" style="display: none;" accept=".jpg, .jpeg" ref="chooseFile">
                             <button class="btn-addImg" @click="$refs.chooseFile.click()">add image</button>
                         </div>
                         <div class="inputs md:col-span-2 mt-5">
@@ -98,10 +95,11 @@
 
 
 <script setup lang="ts">
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import Editor from '@tinymce/tinymce-vue'
 
 
+const router = useRouter();
 const route = useRoute();
 const previewImg = ref();
 const chooseFile = ref();
@@ -115,26 +113,17 @@ const newCourse = ref <Course> ({
     languageLearningId: '',
     categoryId: '',
     audienceId: '',
-    imageId: null,
     imageUrl: '',
 });
 
 
-function setImg(course: Course): string {
-    if (course.imageUrl) {
-        const url = useRuntimeConfig().public.StorageURL + course.imageUrl;
-        return url;
-    } else {
-        return defaults().deafultImg;
-    }
-}
-
-async function selectImg(): Promise<void> {
-    const file = chooseFile.value.files[0]; 
-}
-
 async function save(): Promise<void> {
-
+    router.back();
+    alerts().showAlert({ 
+        type: 'success', 
+        msg: editMode.value ? 'Course Updated' : 'Course Created',
+        func: ()=>{}
+    })
 }
 
 

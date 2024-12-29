@@ -29,7 +29,7 @@
                 @mouseover="!defaults().getOpenSidebar && (isShowGroup = true)"
                 @mouseleave="!defaults().getOpenSidebar && (isShowGroup = false)">
                 <div class="title" @click="defaults().getOpenSidebar && showGroup()"
-                    :class="(!defaults().getOpenSidebar && ( isShowGroup ) || ( activeGroupNum == 0 )) && 'active'">
+                    :class="(!defaults().getOpenSidebar && isShowGroup || isActiveGroup) && 'active'">
                     <svg xmlns="http://www.w3.org/2000/svg" class="svg" fill="currentColor" viewBox="0 0 16 16">
                         <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0"/>
                         <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z"/>
@@ -53,15 +53,6 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
                                         </svg>
                                         Users
-                                    </div>
-                                </nuxt-link>
-                                <nuxt-link to="/studentsManagement" class="link" :class="!defaults().getOpenSidebar && 'close'">
-                                    <div class="text">
-                                        <svg class="svg" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
-                                            <path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917zM8 8.46 1.758 5.965 8 3.052l6.242 2.913z"/>
-                                            <path d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466zm-.068 1.873.22-.748 3.496 1.311a.5.5 0 0 0 .352 0l3.496-1.311.22.748L8 12.46z"/>
-                                        </svg>
-                                        Students
                                     </div>
                                 </nuxt-link>
                                 <nuxt-link to="/categoriesManagement" class="link" :class="!defaults().getOpenSidebar && 'close'">
@@ -105,11 +96,10 @@ import { useRoute } from 'vue-router';
 
 
 const route = useRoute();
-const activeGroupNum = ref();
+const isActiveGroup = ref <boolean> (false);
 const isShowGroup = ref <boolean> (false);
 const managementPages: string[] = [
     'usersManagement',
-    'studentsManagement',
     'categoriesManagement',
     'audiencesManagement',
     'languagesManagement',
@@ -124,11 +114,11 @@ function checkPath(val: string[]) {
     return val.includes(route.path.split('/')[1]);
 }
 
-function setActiveGroupNum() {
+function setActiveGroup() {
     if (checkPath(managementPages)) {
-        isShowGroup.value = true;
+        isActiveGroup.value = true;
     } else {
-        isShowGroup.value = false;
+        isActiveGroup.value = false;
     }
 }
 
@@ -144,12 +134,12 @@ watch(
 )
 watch(
     ()=> route.path, (_) => {
-        setActiveGroupNum();
+        setActiveGroup();
     }
 )
 
 
-setActiveGroupNum();
+setActiveGroup();
 </script>
 
 
