@@ -46,10 +46,10 @@ const items = [
     <div class="sidebar" :class="!defaults().getOpenSidebar && 'close'">
         <div class="navbar">
             <div 
-                class="w-[4rem] aspect-square absolute top-1 text-background dark:text-darkBackground
+                class="w-[3rem] aspect-square absolute top-1 text-background dark:text-darkBackground
                     flex justify-center"
             >
-                <Icon name="fluent:food-apple-20-filled" class="h-full w-full"/>
+                <Icon name="ls:apple" class="h-full w-full"/>
             </div>
             <div class="links">
                 <div 
@@ -76,13 +76,13 @@ const items = [
 .sidebar {
     @apply
     absolute top-[60px] lg:top-0 w-[250px] lg:relative min-[1700px]:w-[350px] h-full 
-    bg-transparent transition-all duration-500 z-[100] pl-4 pr-1
-    py-4 flex justify-center items-center
+    bg-transparent transition-all duration-500 z-[100] pl-2 pr-1
+    py-4 lg:py-2 flex justify-center items-center
 }
 .sidebar {
     &.close {
         @apply
-        w-[0] lg:w-[100px]
+        w-[0] lg:w-20
     }
 }
 .sidebar::-webkit-scrollbar {
@@ -96,11 +96,11 @@ const items = [
 }
 .links {
     @apply
-    w-full flex flex-col items-center gap-4 relative
+    w-full flex flex-col items-center relative
 }
 .light {
     @apply
-    absolute top-0 right-0 h-16 bg-background dark:bg-darkBackground rounded-l-full z-[1] 
+    absolute top-0 right-0 h-12 lg:h-16 bg-background dark:bg-darkBackground rounded-l-full z-[1] 
     transition-all duration-300
 }
 .light::before,

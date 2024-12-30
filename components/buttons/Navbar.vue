@@ -15,6 +15,12 @@ const props = defineProps<{
 onMounted(() => {
     route.path === props.pathName && props.moveLight(item.value?.offsetTop);
 })
+
+watch(
+    ()=> route.path, (newVal) => {
+        newVal === props.pathName && props.moveLight(item.value?.offsetTop);
+    }
+)
 </script>
 
 
@@ -38,7 +44,7 @@ onMounted(() => {
 <style scoped>
 .item {
     @apply
-    w-full h-16 flex items-center gap-3 relative z-[2] cursor-pointer text-text dark:text-white
+    w-full h-12 lg:h-16 flex items-center gap-3 relative z-[2] cursor-pointer text-text dark:text-white
     transition-all duration-300 text-[1.4rem] font-bold
 }
 .icon {
