@@ -1,35 +1,80 @@
+<script setup lang="ts">
+import { useRouter } from 'vue-router';
+
+
+const router = useRouter();
+const profileModal = ref <boolean> (false);
+const chooseFile = ref();
+const previewImg = ref();
+const profImg = ref();
+const fullName = ref <string> ('');
+const user = ref <User> ({
+    id: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    birthDate: '',
+    role: 0,
+    status: 0,
+});
+
+async function save(): Promise<void> {
+    alerts().showAlert({ 
+        type: 'success', 
+        msg: 'Profile Updated',
+        func: ()=>{}
+    });
+    profileModal.value = false
+}
+
+function showModal(): void {
+    getUserLogged();
+    user.value.birthDate = getTime(user.value.birthDate);
+    profileModal.value = true;
+}
+
+function getUserLogged(): void {
+    const userLogged: User = JSON.parse(localStorage.getItem('user')!);
+    if (userLogged) {
+        user.value = { ...userLogged };
+        fullName.value = userLogged.firstName + ' ' + userLogged.lastName;
+    } else {
+        router.push({ name: 'login' });
+    }
+}
+
+
+onMounted(() => {
+    getUserLogged();
+})
+</script>
+
+
 <template>
-    <div class="main-header">
-        <div class="left-side">
-            <svg class="menu-btn" @click="defaults().setSidebar()" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
-            </svg>
-            <div class="dark-theme" @click="defaults().setDarkMode()">
-                <div class="btn" :class="[ defaults().getDarkMode ? 'on' : 'off' ]"></div>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="svg moon" viewBox="0 0 16 16">
-                    <path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278M4.858 1.311A7.27 7.27 0 0 0 1.025 7.71c0 4.02 3.279 7.276 7.319 7.276a7.32 7.32 0 0 0 5.205-2.162q-.506.063-1.029.063c-4.61 0-8.343-3.714-8.343-8.29 0-1.167.242-2.278.681-3.286"/>
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="svg" viewBox="0 0 16 16">
-                    <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708"/>
-                </svg>
+    <div class="header-container">
+        <div class="main-header">
+            <div class="left-side">
+                <ButtonsShowMenu />
+                <ButtonsDarkMode />
             </div>
-        </div>
-        <div class="right-side">
-            <div class="profile">
-                <img src="/person1.png" class="img" ref="profImg">
-                <div class="username">
-                    {{ fullName }}
+            <div class="right-side">
+                <div class="profile">
+                    <img :src="defaults().profileImg" class="img" ref="profImg">
+                    <div class="username">
+                        {{ fullName }}
+                    </div>
                 </div>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="svg" viewBox="0 0 16 16"
+                    @click="showModal()">
+                    <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0M8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m.256 7a4.5 4.5 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10q.39 0 .74.025c.226-.341.496-.65.804-.918Q8.844 9.002 8 9c-5 0-6 3-6 4s1 1 1 1zm3.63-4.54c.18-.613 1.048-.613 1.229 0l.043.148a.64.64 0 0 0 .921.382l.136-.074c.561-.306 1.175.308.87.869l-.075.136a.64.64 0 0 0 .382.92l.149.045c.612.18.612 1.048 0 1.229l-.15.043a.64.64 0 0 0-.38.921l.074.136c.305.561-.309 1.175-.87.87l-.136-.075a.64.64 0 0 0-.92.382l-.045.149c-.18.612-1.048.612-1.229 0l-.043-.15a.64.64 0 0 0-.921-.38l-.136.074c-.561.305-1.175-.309-.87-.87l.075-.136a.64.64 0 0 0-.382-.92l-.148-.045c-.613-.18-.613-1.048 0-1.229l.148-.043a.64.64 0 0 0 .382-.921l-.074-.136c-.306-.561.308-1.175.869-.87l.136.075a.64.64 0 0 0 .92-.382zM14 12.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0"/>
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="svg rotate-180" viewBox="0 0 16 16"
+                    @click="$router.push({ name: 'login' })">
+                    <path fill-rule="evenodd" d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0z"/>
+                    <path fill-rule="evenodd" d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708z"/>
+                </svg>
             </div>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="svg" viewBox="0 0 16 16"
-                @click="showModal()">
-                <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0M8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m.256 7a4.5 4.5 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10q.39 0 .74.025c.226-.341.496-.65.804-.918Q8.844 9.002 8 9c-5 0-6 3-6 4s1 1 1 1zm3.63-4.54c.18-.613 1.048-.613 1.229 0l.043.148a.64.64 0 0 0 .921.382l.136-.074c.561-.306 1.175.308.87.869l-.075.136a.64.64 0 0 0 .382.92l.149.045c.612.18.612 1.048 0 1.229l-.15.043a.64.64 0 0 0-.38.921l.074.136c.305.561-.309 1.175-.87.87l-.136-.075a.64.64 0 0 0-.92.382l-.045.149c-.18.612-1.048.612-1.229 0l-.043-.15a.64.64 0 0 0-.921-.38l-.136.074c-.561.305-1.175-.309-.87-.87l.075-.136a.64.64 0 0 0-.382-.92l-.148-.045c-.613-.18-.613-1.048 0-1.229l.148-.043a.64.64 0 0 0 .382-.921l-.074-.136c-.306-.561.308-1.175.869-.87l.136.075a.64.64 0 0 0 .92-.382zM14 12.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0"/>
-            </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="svg rotate-180" viewBox="0 0 16 16"
-                @click="$router.push({ name: 'login' })">
-                <path fill-rule="evenodd" d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0z"/>
-                <path fill-rule="evenodd" d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708z"/>
-            </svg>
         </div>
     </div>
     <transition name="modal">
@@ -43,7 +88,7 @@
                     <div class="top">
                          <div class="img">
                             <div class="w-full h-full flex justify-center items-center rounded-full overflow-hidden">
-                                <img src="/person1.png" ref="previewImg">
+                                <img :src="defaults().profileImg" ref="previewImg">
                             </div>
                             <button class="btn" @click="$refs.chooseFile.click()">
                                 <svg class="svg" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
@@ -52,9 +97,7 @@
                                 </svg>
                             </button>
                         </div>
-                        <input type="file" style="display: none;" ref="chooseFile" accept=".jpg, .jpeg"
-                            @change="selectImg()"
-                        >
+                        <input type="file" style="display: none;" ref="chooseFile" accept=".jpg, .jpeg">
                     </div>
                     <VeeForm class="bot" :validation-schema="validation.profile" 
                         v-slot="{ submitCount, errors, handleSubmit }"
@@ -95,164 +138,45 @@
 </template>
 
 
-<script setup lang="ts">
-import { useRouter } from 'vue-router';
-
-
-const router = useRouter();
-const profileModal = ref <boolean> (false);
-const chooseFile = ref();
-const previewImg = ref();
-const profImg = ref();
-const fullName = ref <string> ('');
-const user = ref <User> ({
-    id: '',
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    birthDate: '',
-    role: 0,
-    status: 0,
-});
-
-
-const setProfileImg = computed((): string => {
-    // if (user.value.profileImageUrl) {
-    //     const url = useRuntimeConfig().public.StorageURL + user.value.profileImageUrl;
-    //     return url;
-    // } else {
-    //     return defaults().deafultProfImg;
-    // }
-    return ''
-})
-
-
-async function selectImg(): Promise<void> {
-    const file = chooseFile.value.files[0]; 
-    // const response = await fileManagementApi().upload({
-    //     properties: {
-    //         fileName: file.name,
-    //         fileType: 0
-    //     },
-    //     file
-    // })
-
-    // if (response.status === 200) {
-    //     user.value.birthDate = setTime(user.value.birthDate);
-    //     user.value.profileImageId = response.data.id;
-    //     user.value.profileImageUrl = response.data.url;
-    //     const updateRes = await usersApi().updateUser(user.value);
-    //     if (updateRes.status === 200) {
-    //         localStorage.setItem('user', JSON.stringify(updateRes.data));
-    //         getUserLogged();
-    //         previewImg.value.src = setProfileImg.value;
-    //         profImg.value.src = setProfileImg.value;
-    //     }
-    //     user.value.birthDate = getTime(user.value.birthDate);
-    // }
-}
-
-async function save(): Promise<void> {
-    user.value.birthDate = setTime(user.value.birthDate);
-
-}
-
-function showModal(): void {
-    getUserLogged();
-    user.value.birthDate = getTime(user.value.birthDate);
-    profileModal.value = true;
-}
-
-function getUserLogged(): void {
-    const userLogged: User = JSON.parse(localStorage.getItem('user')!);
-    if (userLogged) {
-        user.value = { ...userLogged };
-        fullName.value = userLogged.firstName + ' ' + userLogged.lastName;
-
-    } else {
-        router.push({ name: 'login' });
-    }
-}
-
-
-onMounted(() => {
-    getUserLogged();
-})
-</script>
-
-
 <style scoped>
-.wrapper .main .main-header {
+.header-container {
     z-index: 100;
     @apply
-    w-full h-[60px] bg-white border-b-[1px] border-grey dark:bg-darkPrimary transition-colors
-    duration-300 flex items-center justify-between px-2 sticky top-0
+    w-full px-4 sticky top-0 bg-background dark:bg-darkBackground pt-4 transition-colors duration-300 
 }
 
-.wrapper .main .main-header .left-side {
+.main-header {
+    @apply
+    w-full h-[60px] bg-white dark:bg-darkPrimary transition-colors duration-300 flex items-center justify-between 
+    px-2 rounded-[10px] overflow-hidden
+}
+
+.left-side {
     @apply
     flex w-[80px] sm:w-[100px] h-full items-center justify-between
 }
 
-.wrapper .main .main-header .left-side .menu-btn {
-    @apply
-    w-8 h-8 cursor-pointer text-text dark:text-white
-}
-
-.wrapper .main .main-header .left-side .dark-theme {
-    @apply
-    w-[45px] h-6 rounded-full border-[1px] border-text cursor-pointer text-text dark:text-white
-    overflow-hidden flex items-center justify-between relative p-[2px] bg-transparent dark:border-white
-}
-
-.wrapper .main .main-header .left-side .dark-theme .btn {
-    @apply
-    w-5 h-5 absolute bg-text rounded-full transition-all duration-300
-}
-
-.wrapper .main .main-header .left-side .dark-theme .btn {
-    &.on {
-        @apply
-        translate-x-[20px] bg-white
-    }
-    &.off {
-        @apply
-        left-[1px]
-    }
-}
-
-.wrapper .main .main-header .left-side .dark-theme .svg {
-    @apply
-    w-[18px] h-auto hover:text-text hover:bg-transparent
-}
-
-.wrapper .main .main-header .left-side .dark-theme .moon{
-    @apply
-    hover:text-white
-}
-
-.wrapper .main .main-header .right-side {
+.right-side {
     @apply
     w-auto h-full gap-[2px] sm:gap-2 flex items-center justify-around text-text dark:text-white
 }
 
-.wrapper .main .main-header .right-side .profile {
+.right-side .profile {
     @apply
     flex gap-1 items-center cursor-default
 }
 
-.wrapper .main .main-header .right-side .profile .username {
+.right-side .profile .username {
     @apply
     max-w-[70px] sm:max-w-[100px] overflow-hidden truncate md:text-[1.25rem]
 }
 
-.wrapper .main .main-header .right-side .profile .img {
+.right-side .profile .img {
     @apply
     w-8 h-8 rounded-full
 }
 
-.wrapper .main .main-header .right-side .svg {
+.right-side .svg {
     @apply
     w-[24px] sm:w-[28px] h-auto aspect-square p-[2px] rounded-md cursor-pointer hover:text-primary transition-colors
     duration-300

@@ -1,14 +1,6 @@
 import * as yup from 'yup';
-import { users } from '~/constant/users';
-
-interface States {
-    users: User[],
-}
 
 export const useApi = defineStore('useApi', {
-    state: (): States => ({
-        users: users,
-    }),
     actions: {
         async Login(body: { email: string, password: string }): Promise<any> {
             try {
@@ -42,9 +34,5 @@ export const useApi = defineStore('useApi', {
                 loadingScreen().permission = true;
             }
         },
-    },
-    getters: {
-        getUsers: state => state.users,
-        getTotal: state => state.users.length,
     }
 })

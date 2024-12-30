@@ -39,9 +39,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="language in defaults().getLanguages" :key="language.id">
+                        <tr v-for="language in languages" :key="language.id">
                             <td class="img">
-                                <img :src="defaults().returnFlagImg(language.slug) ?? defaults().deafultImg" ref="profImg">
+                                <img 
+                                    :src="defaults().returnFlagImg(language.slug) ??
+                                        defaults().deafultImg" 
+                                    ref="profImg"
+                                >
                             </td>
                             <td>
                                 {{ language.name }}
@@ -64,10 +68,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <Pagination 
-                    :numOfData="defaults().totalLanguages"
-                    :func="async () => {}"
-                />
+                <Pagination />
             </div>
         </div>
     </div>
@@ -128,13 +129,11 @@
 
 
 <script setup lang="ts">
-import { ref, onBeforeMount } from 'vue';
-
-
 const showModal = ref <boolean> (false);
 const editMode = ref <boolean> (false);
 const previewImg = ref();
-const filter = ref({
+const languages = ref <Language[]> ();
+const filter = ref <any> ({
     keyword: null,
     name: null,
     code: null,
@@ -151,10 +150,20 @@ const newLanguage = ref <Language> ({
 
 
 async function search(): Promise<void> {
+    const { name, isDisabled } = filter.value;
+    languages.value = defaults().getLanguages.filter(e =>
+        name ? e.name.toUpperCase().includes(name.toUpperCase()) : e &&
+        isDisabled !== null ? e.isDisabled === isDisabled : e
+    )
 }
 
 async function save(): Promise<void> {
-
+    alerts().showAlert({ 
+        type: 'success', 
+        msg: editMode.value ? 'language Updated' : 'language Created',
+        func: ()=>{}
+    });
+    closeModal();
 }
 
 function edit(id: string): void {
@@ -193,6 +202,9 @@ function clearFilters(): void {
         isDisabled: null,
     };
 }
+
+
+languages.value = defaults().getLanguages;
 </script>
 
 

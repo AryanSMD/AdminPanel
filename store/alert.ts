@@ -46,7 +46,7 @@ export const useAlert = defineStore('useAlert', {
             } else if (type === 'welcome') {
                 toast.fire({
                     icon: "success",
-                    background: "#2057A1",
+                    background: "#2B5DFF",
                     color: "white",
                     iconColor: 'white',
                     title: msg,

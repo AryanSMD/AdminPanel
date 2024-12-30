@@ -25,20 +25,20 @@ export default <RouterConfig> {
       meta: { header: true }
     },
     {
-      name: 'usersManagement',
-      path: '/usersManagement',
+      name: 'users',
+      path: '/users',
       component: UsersManagement,
       meta: { header: true }
     },
     {
-      name: 'categoriesManagement',
-      path: '/categoriesManagement',
+      name: 'categories',
+      path: '/categories',
       component: CategoriesManagement,
       meta: { header: true }
     },
     {
-      name: 'audiencesManagement',
-      path: '/audiencesManagement',
+      name: 'audiences',
+      path: '/audiences',
       component: AudiencesManagement,
       meta: { header: true }
     },
@@ -66,8 +66,8 @@ export default <RouterConfig> {
       ]
     },
     {
-      name: 'languagesManagement',
-      path: '/languagesManagement',
+      name: 'languages',
+      path: '/languages',
       component: LanguagesManagement,
       meta: { header: true }
     },

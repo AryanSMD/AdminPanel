@@ -1,5 +1,6 @@
-import userDefaultImg from '../assets/svg/userProfile.svg'
 import defaultImg from '../assets/svg/defaultPic.svg'
+import profileImg from '~/public/profile.jpg'
+import { users } from '~/constant/users';
 import { languages } from '~/constant/languages'
 import { courses } from '~/constant/courses'
 import { audiences } from '~/constant/audiences'
@@ -13,8 +14,8 @@ interface States {
     openSidebar: boolean,
     editorSkin: string|null,
     editorCss: string|null,
+    users: User[],
     courses: Course[],
-    students: Student[],
     languages: Language[],
     categories: Category[],
     audiences: Audience[],
@@ -27,8 +28,8 @@ export const useDefaults = defineStore('useDefaults', {
         openSidebar: false,
         editorSkin: null,
         editorCss: null,
+        users: users,
         courses: courses,
-        students: [],
         languages: languages,
         categories: categories,
         audiences: audiences,
@@ -68,18 +69,13 @@ export const useDefaults = defineStore('useDefaults', {
         getPermission: state => state.permission,
         getDarkMode: state => state.darkMode,
         getOpenSidebar: state => state.openSidebar,
+        getUsers: state => state.users,
         getCourses: state => state.courses,
-        totalCourses: state => state.courses.length,
-        getStudents: state => state.students,
-        totalStudents: state => state.students.length,
         getLanguages: state => state.languages,
-        totalLanguages: state => state.languages.length,
         getCategories: state => state.categories,
-        totalCategories: state => state.categories.length,
         getAudiences: state => state.audiences,
-        totalAudiences: state => state.audiences.length,
-        deafultProfImg: () => userDefaultImg,
         deafultImg: () => defaultImg,
+        profileImg: () => profileImg,
         getTinyConfig: state => {
             const tinyConfig: object = {
                 selector: '#tiny',

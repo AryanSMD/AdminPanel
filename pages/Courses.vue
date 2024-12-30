@@ -96,7 +96,6 @@ function clearFilters(): void {
         audienceId: null,
         isDisabled: null,
     };
-    courses.value = defaults().getCourses;
 }
 
 courses.value = defaults().getCourses;

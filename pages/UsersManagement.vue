@@ -54,9 +54,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="user in useApi().getUsers" :key="user.id">
+                        <tr v-for="user in users" :key="user.id">
                             <td class="img">
-                                <img src="/person1.png" ref="profImg">
+                                <img :src="defaults().profileImg" ref="profImg">
                             </td>
                             <td>
                                 {{ `${user.firstName} ${user.lastName}` }}
@@ -74,10 +74,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <Pagination 
-                    :numOfData="useApi().getTotal" 
-                    :func="async () => {}"
-                />
+                <Pagination />
             </div>
         </div>
     </div>
@@ -139,12 +136,9 @@
                         </div>
                         <div class="image-container">
                             <div class="image">
-                                <img src="/person1.png" class="img" ref="previewImg">
+                                <img :src="newUser.id && defaults().profileImg" class="img" ref="previewImg">
                             </div>
-                            <input type="file" style="display: none;" accept=".jpg, .jpeg"
-                                ref="chooseFile"
-                                @change="selectImg()"
-                            >
+                            <input type="file" style="display: none;" accept=".jpg, .jpeg" ref="chooseFile">
                             <button class="btn-addImg" @click="$refs.chooseFile.click()">add image</button>
                         </div>
                     </div>
@@ -165,7 +159,8 @@ const editMode = ref <boolean> (false);
 const emailExists = ref <boolean|null> (null);
 const chooseFile = ref ();
 const previewImg = ref ();
-const filter = ref({
+const users = ref <User[]> ();
+const filter = ref <any> ({
     firstName: null,
     role: null,
     status: null,
@@ -181,17 +176,22 @@ const newUser = ref <User> ({
     status: 0,
 });
 
-async function selectImg(): Promise<void> {
-    const file = chooseFile.value.files[0]; 
-
-}
 
 async function search(): Promise<void> {
-    useApi().getUsers.filter(e => e.firstName === filter.value.firstName)
+    const { firstName, role, status } = filter.value;
+    users.value = defaults().getUsers.filter(e =>
+        firstName ? e.firstName.toUpperCase().includes(firstName.toUpperCase()) : e &&
+        role ? e.role === role : e &&
+        status ? e.status === status : e
+    )
 }
 
 async function save(): Promise<void> {
-    console.log('Saved');
+    alerts().showAlert({ 
+        type: 'success', 
+        msg: editMode.value ? 'User Updated' : 'User Created',
+        func: ()=>{}
+    })
     closeModal();
 }
 
@@ -212,7 +212,7 @@ function closeModal(): void {
 }
 
 function edit(id: string): void {
-    const selectedUser = useApi().getUsers.filter(e => e.id === id)[0];
+    const selectedUser = defaults().getUsers.filter(e => e.id === id)[0];
     newUser.value = { ...selectedUser };
     newUser.value.birthDate = getTime(newUser.value.birthDate);
     showModal.value = true;
@@ -220,7 +220,7 @@ function edit(id: string): void {
 }
 
 async function removeUser(id: string): Promise<void> {
-    const selectedUser = useApi().getUsers.filter(e => e.id === id)[0];
+    const selectedUser = defaults().getUsers.filter(e => e.id === id)[0];
     const msg = `"${selectedUser.firstName} ${selectedUser.lastName}"`;
     alerts().showAlert({type:'delete', msg, func: async ()=>{
         alerts().showAlert({ type:'success', msg: 'Removed', func:() => {} });
@@ -260,6 +260,9 @@ watch(
         }
     }, { deep: true }
 )
+
+
+users.value = defaults().getUsers;
 </script>
 
 

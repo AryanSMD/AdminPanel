@@ -47,7 +47,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="audience in defaults().getAudiences" :key="audience.id">
+                        <tr v-for="audience in audiences" :key="audience.id">
                             <td>
                                 {{ audience.name }}
                             </td>
@@ -126,7 +126,8 @@ import Editor from '@tinymce/tinymce-vue'
 
 const showModal = ref <boolean> (false);
 const editMode = ref <boolean> (false);
-const filter = ref({
+const audiences = ref <Audience[]> ();
+const filter = ref <any> ({
     name: null,
     isDisabled: null,
 })
@@ -138,11 +139,20 @@ const newAudience = ref <Audience> ({
 })
 
 async function search(): Promise<void> {
-
+    const { name, isDisabled } = filter.value;
+    audiences.value = defaults().getAudiences.filter(e =>
+        name ? e.name.toUpperCase().includes(name.toUpperCase()) : e &&
+        isDisabled !== null ? e.isDisabled === isDisabled : e
+    )
 }
 
 async function save(): Promise<void> {
-
+    alerts().showAlert({ 
+        type: 'success', 
+        msg: editMode.value ? 'Audience Updated' : 'Audience Created',
+        func: ()=>{}
+    });
+    closeModal();
 }
 
 function edit(id: string): void {
@@ -178,7 +188,7 @@ function clearFilters(): void {
     };
 }
 
-
+audiences.value = defaults().getAudiences;
 </script>
 
 

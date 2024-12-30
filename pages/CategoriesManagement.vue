@@ -46,7 +46,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="category in defaults().getCategories" :key="category.id">
+                        <tr v-for="category in categories" :key="category.id">
                             <td>
                                 {{ category.name }}
                             </td>
@@ -65,10 +65,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <Pagination 
-                    :numOfData="defaults().totalCategories"
-                    :func="async () => {}"
-                />
+                <Pagination />
             </div>
         </div>
     </div>
@@ -123,13 +120,13 @@
 
 
 <script setup lang="ts">
-import { ref, onBeforeMount } from 'vue';
 import Editor from '@tinymce/tinymce-vue'
 
 
 const showModal = ref <boolean> (false);
 const editMode = ref <boolean> (false);
-const filter = ref({
+const categories = ref <Category[]> ();
+const filter = ref <any> ({
     name: null,
     isDisabled: null,
 })
@@ -142,10 +139,20 @@ const newCategory = ref <Category> ({
 
 
 async function search(): Promise<void> {
+    const { name, isDisabled } = filter.value;
+    categories.value = defaults().getCategories.filter(e =>
+        name ? e.name.toUpperCase().includes(name.toUpperCase()) : e &&
+        isDisabled !== null ? e.isDisabled === isDisabled : e
+    )
 }
 
 async function save(): Promise<void> {
-
+    alerts().showAlert({ 
+        type: 'success', 
+        msg: editMode.value ? 'Category Updated' : 'Category Created',
+        func: ()=>{}
+    });
+    closeModal();
 }
 
 function edit(id: string): void {
@@ -180,6 +187,9 @@ function clearFilters(): void {
         isDisabled: null,
     };
 }
+
+
+categories.value = defaults().getCategories;
 </script>
 
 

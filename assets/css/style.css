@@ -5,14 +5,14 @@
 
 /* -------------- Root -------------- */
 :root {
-    --background: #F2F8FE;
+    --background: #dde3e9;
     --primary: #2B5DFF;
-    --secondary: #1048ff;
+    --secondary: #0a43ff;
     --paleGrey: #e2e8f0;
     --grey: #94a3b8;
     --text: #3a4045;
-    --darkBackground: #161D31;
-    --darkPrimary: #292F45;
+    --darkBackground: #0b0f1a;
+    --darkPrimary: #23293a;
 }
 
 * {
@@ -563,15 +563,16 @@ select:disabled {
 
 .wrapper .main .container .reports-box .report-card {
     @apply
-    w-full h-[100px] md:h-[125px] bg-white rounded-md shadow-md cursor-pointer hover:bg-secondary
-    hover:text-white transition-all duration-500 text-secondary dark:bg-darkPrimary dark:hover:bg-secondary
+    w-full h-[100px] md:h-[125px] bg-white rounded-md shadow-md cursor-pointer hover:bg-primary
+    hover:text-white transition-all duration-500 text-primary dark:bg-darkPrimary dark:hover:bg-primary
     overflow-hidden dark:text-white
 }
 
 .wrapper .main .container .reports-box .report-card .key {
     clip-path: polygon(0 0, 100% 0, 0 100%);
     @apply
-    h-full text-start text-[1.875rem] min-[1700px]:text-[2.2rem] font-medium italic bg-secondary text-white px-4
+    h-full text-start text-[1.875rem] min-[1700px]:text-[2.2rem] font-medium italic bg-primary 
+    text-white px-4
 }
 
 .wrapper .main .container .reports-box .report-card .key .svg {

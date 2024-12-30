@@ -26,7 +26,7 @@ export default defineNuxtConfig({
         ErrorMessage: 'VeeErrorMessage',
       },
     },
-  ], '@pinia/nuxt', '@vueuse/nuxt'],
+  ], '@pinia/nuxt', '@vueuse/nuxt', "@nuxt/icon"],
   router: {
     options: {
       linkActiveClass: "link-active",
