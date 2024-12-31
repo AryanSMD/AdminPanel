@@ -117,6 +117,14 @@ input:disabled {
     text-grey
 }
 
+textarea {
+    resize: none;
+    @apply 
+    w-full h-[200px] p-2 border-[1px] border-paleGrey rounded-md cursor-pointer outline-none
+    focus:border-primary transition-colors duration-300 bg-transparent dark:border-text
+    dark:focus:border-primary bg-white dark:bg-darkPrimary text-text dark:text-white
+}
+
 ::-webkit-calendar-picker-indicator {
     background: url('../svg/calendar.svg');
 }

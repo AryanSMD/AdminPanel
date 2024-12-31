@@ -75,11 +75,8 @@
                         </div>
                         <div class="inputs xl:col-span-3">
                             <label>Description</label>
-                            <Editor
-                                api-key="frlocmhn1q09gpla4ewouv1mf9z6bu5vqwdgetmy0ompbjb6"
-                                :init="defaults().getTinyConfig"
-                                v-model="newAudience.description"
-                            />
+                            <textarea>{{ newAudience.description }}</textarea>
+
                         </div>
                         <div class="inputs col-span-3 mt-5">
                             <label>Status</label>
@@ -108,9 +105,6 @@
 
 
 <script setup lang="ts">
-import Editor from '@tinymce/tinymce-vue'
-
-
 const showModal = ref <boolean> (false);
 const editMode = ref <boolean> (false);
 const audiences = ref <Audience[]> ();

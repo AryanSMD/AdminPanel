@@ -76,11 +76,7 @@
                         </div>
                         <div class="inputs md:col-span-2 mt-5">
                             <label>Description</label>
-                            <Editor
-                                api-key="frlocmhn1q09gpla4ewouv1mf9z6bu5vqwdgetmy0ompbjb6"
-                                :init="defaults().getTinyConfig"
-                                v-model="newCourse.description"
-                            />
+                            <textarea>{{ newCourse.description }}</textarea>
                         </div>
                     </div>
                     <div class="footer">
@@ -96,7 +92,6 @@
 
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router';
-import Editor from '@tinymce/tinymce-vue'
 
 
 const router = useRouter();

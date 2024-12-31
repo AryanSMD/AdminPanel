@@ -12,8 +12,6 @@ interface States {
     permission: boolean,
     darkMode: boolean,
     openSidebar: boolean,
-    editorSkin: string|null,
-    editorCss: string|null,
     users: User[],
     courses: Course[],
     languages: Language[],
@@ -26,8 +24,6 @@ export const useDefaults = defineStore('useDefaults', {
         permission: true,
         darkMode: false,
         openSidebar: false,
-        editorSkin: null,
-        editorCss: null,
         users: users,
         courses: courses,
         languages: languages,
@@ -76,32 +72,5 @@ export const useDefaults = defineStore('useDefaults', {
         getAudiences: state => state.audiences,
         deafultImg: () => defaultImg,
         profileImg: () => profileImg,
-        getTinyConfig: state => {
-            const tinyConfig: object = {
-                selector: '#tiny',
-                height: 214,
-                plugins: [
-                    'advlist autolink link image lists charmap print preview hr anchor pagebreak',
-                    'searchreplace wordcount visualblocks code fullscreen insertdatetime media nonbreaking',
-                    'table emoticons template paste help'
-                ],
-                toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | ' +
-                    'bullist numlist outdent indent | link image | print preview media fullscreen | ' +
-                    'forecolor backcolor emoticons | help',
-                menubar: false,
-                resize: false,
-                statusbar: false,
-                skin: state.editorSkin,
-                content_css: state.editorCss,
-            }
-            if (state.darkMode) {
-                state.editorSkin = "oxide-dark";
-                state.editorCss = "dark";
-            } else {
-                state.editorSkin = null;
-                state.editorCss = null;
-            }
-            return  tinyConfig
-        },
     }
 })
