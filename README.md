@@ -2,9 +2,9 @@
 # Admin Panel Made with ***Nuxt***
 ### This project uses ***Vue***, ***Nuxt***, ***TS***, ***Pinia***, ***Tailwind***, ***Axios**.
 
-### Login:
-### UserName/Email = "admin@admin.com"
-### Password = "1234"
+## Login:
+UserName/Email = "admin@admin.com"
+Password = "1234"
 
 ## Setup
 
