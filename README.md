@@ -3,8 +3,8 @@
 ### This project uses ***Vue***, ***Nuxt***, ***TypeScript***, ***Pinia***, ***Tailwind*** and ***Axios***.
 
 ## Login
-Username/Email = "admin@admin.com"\
-Password = "1234"
+Username/Email = "admin"\
+Pass = "1234"
 
 ## Setup
 
