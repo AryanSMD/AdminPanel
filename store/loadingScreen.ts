@@ -9,10 +9,10 @@ export const useLoadingScreen = defineStore('useLoadingScreen', {
         permission: true,
     }),
     actions: {
-        showLoadingScreen(): void {
+        show(): void {
             this.loadingScreen = true;
         },
-        hideLoadingScreen(): void {
+        hide(): void {
             this.loadingScreen = false;
         },
     },

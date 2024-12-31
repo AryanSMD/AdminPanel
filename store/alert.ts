@@ -72,7 +72,6 @@ export const useAlert = defineStore('useAlert', {
 
             } else if (type === 'delete') {
                 Swal.fire({
-                    // width: "auto",
                     title: "Warning!",
                     text: 'Are you sure, Delete ' + msg + '?',
                     icon: 'warning',

@@ -6,23 +6,23 @@ export default defineNuxtPlugin(() => {
     })
 
     api.interceptors.request.use(config => {
-        loadingScreen().showLoadingScreen();
+        loadingScreen().show();
         return config;
     }, error => {
-        loadingScreen().hideLoadingScreen();
+        loadingScreen().hide();
         return Promise.reject(error);
     })
 
     api.interceptors.response.use(response => {
         if (response.status == 200) {
-            loadingScreen().hideLoadingScreen();
+            loadingScreen().hide();
             return Promise.resolve(response);
         } else {
-            loadingScreen().hideLoadingScreen();
+            loadingScreen().hide();
             return Promise.resolve(response);
         }
     }, error => {
-        loadingScreen().hideLoadingScreen();
+        loadingScreen().hide();
         alerts().showAlert({
             type:'error',
             msg: error.response.data.message,
