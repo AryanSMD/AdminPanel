@@ -1,6 +1,8 @@
 
 # Admin Panel Made with ***Nuxt***
-This project uses ***Vue***, ***Nuxt***, ***TS***, ***Pinia***, ***Tailwind***, ***Axios***, ***Vee-Validate***, ***NuxtIcon***, ***VueUse***, ***AOS***, ***Echarts***, ***Sweetalert2***.
+### This project uses ***Vue***, ***Nuxt***, ***TS***, ***Pinia***, ***Tailwind***, ***Axios***, ***Vee-Validate***, ***NuxtIcon***, ***VueUse***, ***AOS***, ***Echarts***, ***Sweetalert2***.
+
+
 
 ## Setup
 
