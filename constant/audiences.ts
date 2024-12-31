@@ -1,13 +1,13 @@
 export const audiences: Audience[] = [
     {
         id: '0',
-        name: 'Child',
+        name: 'Childs',
         description: 'From 4 to 12 years',
         isDisabled: false,
     },
     {
         id: '1',
-        name: 'Teenager',
+        name: 'Teenagers',
         description: 'From 12 to 18 years',
         isDisabled: false,
     },

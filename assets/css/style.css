@@ -337,23 +337,6 @@ select:disabled {
     w-[22px] h-auto
 }
 
-.card .import-file {
-    @apply
-    w-full flex justify-end items-center
-}
-
-.card .import-file button {
-    @apply
-    md:w-auto flex items-center justify-center transition-colors duration-300 text-grey 
-    hover:text-white mr-2 shadow-md dark:shadow-darkBackground p-2 rounded-full
-    hover:bg-secondary
-}
-
-.card .import-file button .svg {
-    @apply
-    h-[35px] aspect-square
-}
-
 
 
 /* ---------------------------- Wrapper ---------------------------- */

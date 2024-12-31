@@ -20,21 +20,8 @@
             </div>
             <div class="card">
                 <div class="header">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="svg" viewBox="0 0 16 16">
-                        <path d="M4 16s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-5.95a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"/>
-                        <path d="M2 1a2 2 0 0 0-2 2v9.5A1.5 1.5 0 0 0 1.5 14h.653a5.4 5.4 0 0 1 1.066-2H1V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v9h-2.219c.554.654.89 1.373 1.066 2h.653a1.5 1.5 0 0 0 1.5-1.5V3a2 2 0 0 0-2-2z"/>
-                    </svg>
+                    <Icon name="fluent:people-audience-20-filled" />
                     Audiences
-                </div>
-                <div class="import-file">
-                    <input type="file" ref="importFile" accept=".csv, .pdf">
-                    <button @click="$refs.importFile.click()">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg">
-                            <path d="M12 13v8"/>
-                            <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/>
-                            <path d="m8 17 4-4 4 4"/>
-                        </svg>
-                    </button>
                 </div>
                 <table>
                     <thead>

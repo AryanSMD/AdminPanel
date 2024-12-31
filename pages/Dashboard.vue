@@ -1,3 +1,201 @@
+<script setup lang="ts">
+import { use } from 'echarts/core';
+import { CanvasRenderer } from 'echarts/renderers';
+import { PieChart, BarChart, LineChart } from 'echarts/charts';
+import {
+  TitleComponent,
+  TooltipComponent,
+  LegendComponent,
+  GridComponent,
+  ToolboxComponent,
+} from 'echarts/components';
+import VChart from 'vue-echarts';
+use([
+    CanvasRenderer,
+    PieChart,
+    BarChart,
+    TitleComponent,
+    TooltipComponent,
+    LegendComponent,
+    GridComponent ,
+    ToolboxComponent,
+    LineChart,
+]);
+
+
+const barChart = {
+    color: ['#5470C6', '#91CC75', '#EE6666'],
+    tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+            type: 'cross'
+        },
+    },
+    grid: {
+        right: '17%'
+    },
+    toolbox: {
+        feature: {
+            dataView: { show: true, readOnly: false },
+            restore: { show: true },
+            saveAsImage: { show: true }
+        },
+    },
+    legend: {
+        data: ['English', 'Italian', 'Arabic'],
+        textStyle: {
+            color: 'gray',
+        },
+    },
+    xAxis: [
+        {
+            type: 'category',
+            axisTick: {
+                alignWithLabel: true
+            },
+            data: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        }
+    ],
+    yAxis: [
+        {
+            type: 'value',
+            name: 'English',
+            position: 'right',
+            alignTicks: true,
+            axisLine: {
+                show: true,
+                lineStyle: {
+                    color: '#5470C6'
+                }
+            },
+            axisLabel: {
+                formatter: '{value}'
+            },
+        },
+        {
+            type: 'value',
+            name: 'Italian',
+            position: 'right',
+            alignTicks: true,
+            offset: 50,
+            axisLine: {
+                show: true,
+                lineStyle: {
+                    color: '#91CC75'
+                }
+            },
+            axisLabel: {
+                formatter: '{value}'
+            }
+        },
+        {
+            type: 'value',
+            name: 'Arabic',
+            position: 'right',
+            alignTicks: true,
+            offset: 100,
+            axisLine: {
+                show: true,
+                lineStyle: {
+                    color: '#EE6666'
+                }
+            },
+            axisLabel: {
+                formatter: '{value}'
+            }
+        },
+        {
+            type: 'value',
+            name: 'Registrants',
+            position: 'left',
+            alignTicks: true,
+            axisLine: {
+                show: true,
+                lineStyle: {
+                    color: '#EE6666'
+                }
+            },
+            axisLabel: {
+                formatter: '{value}'
+            }
+        }
+    ],
+    series: [
+        {
+            name: 'English',
+            type: 'bar',
+            yAxisIndex: 1,
+            data: [
+                20, 49, 70, 232, 256, 767, 1356, 1622, 326, 200, 64, 33
+            ]
+        },
+        {
+            name: 'Italian',
+            type: 'bar',
+            yAxisIndex: 2,
+            data: [
+                26, 59, 90, 264, 287, 707, 1756, 1822, 487, 188, 60, 23
+            ]
+        },
+        {
+            name: 'Arabic',
+            type: 'bar',
+            yAxisIndex: 3,
+            data: [20, 22, 33, 45, 63, 102, 203, 234, 230, 165, 120, 62]
+        },
+        {
+            name: 'Registrants',
+            type: 'line',
+            data: [0, 22, 33, 45, 63, 102, 203, 234, 230, 165, 120, 62]
+        },
+    ],
+}
+
+const pieChart = {
+    title: {
+        text: 'Audiences',
+        subtext: 'Age Categories',
+        left: 'center',
+        textStyle: {
+            color: 'gray',
+        },
+    },
+    tooltip: {
+        trigger: 'item',
+    },
+    legend: {
+        orient: 'vertical',
+        left: 'left',
+        textStyle: {
+            color: 'gray',
+        },
+    },
+    series: [
+        {
+            name: 'Access From',
+            type: 'pie',
+            radius: '40%',
+            data: [
+                { value: 484, name: 'Childs' },
+                { value: 735, name: 'Teenagers' },
+                { value: 580, name: 'Youngs' },
+                { value: 1048, name: 'Students' },
+                { value: 300, name: 'Adults' },
+                { value: 300, name: 'Old Adults' },
+            ],
+            emphasis: {
+                itemStyle: {
+                    shadowBlur: 10,
+                    shadowOffsetX: 0,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                },
+            },
+        }
+    ]
+}
+</script>
+
+
 <template>
     <div class="container" data-aos="fade-right" data-aos-duration="700">
         <div class="reports-box">
@@ -60,7 +258,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z" />
                             <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z" />
                         </svg>
-                        diffrent Courses
+                        Courses
                     </div>
                     <VChart :option="pieChart" autoresize />
                 </div>
@@ -75,7 +273,36 @@
                         </svg>
                         Tables
                     </div>
-                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Courses</th>
+                                <th>Languages</th>
+                                <th>Audiences</th>
+                                <th>Categories</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>English</td>
+                                <td>English</td>
+                                <td>Students</td>
+                                <td>A+</td>
+                            </tr>
+                            <tr>
+                                <td>Italian</td>
+                                <td>Italian</td>
+                                <td>Childs</td>
+                                <td>B</td>
+                            </tr>
+                            <tr>
+                                <td>Arabic</td>
+                                <td>Arabic</td>
+                                <td>All</td>
+                                <td>A</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
             <div class="right-side">
@@ -87,7 +314,38 @@
                         </svg>
                         Chat
                     </div>
-
+                    <div class="chat-container">
+                        <div class="messages">
+                            <div class="him">
+                                <img src="/profile.jpg">
+                                <div class="text">Hi</div>
+                            </div>
+                            <div class="me">
+                                <div class="text">Hello</div>
+                                <img src="/profile.jpg">
+                            </div>
+                            <div class="him">
+                                <img src="/profile.jpg">
+                                <div class="text">Is this template really for free? That's unbelievable!</div>
+                            </div>
+                            <div class="me">
+                                <div class="text">You better believe it!</div>
+                                <img src="/profile.jpg">
+                            </div>
+                            <div class="him">
+                                <img src="/profile.jpg">
+                                <div class="text">Thank you</div>
+                            </div>
+                            <div class="me">
+                                <div class="text">Your welcome</div>
+                                <img src="/profile.jpg">
+                            </div>
+                        </div>
+                        <div class="bottom">
+                            <input type="text" placeholder="Write message...">
+                            <button class="btn-save !w-16 !h-[46px]">Send</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -95,180 +353,64 @@
 </template>
 
 
-<script setup lang="ts">
-import { ref } from 'vue';
-import { use } from 'echarts/core';
-import { CanvasRenderer } from 'echarts/renderers';
-import { PieChart, BarChart, LineChart } from 'echarts/charts';
-import {
-  TitleComponent,
-  TooltipComponent,
-  LegendComponent,
-  GridComponent,
-  ToolboxComponent,
-} from 'echarts/components';
-import VChart from 'vue-echarts';
-use([
-    CanvasRenderer,
-    PieChart,
-    BarChart,
-    TitleComponent,
-    TooltipComponent,
-    LegendComponent,
-    GridComponent ,
-    ToolboxComponent,
-    LineChart,
-]);
-
-
-const barChart = ref({
-    color: ['#5470C6', '#91CC75', '#EE6666'],
-    tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-            type: 'cross'
-        },
-    },
-    grid: {
-        right: '17%'
-    },
-    toolbox: {
-        feature: {
-            dataView: { show: true, readOnly: false },
-            restore: { show: true },
-            saveAsImage: { show: true }
-        },
-    },
-    legend: {
-        data: ['Evaporation', 'Precipitation', 'Temperature'],
-        textStyle: {
-            color: 'gray',
-        },
-    },
-    xAxis: [
-        {
-            type: 'category',
-            axisTick: {
-                alignWithLabel: true
-            },
-            data: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-        }
-    ],
-    yAxis: [
-        {
-            type: 'value',
-            name: 'Evaporation',
-            position: 'right',
-            alignTicks: true,
-            axisLine: {
-                show: true,
-                lineStyle: {
-                    color: '#5470C6'
-                }
-            },
-            axisLabel: {
-                formatter: '{value} ml'
-            },
-        },
-        {
-            type: 'value',
-            name: 'Precipitation',
-            position: 'right',
-            alignTicks: true,
-            offset: 80,
-            axisLine: {
-                show: true,
-                lineStyle: {
-                    color: '#91CC75'
-                }
-            },
-            axisLabel: {
-                formatter: '{value} ml'
-            }
-        },
-        {
-            type: 'value',
-            name: '温度',
-            position: 'left',
-            alignTicks: true,
-            axisLine: {
-                show: true,
-                lineStyle: {
-                    color: '#EE6666'
-                }
-            },
-            axisLabel: {
-                formatter: '{value} °C'
-            }
-        }
-    ],
-    series: [
-        {
-            name: 'Evaporation',
-            type: 'bar',
-            data: [
-                2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3
-            ]
-        },
-        {
-            name: 'Precipitation',
-            type: 'bar',
-            yAxisIndex: 1,
-            data: [
-                2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3
-            ]
-        },
-        {
-            name: 'Temperature',
-            type: 'line',
-            yAxisIndex: 2,
-            data: [2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
-        }
-    ],
-})
-const pieChart = ref({
-    title: {
-        text: 'Referer of a Website',
-        subtext: 'Fake Data',
-        left: 'center',
-        textStyle: {
-            color: 'gray',
-        },
-    },
-    tooltip: {
-        trigger: 'item',
-    },
-    legend: {
-        orient: 'vertical',
-        left: 'left',
-        textStyle: {
-            color: 'gray',
-        },
-    },
-    series: [
-        {
-            name: 'Access From',
-            type: 'pie',
-            radius: '40%',
-            data: [
-                { value: 1048, name: 'Search Engine' },
-                { value: 735, name: 'Direct' },
-                { value: 580, name: 'Email' },
-                { value: 484, name: 'Union Ads' },
-                { value: 300, name: 'Video Ads' },
-            ],
-            emphasis: {
-                itemStyle: {
-                    shadowBlur: 10,
-                    shadowOffsetX: 0,
-                    shadowColor: 'rgba(0, 0, 0, 0.5)'
-                }
-            },
-        }
-    ]
-})
-
-</script>
-
-
-<style scoped></style>
+<style scoped>
+.chat-container {
+    @apply
+    w-full flex flex-col gap-2
+}
+.messages {
+    @apply
+    w-full h-[215px] flex flex-col border-[1px] border-background dark:border-darkBackground 
+    rounded-md py-4 px-2 overflow-auto gap-4
+}
+.me, .him {
+    @apply
+    w-full h-[26px] flex items-center text-white gap-2
+}
+.me {
+    @apply
+    justify-end
+}
+.him {
+    @apply
+    justify-start
+}
+.me img, .him img {
+    @apply
+    w-8 aspect-square rounded-full
+}
+.me .text, .him .text {
+    @apply
+    rounded-md px-2 py-1 relative flex justify-center items-center text-[.8rem] md:text-[1.2rem]
+    lg:text-[.8rem] min-[1700px]:text-[1.125rem]
+}
+.me .text::before, .him .text::before {
+    content: '';
+    --size: 7px;
+    position: absolute;
+    width: var(--size);
+    height: var(--size);
+}
+.me .text::before {
+    clip-path: polygon(0% 0%, 100% 45%, 100% 55%, 0% 100%);
+    right: calc(var(--size) * -1);
+    background-color: var(--primary);
+}
+.him .text::before {
+    clip-path: polygon(0% 55%, 0% 45%, 100% 0%, 100% 100%);
+    left: calc(var(--size) * -1);
+    background-color: #475569;
+}
+.me .text {
+    @apply
+    rounded-md px-2 py-1 bg-primary
+}
+.him .text {
+    @apply
+    rounded-md px-2 py-1 bg-slate-600
+}
+.bottom {
+    @apply
+    w-full flex items-center justify-between gap-1
+}
+</style>

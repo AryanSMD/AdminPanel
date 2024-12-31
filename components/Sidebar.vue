@@ -8,20 +8,20 @@ function movelight(size: number) {
 }
 
 const items = [
-{
+    {
         pathName: "/dashboard",
         title: "Dashboard",
         icon: "fa-solid:tachometer-alt",
     },
     {
-        pathName: "/courses",
-        title: "Courses",
-        icon: "ion:easel",
-    },
-    {
         pathName: "/users",
         title: "Users",
         icon: "fluent:people-community-12-filled",
+    },
+    {
+        pathName: "/courses",
+        title: "Courses",
+        icon: "ion:easel",
     },
     {
         pathName: "/languages",
