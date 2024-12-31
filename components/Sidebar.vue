@@ -100,8 +100,8 @@ const items = [
 }
 .light {
     @apply
-    absolute top-0 right-0 h-12 lg:h-16 bg-background dark:bg-darkBackground rounded-l-full z-[1] 
-    transition-all duration-300
+    absolute top-0 right-0 h-[3rem] min-[1700px]:h-[4rem] bg-background dark:bg-darkBackground 
+    rounded-l-full z-[1] transition-all duration-300
 }
 .light::before,
 .light::after {

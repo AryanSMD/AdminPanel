@@ -3,12 +3,13 @@
         <div class="page-error">
             <div class="error">
                 <div class="code">
-                    404
+                    403
                     <span class="text-[18px] self-end">Oops...!</span>
                 </div>
                 <div class="msg">
-                    Page Not Found!
+                    Access Denied!
                 </div>
+                <button class="btn-cancel" @click="$router.push('/')">Home Page</button>
             </div>
         </div>
     </div>
@@ -30,7 +31,7 @@
 .page-error .error .code {
     @apply
     text-[10rem] md:text-[12.5rem] font-bold h-[180px] bg-clip-text text-transparent flex 
-    justify-center items-center bg-gradient-to-r from-secondary to-primary
+    justify-center items-center bg-gradient-to-r from-red-600 to-red-800
 }
 
 .page-error .error .msg {

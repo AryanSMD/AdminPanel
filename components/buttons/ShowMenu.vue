@@ -22,7 +22,7 @@
 <style scoped>
 .menu-btn {
     @apply
-    w-8 h-6 cursor-pointer relative flex justify-center items-center overflow-hidden
+    w-8 h-[20px] cursor-pointer relative flex justify-center items-center overflow-hidden
 }
 .line1,
 .line2,

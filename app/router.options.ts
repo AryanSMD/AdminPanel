@@ -8,7 +8,8 @@ import LanguagesManagement from '../pages/LanguagesManagement.vue'
 import CategoriesManagement from '../pages/CategoriesManagement.vue'
 import AudiencesManagement from '../pages/AudiencesManagement.vue'
 import AddCourse from '../pages/AddCourse.vue'
-import Error from '../pages/Err404.vue'
+import Error404 from '../pages/Err404.vue'
+import Error403 from '../pages/Err403.vue'
 
 export default <RouterConfig> {
   routes: () => [
@@ -72,9 +73,14 @@ export default <RouterConfig> {
       meta: { header: true }
     },
     {
+      name: 'AccessDenied',
+      path: '/accessdenied',
+      component: Error403
+    },
+    {
       name: '404-NotFound',
       path: '/:pathMatch(.*)*',
-      component: Error,
+      component: Error404,
       meta: { header: true },
     },
   ],

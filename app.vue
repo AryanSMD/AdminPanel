@@ -16,7 +16,7 @@ useHead({
     { name: 'description', content: 'An Admin Panel built with Nuxt to show the potential of it ✨' },
   ],
   link: [
-    { rel: 'icon', type: 'image/jpg', href: 'profile.jpg' }
+    { rel: 'icon', type: 'image/png', href: 'icon.png' }
   ]
 })
 </script>

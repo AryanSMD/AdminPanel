@@ -44,12 +44,12 @@ watch(
 <style scoped>
 .item {
     @apply
-    w-full h-12 lg:h-16 flex items-center gap-3 relative z-[2] cursor-pointer text-text dark:text-white
-    transition-all duration-300 text-[1.4rem] font-bold
+    w-full h-[3rem] min-[1700px]:h-[4rem] flex items-center gap-3 relative z-[2] cursor-pointer text-text dark:text-white
+    transition-all duration-300 text-[1.1rem] min-[1700px]:text-[1.4rem] font-bold
 }
 .icon {
     @apply
-    w-[2rem] h-[2rem] transition-transform duration-300
+    w-[1.7rem] h-[1.7rem] min-[1700px]:w-[2rem] min-[1700px]:h-[2rem] transition-transform duration-300
 }
 .link-active {
     filter: drop-shadow(0 0 10px var(--primary));

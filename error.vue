@@ -12,7 +12,7 @@
             <div class="msg text-red-800">
                 {{ props.error.statusMessage || props.error.message }}
             </div>
-            <button class="btn-cancel" @click="$router.push('/')">Go To Home</button>
+            <button class="btn-cancel" @click="$router.push('/')">Home Page</button>
         </div>
     </div>
 </template>
