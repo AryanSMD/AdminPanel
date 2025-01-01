@@ -1,6 +1,6 @@
 
 # Admin Panel Made with ***Nuxt***
-<img src="./public/review.jpg">\
+<img src="./public/review.jpg">
 
 ### This project uses ***Vue***, ***Nuxt***, ***TypeScript***, ***Pinia***, ***TailwindCSS*** and ***Axios***.
 
