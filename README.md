@@ -1,6 +1,8 @@
 
 # Admin Panel Made with ***Nuxt***
-### This project uses ***Vue***, ***Nuxt***, ***TypeScript***, ***Pinia***, ***Tailwind*** and ***Axios***.
+### This project uses ***Vue***, ***Nuxt***, ***TypeScript***, ***Pinia***, ***TailwindCSS*** and ***Axios***.
+
+<img src="./public/review.jpg">
 
 ## Login
 Username/Email = "admin"\

@@ -75,14 +75,14 @@ const items = [
 <style scoped>
 .sidebar {
     @apply
-    absolute top-[60px] lg:top-0 w-[250px] lg:relative min-[1700px]:w-[350px] h-full 
+    absolute left-0 lg:left-0 top-[60px] lg:top-0 w-[250px] lg:relative min-[1700px]:w-[350px] h-full 
     bg-transparent transition-all duration-500 z-[100] pl-2 pr-1
     py-4 lg:py-2 flex justify-center items-center
 }
 .sidebar {
     &.close {
         @apply
-        w-[0] lg:w-20
+        left-[-250px] lg:left-0 lg:w-20
     }
 }
 .sidebar::-webkit-scrollbar {

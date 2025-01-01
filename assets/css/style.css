@@ -549,7 +549,7 @@ select:disabled {
 .wrapper .main .container .reports-box {
     @apply
     w-full h-auto grid  grid-cols-1 md:grid-cols-2
-    lg:grid-cols-4 items-center gap-4 lg:gap-10 lg:mt-[35px] lg:mb-[30px]
+    lg:grid-cols-4 items-center gap-4 lg:gap-10 mt-[10px] lg:mt-[35px] lg:mb-[30px]
 }
 
 .wrapper .main .container .reports-box .report-card {
