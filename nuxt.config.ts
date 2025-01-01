@@ -15,6 +15,12 @@ export default defineNuxtConfig({
   build: {
     transpile: ['echarts', 'zrender', 'tslib', 'resize-detector'],
   },
+  icon: {
+    clientBundle: {
+      scan: true,
+      sizeLimitKb: 256,
+    },
+  },
   modules: [[
     '@vee-validate/nuxt',
     {
