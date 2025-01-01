@@ -6,7 +6,7 @@ const email = ref <string> ('');
 const password = ref <string> ('');
 
 async function save(): Promise<void> {
-    const res = await useApi().Login({ 
+    const res = await loginApi({ 
         email: email.value, 
         password: password.value 
     });
@@ -50,6 +50,9 @@ onMounted(async () => {
                 </VeeForm>
             </div>
         </div>
+    </div>
+    <div class="login-footer">
+        &copy CopyRight. Designed And Developed By AryanSMD.            
     </div>
 </template>
 
@@ -135,5 +138,10 @@ onMounted(async () => {
     @apply
     bg-primary w-full h-[40px] text-white p-2 rounded-md hover:bg-secondary transition-all duration-300
     lg:h-[46px] lg:text-[1.25rem] min-[1700px]:text-[1.375rem]
+}
+.login-footer {
+    @apply
+    w-full absolute bottom-0 z-[100] bg-white dark:bg-darkPrimary text-center
+    transition-colors duration-300 py-1 text-[.75rem] md:text-[1rem]
 }
 </style>

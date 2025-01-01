@@ -87,7 +87,7 @@ const debounce = (() => {
             if (editMode.value) {
                 emailExists.value = false;
             } else {
-                const res = await useApi().emailExists(newUser.value.email);
+                const res = await emailExistsApi(newUser.value.email);
                 emailExists.value = res.data;
             }
         }, 300);

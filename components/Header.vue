@@ -140,9 +140,9 @@ onMounted(() => {
 
 <style scoped>
 .header-container {
-    z-index: 100;
     @apply
-    w-full sticky top-0 bg-background dark:bg-darkBackground pl-2 lg:pl-1 pr-2 pt-2 transition-colors duration-300 
+    w-full sticky top-0 bg-background dark:bg-darkBackground pl-2 lg:pl-1 pr-2 pt-2 
+    transition-colors duration-300 z-[100]
 }
 
 .main-header {
