@@ -194,27 +194,17 @@ select:disabled {
 
 .btn-add,
 .btn-user,
-.btn-img,
 .btn-addImg,
 .btn-del,
-.btn-edit,
-.btn-arrow,
-.btn-file,
-.btn-eye,
-.btn-voice {
+.btn-edit {
     @apply
     w-auto text-primary flex items-center pl-6 relative
 }
 
 .btn-add::before,
 .btn-user::before,
-.btn-img::before,
 .btn-addImg::before,
-.btn-file::before,
 .btn-edit::before,
-.btn-arrow::before,
-.btn-voice::before,
-.btn-eye::before,
 .btn-del::before {
     content: '';
     @apply
@@ -229,27 +219,11 @@ select:disabled {
 .btn-addImg::before {
     background: url('../svg/imageAdd.svg') no-repeat;
 }
-.btn-img::before {
-    background: url('../svg/image.svg') no-repeat;
-}
 .btn-del::before {
     background: url('../svg/trash.svg') no-repeat;
 }
-.btn-file::before {
-    background: url('../svg/fileAdd.svg') no-repeat;
-}
-.btn-eye::before {
-    background: url('../svg/eye.svg') no-repeat;
-}
-.btn-voice::before {
-    background: url('../svg/megaphone.svg') no-repeat;
-}
 .btn-edit::before {
     background: url('../svg/note.svg') no-repeat;
-}
-.btn-arrow::before {
-    background: url('../svg/arrowDown.svg')0 50% no-repeat;
-    background-size: 18px;
 }
 
 .reset-password {

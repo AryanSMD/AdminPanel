@@ -28,6 +28,11 @@
     "yup": "^1.4.0"
   },
   "devDependencies": {
+    "@iconify-json/fa-solid": "^1.2.1",
+    "@iconify-json/fluent": "^1.2.11",
+    "@iconify-json/iconamoon": "^1.2.2",
+    "@iconify-json/ion": "^1.2.2",
+    "@iconify-json/ls": "^1.2.1",
     "@types/jquery": "^3.5.30",
     "@vitest/ui": "^1.5.3",
     "autoprefixer": "^10.4.19",
