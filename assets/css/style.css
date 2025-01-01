@@ -151,16 +151,6 @@ select:disabled {
     text-grey
 }
 
-.modal-enter-active,
-.modal-leave-active {
-  transition: opacity 0.3s ease;
-}
-.modal-enter-from,
-.modal-leave-to {
-  opacity: 0;
-}
-
-
 
 /* ---------------------------- Buttons ---------------------------- */
 
@@ -449,7 +439,14 @@ select:disabled {
     w-[25%] md:w-[15%] h-auto
 }
 
-
+.modal-enter-active,
+.modal-leave-active {
+  transition: opacity 0.3s ease;
+}
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+}
 
 /* ---------------------------- Form ---------------------------- */
 

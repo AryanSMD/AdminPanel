@@ -69,59 +69,52 @@
             </div>
         </div>
     </div>
-    <transition name="modal">
-        <div class="modal" v-if="showModal">
-            <div class="card">
-                <div class="header">Add Language</div>
-                <svg class="close" @click="closeModal()"  xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
-                </svg>
-                <VeeForm as="div" :validation-schema="validation.addLanguage"
-                    v-slot="{ submitCount, errors, handleSubmit }">
-                    <div class="form">
-                        <div class="inputs">
-                            <label>Name</label>
-                            <VeeInput type="text" name="name" v-model="newLanguage.name"
-                                :class="errors.name && submitCount > 0 && 'input-err'" />
-                            <div class="label-err" v-if="submitCount > 0">{{ errors.name }}</div>
-                            <label>Slug</label>
-                            <VeeInput type="text" name="slug" v-model="newLanguage.slug"
-                                :class="errors.slug && submitCount > 0 && 'input-err'" />
-                            <div class="label-err" v-if="submitCount > 0">{{ errors.slug }}</div>
+    <Modal 
+        :title="'Add Language'" 
+        :show="showModal" 
+        :validation="validation.addLanguage"
+        :save="save"
+        :closeModal="closeModal"
+    >
+        <template v-slot="{ submitCount, errors }">
+            <div class="form">
+                <div class="inputs">
+                    <label>Name</label>
+                    <VeeInput type="text" name="name" v-model="newLanguage.name"
+                        :class="errors.name && submitCount > 0 && 'input-err'" />
+                    <div class="label-err" v-if="submitCount > 0">{{ errors.name }}</div>
+                    <label>Slug</label>
+                    <VeeInput type="text" name="slug" v-model="newLanguage.slug"
+                        :class="errors.slug && submitCount > 0 && 'input-err'" />
+                    <div class="label-err" v-if="submitCount > 0">{{ errors.slug }}</div>
+                </div>
+                <div class="inputs">
+                    <label>Code</label>
+                    <VeeInput type="text" name="code" v-model="newLanguage.code"
+                        :class="errors.code && submitCount > 0 && 'input-err'" />
+                    <div class="label-err" v-if="submitCount > 0">{{ errors.code }}</div>
+                    <label>Status</label>
+                    <div class="switch-btn"
+                        @click="newLanguage.isDisabled = !newLanguage.isDisabled"
+                    >
+                        <div class="btn" :class="newLanguage.isDisabled ? 'on' : 'off'">
+                            <div class="circle" :class="newLanguage.isDisabled ? 'on' : 'off'"></div>
                         </div>
-                        <div class="inputs">
-                            <label>Code</label>
-                            <VeeInput type="text" name="code" v-model="newLanguage.code"
-                                :class="errors.code && submitCount > 0 && 'input-err'" />
-                            <div class="label-err" v-if="submitCount > 0">{{ errors.code }}</div>
-                            <label>Status</label>
-                            <div class="switch-btn"
-                                @click="newLanguage.isDisabled = !newLanguage.isDisabled"
-                            >
-                                <div class="btn" :class="newLanguage.isDisabled ? 'on' : 'off'">
-                                    <div class="circle" :class="newLanguage.isDisabled ? 'on' : 'off'"></div>
-                                </div>
-                                <div class="flex items-center justify-center">
-                                    <div class="text" :class="newLanguage.isDisabled && 'off'">Acitve</div>
-                                    <div class="text" :class="!newLanguage.isDisabled && 'off'">Deactive</div>
-                                </div>
-                            </div>
-                            <div class="label-err" v-if="submitCount > 0">{{ errors.status }}</div>
-                        </div>
-                        <div class="image-container">
-                            <div class="image">
-                                <img :src="defaults().returnFlagImg(newLanguage.slug)" class="img" ref="previewImg">
-                            </div>
+                        <div class="flex items-center justify-center">
+                            <div class="text" :class="newLanguage.isDisabled && 'off'">Acitve</div>
+                            <div class="text" :class="!newLanguage.isDisabled && 'off'">Deactive</div>
                         </div>
                     </div>
-                    <div class="footer">
-                        <button class="btn-cancel" @click="closeModal()">Cancel</button>
-                        <button class="btn-save" @click="handleSubmit($event, save)">Save</button>
+                    <div class="label-err" v-if="submitCount > 0">{{ errors.status }}</div>
+                </div>
+                <div class="image-container">
+                    <div class="image">
+                        <img :src="defaults().returnFlagImg(newLanguage.slug)" class="img" ref="previewImg">
                     </div>
-                </VeeForm>
+                </div>
             </div>
-        </div>
-    </transition>
+        </template>
+    </Modal>
 </template>
 
 

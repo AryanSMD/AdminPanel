@@ -66,78 +66,71 @@
             </div>
         </div>
     </div>
-    <transition name="modal">
-        <div class="modal" v-if="showModal">
-            <div class="card">
-                <div class="header">Add User</div>
-                <svg class="close" @click="closeModal()"  xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
-                </svg>
-                <VeeForm as="div" :validation-schema="validation.addUser" 
-                    v-slot="{ submitCount, errors, handleSubmit }">
-                    <div class="form">
-                        <div class="inputs">
-                            <label>First Name</label>
-                            <VeeInput type="text" name="name" v-model="newUser.firstName"
-                                :class="errors.name && submitCount > 0 && 'input-err'" />
-                            <div class="label-err" v-if="submitCount > 0">{{ errors.name }}</div>
-                            <label>Email</label>
-                            <VeeInput type="email" name="email" v-model="newUser.email" :disabled="editMode"
-                                :class="((errors.email || (emailExists === true)) && submitCount > 0) && 'input-err'"
-                            />
-                            <div class="label-err" v-if="errors.email && submitCount > 0">{{ errors.email }}</div>
-                            <div class="label-err" v-else-if="emailExists === true && submitCount > 0">email exists</div>
-                            <label>BirthDate</label>
-                            <VeeInput type="date" name="date" v-model="newUser.birthDate"
-                                :class="errors.date && submitCount > 0 && 'input-err'" />
-                            <div class="label-err" v-if="submitCount > 0">{{ errors.date }}</div>
-                            <button class="btn-save reset-password" 
-                                v-if="editMode"
-                            >
-                                Reset Password
-                            </button>
+    <Modal 
+        :title="'Add User'" 
+        :show="showModal" 
+        :validation="validation.addUser"
+        :save="save"
+        :closeModal="closeModal"
+    >
+        <template v-slot="{ submitCount, errors }">
+            <div class="form">
+                <div class="inputs">
+                    <label>First Name</label>
+                    <VeeInput type="text" name="name" v-model="newUser.firstName"
+                        :class="errors.name && submitCount > 0 && 'input-err'" />
+                    <div class="label-err" v-if="submitCount > 0">{{ errors.name }}</div>
+                    <label>Email</label>
+                    <VeeInput type="email" name="email" v-model="newUser.email" :disabled="editMode"
+                        :class="((errors.email || (emailExists === true)) && submitCount > 0) && 'input-err'"
+                    />
+                    <div class="label-err" v-if="errors.email && submitCount > 0">{{ errors.email }}</div>
+                    <div class="label-err" v-else-if="emailExists === true && submitCount > 0">email exists</div>
+                    <label>BirthDate</label>
+                    <VeeInput type="date" name="date" v-model="newUser.birthDate"
+                        :class="errors.date && submitCount > 0 && 'input-err'" />
+                    <div class="label-err" v-if="submitCount > 0">{{ errors.date }}</div>
+                    <button class="btn-save reset-password" 
+                        v-if="editMode"
+                    >
+                        Reset Password
+                    </button>
+                </div>
+                <div class="inputs">
+                    <label>Last Name</label>
+                    <VeeInput type="text" name="family" v-model="newUser.lastName"
+                        :class="errors.family && submitCount > 0 && 'input-err'" />
+                    <div class="label-err" v-if="submitCount > 0">{{ errors.family }}</div>
+                    <label>Role</label>
+                    <VeeInput name="role" as="select" v-model="newUser.role"
+                        :class="errors.role && submitCount > 0 && 'input-err'">
+                        <option :value="0">{{ getRole(0) }}</option>
+                        <option :value="1">{{ getRole(1) }}</option>
+                    </VeeInput>
+                    <div class="label-err" v-if="submitCount > 0">{{ errors.role }}</div>
+                    <label>Status</label>
+                    <div class="switch-btn"
+                        @click="newUser.status === 0 ? newUser.status = 1 : newUser.status = 0"
+                    >
+                        <div class="btn" :class="newUser.status ? 'on' : 'off'">
+                            <div class="circle" :class="newUser.status ? 'on' : 'off'"></div>
                         </div>
-                        <div class="inputs">
-                            <label>Last Name</label>
-                            <VeeInput type="text" name="family" v-model="newUser.lastName"
-                                :class="errors.family && submitCount > 0 && 'input-err'" />
-                            <div class="label-err" v-if="submitCount > 0">{{ errors.family }}</div>
-                            <label>Role</label>
-                            <VeeInput name="role" as="select" v-model="newUser.role"
-                                :class="errors.role && submitCount > 0 && 'input-err'">
-                                <option :value="0">{{ getRole(0) }}</option>
-                                <option :value="1">{{ getRole(1) }}</option>
-                            </VeeInput>
-                            <div class="label-err" v-if="submitCount > 0">{{ errors.role }}</div>
-                            <label>Status</label>
-                            <div class="switch-btn"
-                                @click="newUser.status === 0 ? newUser.status = 1 : newUser.status = 0"
-                            >
-                                <div class="btn" :class="newUser.status ? 'on' : 'off'">
-                                    <div class="circle" :class="newUser.status ? 'on' : 'off'"></div>
-                                </div>
-                                <div class="flex items-center justify-center">
-                                    <div class="text" :class="newUser.status && 'off'">Acitve</div>
-                                    <div class="text" :class="!newUser.status && 'off'">Deactive</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="image-container">
-                            <div class="image">
-                                <img :src="newUser.id && defaults().profileImg" class="img" ref="previewImg">
-                            </div>
-                            <input type="file" style="display: none;" accept=".jpg, .jpeg" ref="chooseFile">
-                            <button class="btn-addImg" @click="$refs.chooseFile.click()">add image</button>
+                        <div class="flex items-center justify-center">
+                            <div class="text" :class="newUser.status && 'off'">Acitve</div>
+                            <div class="text" :class="!newUser.status && 'off'">Deactive</div>
                         </div>
                     </div>
-                    <div class="footer">
-                        <button class="btn-cancel" @click="closeModal()">Cancel</button>
-                        <button class="btn-save" @click="handleSubmit($event, save)">Save</button>
+                </div>
+                <div class="image-container">
+                    <div class="image">
+                        <img :src="newUser.id && defaults().profileImg" class="img" ref="previewImg">
                     </div>
-                </VeeForm>
+                    <input type="file" style="display: none;" accept=".jpg, .jpeg" ref="chooseFile">
+                    <button class="btn-addImg" @click="$refs.chooseFile.click()">add image</button>
+                </div>
             </div>
-        </div>
-    </transition>
+        </template>
+    </Modal>
 </template>
 
 

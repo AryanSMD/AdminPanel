@@ -57,50 +57,43 @@
             </div>
         </div>
     </div>
-    <transition name="modal">
-        <div class="modal" v-if="showModal">
-            <div class="card">
-                <div class="header">Add Audience</div>
-                <svg class="close" @click="closeModal()"  xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
-                </svg>
-                <VeeForm as="div" :validation-schema="validation.addAudience"
-                    v-slot="{ submitCount, errors, handleSubmit }">
-                    <div class="form">
-                        <div class="inputs col-span-3">
-                            <label>Name</label>
-                            <VeeInput type="text" name="name" v-model="newAudience.name"
-                                :class="errors.name && submitCount > 0 && 'input-err'" />
-                            <div class="label-err" v-if="submitCount > 0">{{ errors.name }}</div>
-                        </div>
-                        <div class="inputs xl:col-span-3">
-                            <label>Description</label>
-                            <textarea>{{ newAudience.description }}</textarea>
+    <Modal 
+        :title="'Add Audience'" 
+        :show="showModal" 
+        :validation="validation.addAudience"
+        :save="save"
+        :closeModal="closeModal"
+    >
+        <template v-slot="{ submitCount, errors }">
+            <div class="form">
+                <div class="inputs col-span-3">
+                    <label>Name</label>
+                    <VeeInput type="text" name="name" v-model="newAudience.name"
+                        :class="errors.name && submitCount > 0 && 'input-err'" />
+                    <div class="label-err" v-if="submitCount > 0">{{ errors.name }}</div>
+                </div>
+                <div class="inputs xl:col-span-3">
+                    <label>Description</label>
+                    <textarea>{{ newAudience.description }}</textarea>
 
+                </div>
+                <div class="inputs col-span-3 mt-5">
+                    <label>Status</label>
+                    <div class="switch-btn"
+                        @click="newAudience.isDisabled = !newAudience.isDisabled"
+                    >
+                        <div class="btn" :class="newAudience.isDisabled ? 'on' : 'off'">
+                            <div class="circle" :class="newAudience.isDisabled ? 'on' : 'off'"></div>
                         </div>
-                        <div class="inputs col-span-3 mt-5">
-                            <label>Status</label>
-                            <div class="switch-btn"
-                                @click="newAudience.isDisabled = !newAudience.isDisabled"
-                            >
-                                <div class="btn" :class="newAudience.isDisabled ? 'on' : 'off'">
-                                    <div class="circle" :class="newAudience.isDisabled ? 'on' : 'off'"></div>
-                                </div>
-                                <div class="flex items-center justify-center">
-                                    <div class="text" :class="newAudience.isDisabled && 'off'">Acitve</div>
-                                    <div class="text" :class="!newAudience.isDisabled && 'off'">Deactive</div>
-                                </div>
-                            </div>
+                        <div class="flex items-center justify-center">
+                            <div class="text" :class="newAudience.isDisabled && 'off'">Acitve</div>
+                            <div class="text" :class="!newAudience.isDisabled && 'off'">Deactive</div>
                         </div>
                     </div>
-                    <div class="footer">
-                        <button class="btn-cancel" @click="closeModal()">Cancel</button>
-                        <button class="btn-save" @click="handleSubmit($event, save)">Save</button>
-                    </div>
-                </VeeForm>
+                </div>
             </div>
-        </div>
-    </transition>
+        </template>
+    </Modal>
 </template>
 
 
