@@ -1,3 +1,24 @@
+<script setup lang="ts">
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+const email = ref <string> ('');
+const password = ref <string> ('');
+
+async function save(): Promise<void> {
+    const res = await useApi().Login({ 
+        email: email.value, 
+        password: password.value 
+    });
+    res.status === 200 && router.push('/dashboard');
+}
+
+onMounted(async () => {
+    localStorage.clear();
+})
+</script>
+
+
 <template>
     <div class="login-container" data-aos="fade-in" data-aos-duration="700">
         <div class="login-card">
@@ -31,30 +52,6 @@
         </div>
     </div>
 </template>
-
-
-<script setup lang="ts">
-import { useRouter } from 'vue-router';
-
-
-const router = useRouter();
-const email = ref <string> ('');
-const password = ref <string> ('');
-
-
-async function save(): Promise<void> {
-    const res = await useApi().Login({ 
-        email: email.value, 
-        password: password.value 
-    });
-    res.status === 200 && router.push('/dashboard');
-}
-
-
-onMounted(async () => {
-    localStorage.clear();
-})
-</script>
 
 
 <style scoped>

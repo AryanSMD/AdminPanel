@@ -1,3 +1,29 @@
+<script setup lang="ts">
+const props = defineProps({
+    course: {
+        type: Object,
+        required: true,
+    },
+    removeCourse: {
+        type: Function,
+        required: true,
+    },
+});
+
+const language = computed(() => {
+    return defaults().getLanguages.filter(e => e.id === props.course.languageLearningId)[0]?.name;
+})
+
+const audience = computed(() => {
+    return defaults().getAudiences.filter(e => e.id === props.course.audienceId)[0]?.name;
+})
+
+const category = computed(() => {
+    return defaults().getCategories.filter(e => e.id === props.course.categoryId)[0]?.name;
+})
+</script>
+
+
 <template>
     <div class="card">
         <div class="img">
@@ -93,32 +119,6 @@
         </div>
     </div>
 </template>
-
-
-<script setup lang="ts">
-const props = defineProps({
-    course: {
-        type: Object,
-        required: true,
-    },
-    removeCourse: {
-        type: Function,
-        required: true,
-    },
-});
-
-const language = computed(() => {
-    return defaults().getLanguages.filter(e => e.id === props.course.languageLearningId)[0]?.name;
-})
-
-const audience = computed(() => {
-    return defaults().getAudiences.filter(e => e.id === props.course.audienceId)[0]?.name;
-})
-
-const category = computed(() => {
-    return defaults().getCategories.filter(e => e.id === props.course.categoryId)[0]?.name;
-})
-</script>
 
 
 <style scoped></style>

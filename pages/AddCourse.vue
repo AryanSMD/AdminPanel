@@ -1,3 +1,44 @@
+<script setup lang="ts">
+import { useRoute, useRouter } from 'vue-router';
+
+const router = useRouter();
+const route = useRoute();
+const previewImg = ref();
+const chooseFile = ref();
+const editMode = ref <boolean> (false);
+const newCourse = ref <Course> ({
+    id: '',
+    name: '',
+    description: '',
+    price: 0,
+    isDisabled: false,
+    languageLearningId: '',
+    categoryId: '',
+    audienceId: '',
+    imageUrl: '',
+});
+
+async function save(): Promise<void> {
+    router.back();
+    alerts().showAlert({ 
+        type: 'success', 
+        msg: editMode.value ? 'Course Updated' : 'Course Created',
+        func: ()=>{}
+    })
+}
+
+onBeforeMount(async () => {
+    const courseId = route.params.id;
+    if (courseId !== 'new') {
+        editMode.value = true;
+        const course = defaults().getCourses.filter(e => e.id === courseId)[0];
+        if (!course) throw createError({ statusCode: 404 });
+        newCourse.value = course;
+    }
+})
+</script>
+
+
 <template>
     <div class="container" data-aos="fade-in" data-aos-duration="700">
         <div class="box">
@@ -88,50 +129,6 @@
         </div>
     </div>
 </template>
-
-
-<script setup lang="ts">
-import { useRoute, useRouter } from 'vue-router';
-
-
-const router = useRouter();
-const route = useRoute();
-const previewImg = ref();
-const chooseFile = ref();
-const editMode = ref <boolean> (false);
-const newCourse = ref <Course> ({
-    id: '',
-    name: '',
-    description: '',
-    price: 0,
-    isDisabled: false,
-    languageLearningId: '',
-    categoryId: '',
-    audienceId: '',
-    imageUrl: '',
-});
-
-
-async function save(): Promise<void> {
-    router.back();
-    alerts().showAlert({ 
-        type: 'success', 
-        msg: editMode.value ? 'Course Updated' : 'Course Created',
-        func: ()=>{}
-    })
-}
-
-
-onBeforeMount(async () => {
-    const courseId = route.params.id;
-    if (courseId !== 'new') {
-        editMode.value = true;
-        const course = defaults().getCourses.filter(e => e.id === courseId)[0];
-        if (!course) throw createError({ statusCode: 404 });
-        newCourse.value = course;
-    }
-})
-</script>
 
 
 <style scoped></style>

@@ -1,3 +1,72 @@
+<script setup lang="ts">
+const showModal = ref <boolean> (false);
+const editMode = ref <boolean> (false);
+const categories = ref <Category[]> ();
+const filter = ref <any> ({
+    name: null,
+    isDisabled: null,
+})
+const newCategory = ref <Category> ({
+    id: '',
+    name: '',
+    description: '',
+    isDisabled: false,
+})
+
+async function search(): Promise<void> {
+    const { name, isDisabled } = filter.value;
+    categories.value = defaults().getCategories.filter(e =>
+        name ? e.name.toUpperCase().includes(name.toUpperCase()) : e &&
+        isDisabled !== null ? e.isDisabled === isDisabled : e
+    )
+}
+
+async function save(): Promise<void> {
+    alerts().showAlert({ 
+        type: 'success', 
+        msg: editMode.value ? 'Category Updated' : 'Category Created',
+        func: ()=>{}
+    });
+    closeModal();
+}
+
+function edit(id: string): void {
+    const selectedCategory = defaults().getCategories.filter(e => e.id === id)[0];
+    newCategory.value = { ...selectedCategory };
+    showModal.value = true;
+    editMode.value = true;
+}
+
+function closeModal(): void {
+    newCategory.value = {
+        id: '',
+        name: '',
+        description: '',
+        isDisabled: false,
+    };
+    editMode.value && (editMode.value = false);
+    showModal.value = false;
+}
+
+async function removeCategory(id: string): Promise<void> {
+    const selectedCategory = defaults().getCategories.filter(e => e.id === id)[0];
+    const msg = `"${selectedCategory.name}"`;
+    alerts().showAlert({type:'delete', msg, func: async ()=>{
+        alerts().showAlert({ type:'success', msg: 'Removed', func:() => {} });
+    }})
+}
+
+function clearFilters(): void {
+    filter.value = {
+        name: null,
+        isDisabled: null,
+    };
+}
+
+categories.value = defaults().getCategories;
+</script>
+
+
 <template>
     <div class="container" data-aos="fade-in" data-aos-duration="700">
         <button class="btn-add head" @click="showModal = true">
@@ -94,77 +163,6 @@
         </template>
     </Modal>
 </template>
-
-
-<script setup lang="ts">
-const showModal = ref <boolean> (false);
-const editMode = ref <boolean> (false);
-const categories = ref <Category[]> ();
-const filter = ref <any> ({
-    name: null,
-    isDisabled: null,
-})
-const newCategory = ref <Category> ({
-    id: '',
-    name: '',
-    description: '',
-    isDisabled: false,
-})
-
-
-async function search(): Promise<void> {
-    const { name, isDisabled } = filter.value;
-    categories.value = defaults().getCategories.filter(e =>
-        name ? e.name.toUpperCase().includes(name.toUpperCase()) : e &&
-        isDisabled !== null ? e.isDisabled === isDisabled : e
-    )
-}
-
-async function save(): Promise<void> {
-    alerts().showAlert({ 
-        type: 'success', 
-        msg: editMode.value ? 'Category Updated' : 'Category Created',
-        func: ()=>{}
-    });
-    closeModal();
-}
-
-function edit(id: string): void {
-    const selectedCategory = defaults().getCategories.filter(e => e.id === id)[0];
-    newCategory.value = { ...selectedCategory };
-    showModal.value = true;
-    editMode.value = true;
-}
-
-function closeModal(): void {
-    newCategory.value = {
-        id: '',
-        name: '',
-        description: '',
-        isDisabled: false,
-    };
-    editMode.value && (editMode.value = false);
-    showModal.value = false;
-}
-
-async function removeCategory(id: string): Promise<void> {
-    const selectedCategory = defaults().getCategories.filter(e => e.id === id)[0];
-    const msg = `"${selectedCategory.name}"`;
-    alerts().showAlert({type:'delete', msg, func: async ()=>{
-        alerts().showAlert({ type:'success', msg: 'Removed', func:() => {} });
-    }})
-}
-
-function clearFilters(): void {
-    filter.value = {
-        name: null,
-        isDisabled: null,
-    };
-}
-
-
-categories.value = defaults().getCategories;
-</script>
 
 
 <style scoped></style>

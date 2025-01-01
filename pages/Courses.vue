@@ -1,3 +1,46 @@
+<script setup lang="ts">
+const courses = ref <Course[]> ();
+const filter = ref <any> ({
+    name: null,
+    languageLearningId: null,
+    categoryId: null,
+    audienceId: null,
+    isDisabled: null,
+})
+
+async function search(): Promise<void> {
+    const { name, languageLearningId, categoryId, audienceId, isDisabled } = filter.value;
+    courses.value = defaults().getCourses.filter(e =>
+        name ? e.name.toUpperCase().includes(name.toUpperCase()) : e &&
+        audienceId ? e.audienceId === audienceId : e &&
+        categoryId ? e.categoryId === categoryId : e &&
+        languageLearningId ? e.languageLearningId === languageLearningId : e &&
+        isDisabled !== null ? e.isDisabled === isDisabled : e
+    )
+}
+
+async function removeCourse(id: string): Promise<void> {
+    const selectedCourse = defaults().getCourses.filter(e => e.id === id)[0];
+    const msg = `"${selectedCourse.name}"`;
+    alerts().showAlert({type:'delete', msg, func: async ()=>{
+        alerts().showAlert({ type:'success', msg: 'Removed', func:() => {} });
+    }})
+}
+
+function clearFilters(): void {
+    filter.value = {
+        name: null,
+        languageLearningId: null,
+        categoryId: null,
+        audienceId: null,
+        isDisabled: null,
+    };
+}
+
+courses.value = defaults().getCourses;
+</script>
+
+
 <template>
     <div class="container" data-aos="fade-in" data-aos-duration="700">
         <button class="btn-add head" @click="$router.push({ name: 'add', params: { id: 'new' } })">
@@ -56,50 +99,6 @@
         </div>
     </div>
 </template>
-
-
-<script setup lang="ts">
-const courses = ref <Course[]> ();
-const filter = ref <any> ({
-    name: null,
-    languageLearningId: null,
-    categoryId: null,
-    audienceId: null,
-    isDisabled: null,
-})
-
-
-async function search(): Promise<void> {
-    const { name, languageLearningId, categoryId, audienceId, isDisabled } = filter.value;
-    courses.value = defaults().getCourses.filter(e =>
-        name ? e.name.toUpperCase().includes(name.toUpperCase()) : e &&
-        audienceId ? e.audienceId === audienceId : e &&
-        categoryId ? e.categoryId === categoryId : e &&
-        languageLearningId ? e.languageLearningId === languageLearningId : e &&
-        isDisabled !== null ? e.isDisabled === isDisabled : e
-    )
-}
-
-async function removeCourse(id: string): Promise<void> {
-    const selectedCourse = defaults().getCourses.filter(e => e.id === id)[0];
-    const msg = `"${selectedCourse.name}"`;
-    alerts().showAlert({type:'delete', msg, func: async ()=>{
-        alerts().showAlert({ type:'success', msg: 'Removed', func:() => {} });
-    }})
-}
-
-function clearFilters(): void {
-    filter.value = {
-        name: null,
-        languageLearningId: null,
-        categoryId: null,
-        audienceId: null,
-        isDisabled: null,
-    };
-}
-
-courses.value = defaults().getCourses;
-</script>
 
 
 <style scoped></style>

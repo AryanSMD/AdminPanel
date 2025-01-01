@@ -1,10 +1,3 @@
-<template>
-  <NuxtLayout>
-    <NuxtPage />
-  </NuxtLayout>
-</template>
-
-
 <script setup>
 useHead({
   htmlAttrs: {
@@ -20,5 +13,13 @@ useHead({
   ]
 })
 </script>
+
+
+<template>
+  <NuxtLayout>
+    <NuxtPage />
+  </NuxtLayout>
+</template>
+
 
 <style scoped></style>

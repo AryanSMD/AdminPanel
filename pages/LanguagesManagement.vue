@@ -1,3 +1,81 @@
+<script setup lang="ts">
+const showModal = ref <boolean> (false);
+const editMode = ref <boolean> (false);
+const previewImg = ref();
+const languages = ref <Language[]> ();
+const filter = ref <any> ({
+    keyword: null,
+    name: null,
+    code: null,
+    slug: null,
+    isDisabled: null,
+})
+const newLanguage = ref <Language> ({
+    id: '',
+    name: '',
+    code: '',
+    slug: '',
+    isDisabled: false,
+})
+
+async function search(): Promise<void> {
+    const { name, isDisabled } = filter.value;
+    languages.value = defaults().getLanguages.filter(e =>
+        name ? e.name.toUpperCase().includes(name.toUpperCase()) : e &&
+        isDisabled !== null ? e.isDisabled === isDisabled : e
+    )
+}
+
+async function save(): Promise<void> {
+    alerts().showAlert({ 
+        type: 'success', 
+        msg: editMode.value ? 'language Updated' : 'language Created',
+        func: ()=>{}
+    });
+    closeModal();
+}
+
+function edit(id: string): void {
+    const selectedLanguage = defaults().getLanguages.filter(e => e.id === id)[0];
+    newLanguage.value = { ...selectedLanguage };
+    showModal.value = true;
+    editMode.value = true;
+}
+
+function closeModal(): void {
+    newLanguage.value = {
+        id: '',
+        name: '',
+        code: '',
+        slug: '',
+        isDisabled: false,
+    };
+    editMode.value && (editMode.value = false);
+    showModal.value = false;
+}
+
+async function removeLanguage(id: string): Promise<void> {
+    const selectedLanguage = defaults().getLanguages.filter(e => e.id === id)[0];
+    const msg = `"${selectedLanguage.name}"`;
+    alerts().showAlert({type:'delete', msg, func: async ()=>{
+        alerts().showAlert({ type:'success', msg: 'Removed', func:() => {} });
+    }})
+}
+
+function clearFilters(): void {
+    filter.value = {
+        keyword: null,
+        name: null,
+        code: null,
+        slug: null,
+        isDisabled: null,
+    };
+}
+
+languages.value = defaults().getLanguages;
+</script>
+
+
 <template>
     <div class="container" data-aos="fade-in" data-aos-duration="700">
         <button class="btn-add head" @click="showModal = true">
@@ -116,86 +194,6 @@
         </template>
     </Modal>
 </template>
-
-
-<script setup lang="ts">
-const showModal = ref <boolean> (false);
-const editMode = ref <boolean> (false);
-const previewImg = ref();
-const languages = ref <Language[]> ();
-const filter = ref <any> ({
-    keyword: null,
-    name: null,
-    code: null,
-    slug: null,
-    isDisabled: null,
-})
-const newLanguage = ref <Language> ({
-    id: '',
-    name: '',
-    code: '',
-    slug: '',
-    isDisabled: false,
-})
-
-
-async function search(): Promise<void> {
-    const { name, isDisabled } = filter.value;
-    languages.value = defaults().getLanguages.filter(e =>
-        name ? e.name.toUpperCase().includes(name.toUpperCase()) : e &&
-        isDisabled !== null ? e.isDisabled === isDisabled : e
-    )
-}
-
-async function save(): Promise<void> {
-    alerts().showAlert({ 
-        type: 'success', 
-        msg: editMode.value ? 'language Updated' : 'language Created',
-        func: ()=>{}
-    });
-    closeModal();
-}
-
-function edit(id: string): void {
-    const selectedLanguage = defaults().getLanguages.filter(e => e.id === id)[0];
-    newLanguage.value = { ...selectedLanguage };
-    showModal.value = true;
-    editMode.value = true;
-}
-
-function closeModal(): void {
-    newLanguage.value = {
-        id: '',
-        name: '',
-        code: '',
-        slug: '',
-        isDisabled: false,
-    };
-    editMode.value && (editMode.value = false);
-    showModal.value = false;
-}
-
-async function removeLanguage(id: string): Promise<void> {
-    const selectedLanguage = defaults().getLanguages.filter(e => e.id === id)[0];
-    const msg = `"${selectedLanguage.name}"`;
-    alerts().showAlert({type:'delete', msg, func: async ()=>{
-        alerts().showAlert({ type:'success', msg: 'Removed', func:() => {} });
-    }})
-}
-
-function clearFilters(): void {
-    filter.value = {
-        keyword: null,
-        name: null,
-        code: null,
-        slug: null,
-        isDisabled: null,
-    };
-}
-
-
-languages.value = defaults().getLanguages;
-</script>
 
 
 <style scoped></style>

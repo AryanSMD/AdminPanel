@@ -1,3 +1,6 @@
+<script setup lang="ts"></script>
+
+
 <template>
     <div class="loading-screen" v-if="loadingScreen().getLoadingScreen && loadingScreen().getPermission">
         <div class="box">
@@ -8,9 +11,6 @@
         </div>
     </div>
 </template>
-
-
-<script setup lang="ts"></script>
 
 
 <style scoped>

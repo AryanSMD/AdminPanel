@@ -1,3 +1,66 @@
+<script setup lang="ts">
+const startPage = ref <number> (1);
+const currentPage = ref <number> (1);
+
+const halfOfVisibleBtns = computed((): number => {
+    return Math.floor(5 / 2);
+})
+
+const showingPages = computed((): number[] => {
+    const range = [];
+    for (
+        let i = startPage.value;
+        i <= Math.min(startPage.value + 5 - 1 , totalPages.value); 
+        i++
+    ) {
+        range.push(i);
+    }
+    return range.length > 0 ? range : [1];
+})
+
+const totalPages = computed((): number => {
+    return Math.floor(30 / 10);
+})
+
+const showFirstPage = computed((): boolean => {
+    return currentPage.value > (halfOfVisibleBtns.value + 1);
+})
+
+const showLastPage = computed((): boolean => {
+    return currentPage.value < (totalPages.value - halfOfVisibleBtns.value);
+})
+
+function nextPage(): void {
+    currentPage.value < totalPages.value && currentPage.value++;
+}
+
+function previousPage(): void {
+    currentPage.value !== 1 && currentPage.value--;
+}
+
+function goToFirstPage(): void {
+    currentPage.value = 1;
+    startPage.value = 1;
+}
+
+function goTolastPage(): void {
+    currentPage.value = totalPages.value;
+    const remainder = currentPage.value % 5;
+    startPage.value = remainder !== 0 ? 
+        totalPages.value - (remainder - 1) : 
+        totalPages.value - ( 5 - 1 );
+}
+
+watch(
+    () => currentPage.value, async (_) => {
+        if (currentPage.value > halfOfVisibleBtns.value) {
+            startPage.value = currentPage.value - halfOfVisibleBtns.value;
+        }
+    }
+)
+</script>
+
+
 <template>
     <div class="pagination">
         <div class="background">
@@ -35,72 +98,6 @@
         </div>
     </div>
 </template>
-
-
-<script setup lang="ts">
-const startPage = ref <number> (1);
-const currentPage = ref <number> (1);
-
-
-const halfOfVisibleBtns = computed((): number => {
-    return Math.floor(5 / 2);
-})
-
-const showingPages = computed((): number[] => {
-    const range = [];
-    for (
-        let i = startPage.value;
-        i <= Math.min(startPage.value + 5 - 1 , totalPages.value); 
-        i++
-    ) {
-        range.push(i);
-    }
-    return range.length > 0 ? range : [1];
-})
-
-const totalPages = computed((): number => {
-    return Math.floor(30 / 10);
-})
-
-const showFirstPage = computed((): boolean => {
-    return currentPage.value > (halfOfVisibleBtns.value + 1);
-})
-
-const showLastPage = computed((): boolean => {
-    return currentPage.value < (totalPages.value - halfOfVisibleBtns.value);
-})
-
-
-function nextPage(): void {
-    currentPage.value < totalPages.value && currentPage.value++;
-}
-
-function previousPage(): void {
-    currentPage.value !== 1 && currentPage.value--;
-}
-
-function goToFirstPage(): void {
-    currentPage.value = 1;
-    startPage.value = 1;
-}
-
-function goTolastPage(): void {
-    currentPage.value = totalPages.value;
-    const remainder = currentPage.value % 5;
-    startPage.value = remainder !== 0 ? 
-        totalPages.value - (remainder - 1) : 
-        totalPages.value - ( 5 - 1 );
-}
-
-
-watch(
-    () => currentPage.value, async (_) => {
-        if (currentPage.value > halfOfVisibleBtns.value) {
-            startPage.value = currentPage.value - halfOfVisibleBtns.value;
-        }
-    }
-)
-</script>
 
 
 <style scoped>

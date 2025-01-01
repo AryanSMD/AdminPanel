@@ -1,3 +1,6 @@
+<script setup lang="ts"></script>
+
+
 <template>
     <div class="container" data-aos="zoom-in" data-aos-duration="700">
         <div class="page-error">
@@ -15,7 +18,6 @@
     </div>
 </template>
 
-<script setup lang="ts"></script>
 
 <style scoped>
 .page-error {

@@ -1,3 +1,72 @@
+<script setup lang="ts">
+const showModal = ref <boolean> (false);
+const editMode = ref <boolean> (false);
+const audiences = ref <Audience[]> ();
+const filter = ref <any> ({
+    name: null,
+    isDisabled: null,
+})
+const newAudience = ref <Audience> ({
+    id: '',
+    name: '',
+    description: '',
+    isDisabled: false,
+})
+
+async function search(): Promise<void> {
+    const { name, isDisabled } = filter.value;
+    audiences.value = defaults().getAudiences.filter(e =>
+        name ? e.name.toUpperCase().includes(name.toUpperCase()) : e &&
+        isDisabled !== null ? e.isDisabled === isDisabled : e
+    )
+}
+
+async function save(): Promise<void> {
+    alerts().showAlert({ 
+        type: 'success', 
+        msg: editMode.value ? 'Audience Updated' : 'Audience Created',
+        func: ()=>{}
+    });
+    closeModal();
+}
+
+function edit(id: string): void {
+    const selectedAudience = defaults().getAudiences.filter(e => e.id === id)[0];
+    newAudience.value = { ...selectedAudience };
+    showModal.value = true;
+    editMode.value = true;
+}
+
+function closeModal(): void {
+    newAudience.value = {
+        id: '',
+        name: '',
+        description: '',
+        isDisabled: false,
+    };
+    editMode.value && (editMode.value = false);
+    showModal.value = false;
+}
+
+async function removeAudience(id: string): Promise<void> {
+    const selectedAudience = defaults().getAudiences.filter(e => e.id === id)[0];
+    const msg = `"${selectedAudience.name}"`;
+    alerts().showAlert({type:'delete', msg, func: async ()=>{
+        alerts().showAlert({ type:'success', msg: 'Removed', func:() => {} });
+    }})
+}
+
+function clearFilters(): void {
+    filter.value = {
+        name: null,
+        isDisabled: null,
+    };
+}
+
+audiences.value = defaults().getAudiences;
+</script>
+
+
 <template>
     <div class="container" data-aos="fade-in" data-aos-duration="700">
         <button class="btn-add head" @click="showModal = true">
@@ -95,75 +164,6 @@
         </template>
     </Modal>
 </template>
-
-
-<script setup lang="ts">
-const showModal = ref <boolean> (false);
-const editMode = ref <boolean> (false);
-const audiences = ref <Audience[]> ();
-const filter = ref <any> ({
-    name: null,
-    isDisabled: null,
-})
-const newAudience = ref <Audience> ({
-    id: '',
-    name: '',
-    description: '',
-    isDisabled: false,
-})
-
-async function search(): Promise<void> {
-    const { name, isDisabled } = filter.value;
-    audiences.value = defaults().getAudiences.filter(e =>
-        name ? e.name.toUpperCase().includes(name.toUpperCase()) : e &&
-        isDisabled !== null ? e.isDisabled === isDisabled : e
-    )
-}
-
-async function save(): Promise<void> {
-    alerts().showAlert({ 
-        type: 'success', 
-        msg: editMode.value ? 'Audience Updated' : 'Audience Created',
-        func: ()=>{}
-    });
-    closeModal();
-}
-
-function edit(id: string): void {
-    const selectedAudience = defaults().getAudiences.filter(e => e.id === id)[0];
-    newAudience.value = { ...selectedAudience };
-    showModal.value = true;
-    editMode.value = true;
-}
-
-function closeModal(): void {
-    newAudience.value = {
-        id: '',
-        name: '',
-        description: '',
-        isDisabled: false,
-    };
-    editMode.value && (editMode.value = false);
-    showModal.value = false;
-}
-
-async function removeAudience(id: string): Promise<void> {
-    const selectedAudience = defaults().getAudiences.filter(e => e.id === id)[0];
-    const msg = `"${selectedAudience.name}"`;
-    alerts().showAlert({type:'delete', msg, func: async ()=>{
-        alerts().showAlert({ type:'success', msg: 'Removed', func:() => {} });
-    }})
-}
-
-function clearFilters(): void {
-    filter.value = {
-        name: null,
-        isDisabled: null,
-    };
-}
-
-audiences.value = defaults().getAudiences;
-</script>
 
 
 <style scoped></style>

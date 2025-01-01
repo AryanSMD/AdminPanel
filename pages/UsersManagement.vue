@@ -1,3 +1,113 @@
+<script setup lang="ts">
+const showModal = ref <boolean> (false);
+const editMode = ref <boolean> (false);
+const emailExists = ref <boolean|null> (null);
+const chooseFile = ref ();
+const previewImg = ref ();
+const users = ref <User[]> ();
+const filter = ref <any> ({
+    firstName: null,
+    role: null,
+    status: null,
+});
+const newUser = ref <User> ({
+    id: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    birthDate: '',
+    role: 0,
+    status: 0,
+});
+
+async function search(): Promise<void> {
+    const { firstName, role, status } = filter.value;
+    users.value = defaults().getUsers.filter(e =>
+        firstName ? e.firstName.toUpperCase().includes(firstName.toUpperCase()) : e &&
+        role ? e.role === role : e &&
+        status ? e.status === status : e
+    )
+}
+
+async function save(): Promise<void> {
+    alerts().showAlert({ 
+        type: 'success', 
+        msg: editMode.value ? 'User Updated' : 'User Created',
+        func: ()=>{}
+    })
+    closeModal();
+}
+
+function closeModal(): void {
+    newUser.value = {
+        id: '',
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        birthDate: '',
+        role: 0,
+        status: 0,
+    };
+    editMode.value && (editMode.value = false);
+    emailExists.value = null;
+    showModal.value = false;
+}
+
+function edit(id: string): void {
+    const selectedUser = defaults().getUsers.filter(e => e.id === id)[0];
+    newUser.value = { ...selectedUser };
+    newUser.value.birthDate = getTime(newUser.value.birthDate);
+    showModal.value = true;
+    editMode.value = true;
+}
+
+async function removeUser(id: string): Promise<void> {
+    const selectedUser = defaults().getUsers.filter(e => e.id === id)[0];
+    const msg = `"${selectedUser.firstName} ${selectedUser.lastName}"`;
+    alerts().showAlert({type:'delete', msg, func: async ()=>{
+        alerts().showAlert({ type:'success', msg: 'Removed', func:() => {} });
+    }})
+}
+
+function clearFilters(): void {
+    filter.value = {
+        firstName: null,
+        role: null,
+        status: null,
+    };
+}
+
+const debounce = (() => {
+    let timeOut: any;
+    return () => {
+        clearTimeout(timeOut);
+        timeOut = setTimeout(async () => {
+            if (editMode.value) {
+                emailExists.value = false;
+            } else {
+                const res = await useApi().emailExists(newUser.value.email);
+                emailExists.value = res.data;
+            }
+        }, 300);
+    }
+})();
+
+watch(
+    () => newUser.value.email, async (newVal) => {
+        if (newVal !== '') {
+            debounce();
+        } else {
+            emailExists.value = null;
+        }
+    }, { deep: true }
+)
+
+users.value = defaults().getUsers;
+</script>
+
+
 <template>
     <div class="container" data-aos="fade-in" data-aos-duration="700">
         <button class="btn-user head" @click="showModal = true">
@@ -132,119 +242,6 @@
         </template>
     </Modal>
 </template>
-
-
-<script setup lang="ts">
-const showModal = ref <boolean> (false);
-const editMode = ref <boolean> (false);
-const emailExists = ref <boolean|null> (null);
-const chooseFile = ref ();
-const previewImg = ref ();
-const users = ref <User[]> ();
-const filter = ref <any> ({
-    firstName: null,
-    role: null,
-    status: null,
-});
-const newUser = ref <User> ({
-    id: '',
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    birthDate: '',
-    role: 0,
-    status: 0,
-});
-
-
-async function search(): Promise<void> {
-    const { firstName, role, status } = filter.value;
-    users.value = defaults().getUsers.filter(e =>
-        firstName ? e.firstName.toUpperCase().includes(firstName.toUpperCase()) : e &&
-        role ? e.role === role : e &&
-        status ? e.status === status : e
-    )
-}
-
-async function save(): Promise<void> {
-    alerts().showAlert({ 
-        type: 'success', 
-        msg: editMode.value ? 'User Updated' : 'User Created',
-        func: ()=>{}
-    })
-    closeModal();
-}
-
-function closeModal(): void {
-    newUser.value = {
-        id: '',
-        firstName: '',
-        lastName: '',
-        email: '',
-        password: '',
-        birthDate: '',
-        role: 0,
-        status: 0,
-    };
-    editMode.value && (editMode.value = false);
-    emailExists.value = null;
-    showModal.value = false;
-}
-
-function edit(id: string): void {
-    const selectedUser = defaults().getUsers.filter(e => e.id === id)[0];
-    newUser.value = { ...selectedUser };
-    newUser.value.birthDate = getTime(newUser.value.birthDate);
-    showModal.value = true;
-    editMode.value = true;
-}
-
-async function removeUser(id: string): Promise<void> {
-    const selectedUser = defaults().getUsers.filter(e => e.id === id)[0];
-    const msg = `"${selectedUser.firstName} ${selectedUser.lastName}"`;
-    alerts().showAlert({type:'delete', msg, func: async ()=>{
-        alerts().showAlert({ type:'success', msg: 'Removed', func:() => {} });
-    }})
-}
-
-function clearFilters(): void {
-    filter.value = {
-        firstName: null,
-        role: null,
-        status: null,
-    };
-}
-
-const debounce = (() => {
-    let timeOut: any;
-    return () => {
-        clearTimeout(timeOut);
-        timeOut = setTimeout(async () => {
-            if (editMode.value) {
-                emailExists.value = false;
-            } else {
-                const res = await useApi().emailExists(newUser.value.email);
-                emailExists.value = res.data;
-            }
-        }, 300);
-    }
-})();
-
-
-watch(
-    () => newUser.value.email, async (newVal) => {
-        if (newVal !== '') {
-            debounce();
-        } else {
-            emailExists.value = null;
-        }
-    }, { deep: true }
-)
-
-
-users.value = defaults().getUsers;
-</script>
 
 
 <style scoped></style>

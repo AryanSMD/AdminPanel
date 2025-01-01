@@ -1,3 +1,13 @@
+<script setup>
+import { useRouter } from 'vue-router';
+
+const props = defineProps(['error'])
+const router = useRouter();
+
+props.error?.statusCode === 404 && router.push({ name: '404-NotFound' });
+</script>
+
+
 <template>
     <div class="page-error w-full h-screen bg-background !mt-0">
         <div class="error text-text">
@@ -16,18 +26,6 @@
         </div>
     </div>
 </template>
-
-
-<script setup>
-import { useRouter } from 'vue-router';
-
-
-const props = defineProps(['error'])
-const router = useRouter();
-
-
-props.error?.statusCode === 404 && router.push({ name: '404-NotFound' });
-</script>
 
 
 <style scoped></style>
