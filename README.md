@@ -5,8 +5,7 @@
 ### This project uses ***Nuxt***, ***TypeScript***, ***Pinia***, ***TailwindCSS*** and ***Axios***.
 
 ## Login
-Email = "admin"
-Pass = "1234"
+Email= "admin" ----- Pass= "1234"
 
 ## Setup
 
