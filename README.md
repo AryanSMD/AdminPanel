@@ -6,7 +6,6 @@
 
 ## Login
 Email = "admin"
-
 Pass = "1234"
 
 ## Setup
