@@ -2,7 +2,7 @@
 # Admin Panel
 <img src="./public/review.jpg">
 
-### This project built with ***Nuxt***, ***TypeScript***, ***Pinia***, ***TailwindCSS*** and ***Axios***.
+### This project built with ***Nuxt 3***, ***Pinia***, ***TypeScript***, ***TailwindCSS*** and ***Axios***.
 
 ## Login
 Email= "admin"<br>
